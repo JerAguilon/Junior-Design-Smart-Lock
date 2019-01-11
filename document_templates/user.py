@@ -5,7 +5,6 @@ import calendar
 class User(object):
     def __init__(
         self,
-        id,
         email,
         name,
         tokens,
@@ -18,8 +17,9 @@ class User(object):
 
     def serialize(self):
         return {
-            "email": self.email,
-            "name": self.name,
-            "tokens": self.tokens,
-            "created_at": self.created_at,
+            self.email: {
+                "name": self.name,
+                "tokens": self.tokens,
+                "created_at": self.created_at,
+            }
         }

@@ -1,9 +1,9 @@
 from flask import Flask
 
-from secrets import firebase
+import pdb; pdb.set_trace()
+from .secrets import DB
 
 app = Flask(__name__)
-auth = firebase.auth()
 
 @app.route('/')
 def index():

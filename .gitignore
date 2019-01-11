@@ -1,0 +1,8 @@
+.secrets
+*.pyc
+*.pyo
+__pycache__/
+./secrets.py
+secrets.py
+junior-design-smart-lock-21013b7ac27b.json
+

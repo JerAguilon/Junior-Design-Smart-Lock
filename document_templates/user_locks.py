@@ -9,7 +9,6 @@ class UserLock(object):
 
     def serialize(self):
         return {
-            self.email : {
-                "owned_lock_ids": self.owned_lock_ids
-            }
+            "email": self.email,
+            "owned_lock_ids": self.owned_lock_ids,
         }

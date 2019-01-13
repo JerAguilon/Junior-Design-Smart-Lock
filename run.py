@@ -1,3 +1,5 @@
+import secrets
+
 from flask import Flask, jsonify
 
 from routes import users, locks

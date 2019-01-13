@@ -19,11 +19,10 @@ class User(object):
 
     def serialize(self):
         return {
-            self.email: {
-                "name": self.name,
-                "tokens": self.tokens,
-                "created_at": self.created_at,
-            }
+            "email": self.email,
+            "name": self.name,
+            "tokens": self.tokens,
+            "created_at": self.created_at,
         }
 
     @staticmethod

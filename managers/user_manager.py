@@ -1,6 +1,7 @@
 from secrets import DB, ID_TOKEN
 
 def create_or_update_user(user):
+    import pdb; pdb.set_trace()
     DB.child("Users").set(user.serialize(), ID_TOKEN)
 
 def create_or_update_user_locks(user_locks):

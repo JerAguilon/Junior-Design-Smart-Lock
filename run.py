@@ -1,6 +1,6 @@
 import secrets
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 from routes import users, locks
 from utils.exceptions import AppException
@@ -19,5 +19,6 @@ def handle_error(error):
 
 @app.route('/')
 def index():
+    return render_template('/index.html')
     return "<h1>Health check: SUCCESS</h1>"
 

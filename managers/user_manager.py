@@ -1,9 +1,7 @@
-from secrets import DB, ID_TOKEN
+from secrets import DB
 
-from utils import hexify
-
-def create_or_update_user(user):
-    DB.child("Users").child(hexify.hexify(user.email)).set(user.serialize(), ID_TOKEN)
+def create_or_update_user(uid, user):
+    DB.child("Users").child(uid).set(user.serialize())
 
 def create_or_update_user_locks(user_locks):
-    DB.child("UserLocks").set(user_locks.serialize(), ID_TOKEN)
+    DB.child("UserLocks").set(user_locks.serialize())

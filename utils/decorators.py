@@ -1,6 +1,11 @@
-from flask import request
+from flask import request, abort
 
 from utils.exceptions import ValidationException
+from functools import wraps
+
+from document_templates.user import User
+from managers.user_manager import create_or_update_user
+from secrets import AUTH, DB
 
 def require_fields(required_fields=[]):
     def actual_decorator(function):
@@ -14,3 +19,24 @@ def require_fields(required_fields=[]):
             return function(request_form, **kwargs)
         return wrapper
     return actual_decorator
+
+def authorize(f):
+    @wraps(f)
+    def decorated_func(*args, **kws):
+        if not 'Authorization' in request.headers:
+            abort(401)
+
+        data = str(request.headers['Authorization'])
+        token = str.replace(str(data), 'Bearer ', '')
+        try:
+            user = AUTH.get_account_info(token)['users'][0]
+        except:
+            abort(401)
+        uid = user['localId']
+        if not DB.child("Users").child(uid).get().val():
+            create_or_update_user(
+                uid, User(email=user['email'], name=user.get('displayName'))
+            )
+        return f(uid, user, *args, **kws)
+    return decorated_func
+

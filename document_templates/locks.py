@@ -4,18 +4,21 @@ class PasswordType(Enum):
     OTP="OTP"
     PERMANENT="PERMANENT"
 
+class LockStatus(Enum):
+    CLOSED="CLOSED"
+
 class Lock(object):
     def __init__(
         self,
-        id,
-        passwords
+        passwords,
+        status=LockStatus.CLOSED,
     ):
-        self.id = id
+        self.status = status.closed
         self.passwords = passwords
 
     def serialize(self):
         return {
-            "id": self.id,
+            "status": str(self.status.value),
             "passwords": [p.serialize() for p in self.passwords]
         }
 
@@ -26,7 +29,7 @@ class Password(object):
 
     def serialize(self):
         return {
-            "type": str(self.type),
+            "type": str(self.type.value),
             "password": self.password
         }
 

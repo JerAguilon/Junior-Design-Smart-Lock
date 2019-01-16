@@ -20,3 +20,12 @@ class User(object):
             "name": self.name,
             "created_at": self.created_at,
         }
+
+    @staticmethod
+    @require_fields(['email', 'name', 'tokens'])
+    def build(request_form):
+        return User(
+            email=request_form['email'],
+            name=request_form['name'],
+            tokens=request_form['tokens']
+        )

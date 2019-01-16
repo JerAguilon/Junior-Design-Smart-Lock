@@ -10,3 +10,10 @@ def add_user_lock(user_lock):
     )
     DB.child("UserLocks").set(user_lock.serialize())
 
+def get_user_lock(uid):
+    return DB.child("UserLocks").child(uid).child('owned_lock_ids').get().val()
+
+def get_locks(lock_ids):
+    return {
+        lock_id: DB.child("Locks").child(lock_id).get().val() for lock_id in lock_ids
+    }

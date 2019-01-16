@@ -3,12 +3,12 @@ from flask import request, abort
 from utils.exceptions import ValidationException
 from functools import wraps
 
-from document_templates.user import User
-from managers.user_manager import create_or_update_user
+from managers.user_manager import create_or_update_user_from_json
 from secrets import AUTH, DB
 
 def require_fields(required_fields=[]):
     def actual_decorator(function):
+        @wraps(function)
         def wrapper(*args, **kwargs):
             request_form = request.form.to_dict()
             if len(request_form) == 0 and len(request.get_json()) > 0:
@@ -34,9 +34,7 @@ def authorize(f):
             abort(401)
         uid = user['localId']
         if not DB.child("Users").child(uid).get().val():
-            create_or_update_user(
-                uid, User(email=user['email'], name=user.get('displayName'))
-            )
+            create_or_update_user_from_json(uid, user)
         return f(uid, user, *args, **kws)
     return decorated_func
 

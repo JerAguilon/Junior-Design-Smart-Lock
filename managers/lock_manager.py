@@ -1,17 +1,9 @@
 from secrets import DB
 
-def create_or_update_lock(lock):
-    DB.child("Locks").set(lock.serialize())
-
-def add_user_lock(uid, user_lock):
-    prev_lock_ids = DB.child("UserLocks").child(user_lock.email).get().get('owned_lock_ids')
-    user_lock.owned_lock_ids = list(
-        set(prev_lock_ids).union(set(user_lock.owned_lock_ids))
-    )
-    DB.child("UserLocks").child(uid).set(user_lock.serialize())
-
-def add_lock(lock_id, lock):
-    DB.child("Locks").child(lock_id).set(lock.serialize())
+def add_lock(lock):
+    new_id = DB.push().key()
+    result = DB.child("Locks").child(new_id).set(lock.serialize())
+    return { new_id : result.get().val() }
 
 def change_lock_status(lock_id, status):
     DB.child("Locks").child(lock_id).child("status").set(status.value)

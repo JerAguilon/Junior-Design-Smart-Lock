@@ -1,6 +1,8 @@
 import time
 import calendar
 
+from utils.decorators import require_fields
+
 class User(object):
     def __init__(
         self,

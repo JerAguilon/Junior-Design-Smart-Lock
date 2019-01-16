@@ -1,13 +1,12 @@
-import secrets
-
 from flask import Flask, jsonify, render_template
 
-from routes import users, locks
+from routes import users, locks, admin
 from utils.exceptions import AppException
 
 app = Flask(__name__)
 app.register_blueprint(users.users_routes)
 app.register_blueprint(locks.locks_routes)
+app.register_blueprint(admin.admin_routes)
 
 @app.errorhandler(AppException)
 def handle_error(error):

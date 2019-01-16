@@ -1,4 +1,4 @@
-class UserLock(object):
+class UserLocks(object):
     def __init__(
         self,
         owned_lock_ids

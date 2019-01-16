@@ -12,6 +12,7 @@ class PasswordType(Enum):
 
 class LockStatus(Enum):
     CLOSED="CLOSED"
+    OPEN="OPEN"
 
 class Lock(object):
     def __init__(

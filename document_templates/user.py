@@ -1,7 +1,7 @@
 import time
 import calendar
 
-from utils.decorators import require_fields
+from document_templates.template_utils import require_fields
 
 class User(object):
     def __init__(
@@ -24,10 +24,10 @@ class User(object):
         }
 
     @staticmethod
-    @require_fields(['email', 'name', 'tokens'])
+    @require_fields(['email'])
     def build(request_form):
         return User(
             email=request_form['email'],
-            name=request_form['name'],
-            tokens=request_form['tokens']
+            name=request_form.get('name', []),
+            tokens=request_form.get('tokens', [])
         )

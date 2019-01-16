@@ -7,7 +7,7 @@ from managers import user_manager
 users_routes = Blueprint('users_routes', __name__)
 
 @users_routes.route('/api/v1/user', methods=['GET', 'POST'])
-@authorize
+@authorize()
 def user(uid, user):
     if request.method ==  'POST':
         user = User.build(request.form)

@@ -1,5 +1,10 @@
+import time
+import calendar
+
 from enum import Enum
-from utils.decorators import require_fields
+
+from document_templates.template_utils import require_fields
+
 
 class PasswordType(Enum):
     OTP="OTP"
@@ -14,16 +19,19 @@ class Lock(object):
         passwords,
         nickname="Smart Lock",
         status=LockStatus.CLOSED,
+        created_at=calendar.timegm(time.gmtime()),
     ):
-        self.status = status.closed
+        self.status = status
         self.nickname=nickname
         self.passwords = passwords
+        self.created_at = created_at
 
     def serialize(self):
         return {
             "status": str(self.status.value),
             "nickname": self.nickname,
-            "passwords": [p.serialize() for p in self.passwords]
+            "passwords": [p.serialize() for p in self.passwords],
+            "created_at": self.created_at,
         }
 
     @staticmethod

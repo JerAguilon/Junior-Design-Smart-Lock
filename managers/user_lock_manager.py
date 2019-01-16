@@ -1,13 +1,23 @@
+from utils.exceptions import ValidationException
 from secrets import DB
 
-def create_or_update_user_lock(uid, user_lock, should_overwrite=False):
+def create_or_update_user_lock(uid, user_locks, should_overwrite=False):
+    invalid_ids = []
+    for lock_id in user_locks.owned_lock_ids:
+        if DB.child("Locks").child(lock_id).get().val() is None:
+            invalid_ids.append(lock_id)
+
+    if len(invalid_ids) > 0:
+        raise ValidationException("Invalid lock ids: {}".format(invalid_ids))
+
     if not should_overwrite:
-        prev_locks = DB.child("UserLocks").child(uid).get().val().get('owned_lock_ids') or []
-        combined_locks = list( set(prev_locks).update(user_lock.owned_lock_ids) )
-        user_lock.owned_lock_ids = combined_locks
-    result = DB.child("UserLocks").child(uid).set(user_lock.serialize())
-    return { uid : result.get().val() }
+        user_lock_entry = DB.child("UserLocks").child(uid).get().val()
+        prev_locks = user_lock_entry.get('owned_lock_ids') if user_lock_entry else []
 
-def get_user_lock(uid):
-    return DB.child("UserLocks").child(uid).child('owned_lock_ids').get().val()
+        combined_locks = list( set(prev_locks).union(user_locks.owned_lock_ids) )
+        user_locks.owned_lock_ids = combined_locks
+    DB.child("UserLocks").child(uid).set(user_locks.serialize())
+    return user_locks.serialize()
 
+def get_user_locks(uid):
+    return { 'owned_lock_ids': DB.child("UserLocks").child(uid).child('owned_lock_ids').get().val() }

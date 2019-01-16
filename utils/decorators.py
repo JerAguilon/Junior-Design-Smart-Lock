@@ -1,28 +1,13 @@
 from flask import request, abort
 
-from utils.exceptions import AdminOnlyException, ValidationException
-from functools import wraps
+from utils.exceptions import AdminOnlyException
 
 from managers.user_manager import create_or_update_user_from_json
 from secrets import AUTH, DB
 
-def require_fields(required_fields=[]):
-    def actual_decorator(function):
-        @wraps(function)
-        def wrapper(*args, **kwargs):
-            request_form = request.form.to_dict()
-            if len(request_form) == 0 and len(request.get_json()) > 0:
-                request_form = request.get_json()
-            is_valid = all(f in request_form for f in required_fields)
-            if not is_valid:
-                raise ValidationException("Missing arguments, required fields: {}".format(required_fields))
-            return function(request_form, **kwargs)
-        return wrapper
-    return actual_decorator
 
 def authorize(admin=False):
     def actual_decorator(f):
-        @wraps(f)
         def decorated_func(*args, **kws):
             if not 'Authorization' in request.headers:
                 abort(401)
@@ -38,7 +23,7 @@ def authorize(admin=False):
                 create_or_update_user_from_json(uid, user)
 
             if admin and not found_user.get('is_admin', False):
-                return AdminOnlyException("Admin account required")
+                raise AdminOnlyException("Admin account required")
 
             return f(uid, user, *args, **kws)
         return decorated_func

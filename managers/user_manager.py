@@ -9,3 +9,6 @@ def create_or_update_user_from_json(uid, user):
 
 def create_or_update_user_locks(user_locks):
     DB.child("UserLocks").set(user_locks.serialize())
+
+def get_user(uid):
+    return { uid: DB.child("Users").child(uid).get().val() }

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from utils.decorators import authorize
+from utils.decorators import authorize, use_request_form
 from document_templates.user_locks import UserLocks
 from managers import lock_manager, user_lock_manager
 from security import security_utils
@@ -20,11 +20,12 @@ def user_locks(uid, user):
 
 @locks_routes.route('/api/v1/locks/<lock_id>/lockStatus', methods=['PUT', 'GET'])
 @authorize()
-def user_lock_status(uid, user, lock_id):
+@use_request_form()
+def user_lock_status(request_form, uid, user, lock_id):
     security_utils.verify_lock_ownership(uid, lock_id)
 
     if request.method ==  'PUT':
-        return jsonify({})
+        return jsonify(lock_manager.change_lock_status(lock_id, request_form.get('status')))
 
     if request.method == 'GET':
         return jsonify(lock_manager.get_lock_status(lock_id))

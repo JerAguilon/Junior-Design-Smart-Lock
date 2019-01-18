@@ -1,6 +1,6 @@
 from secrets import DB
 from document_templates.lock import LockStatus
-from utils.exceptions import AuthorizationException
+from utils.exceptions import AuthorizationException, ValidationException
 
 
 def add_lock(lock):
@@ -16,8 +16,15 @@ def get_locks(lock_ids):
 def get_lock(lock_id):
     return get_locks([lock_id])[lock_id]
 
-def change_lock_status(lock_id, status):
-    DB.child("Locks").child(lock_id).child("status").set(status.value)
+def change_lock_status(lock_id, status_str):
+    try:
+        status = LockStatus(status_str)
+    except:
+        raise ValidationException("Valid status field required in post form")
+    DB.child("Locks").child(lock_id).update({ 'status': status.value })
+    return {
+        "lockStatus": status.value
+    }
 
 def get_lock_status(lock_id):
     status_str = DB.child("Locks").child(lock_id).get().val().get("status")

@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask.ext import restful
 
 from utils.decorators import authorize, use_request_form
 from document_templates.user_locks import UserLocks
@@ -7,16 +8,29 @@ from security import security_utils
 
 locks_routes = Blueprint('locks_routes', __name__)
 
-@locks_routes.route('/api/v1/userLocks', methods=['POST', 'GET'])
-@authorize()
-def user_locks(uid, user):
-    if request.method ==  'POST':
+class UserLock(restful.Resource):
+
+    @authorize
+    def get(self, uid, user):
+        return jsonify(user_lock_manager.get_user_locks(uid))
+
+    @authorize
+    def post(self, uid, user):
         user_locks = UserLocks.build(request.form)
         result = user_lock_manager.create_or_update_user_lock(uid, user_locks, should_overwrite=False)
         return jsonify(result)
 
-    if request.method == 'GET':
-        return jsonify(user_lock_manager.get_user_locks(uid))
+
+# @locks_routes.route('/api/v1/userLocks', methods=['POST', 'GET'])
+# @authorize()
+# def user_locks(uid, user):
+#     if request.method ==  'POST':
+#         user_locks = UserLocks.build(request.form)
+#         result = user_lock_manager.create_or_update_user_lock(uid, user_locks, should_overwrite=False)
+#         return jsonify(result)
+
+#     if request.method == 'GET':
+#         return jsonify(user_lock_manager.get_user_locks(uid))
 
 @locks_routes.route('/api/v1/locks/<lock_id>/lockStatus', methods=['PUT', 'GET'])
 @authorize()
@@ -30,3 +44,5 @@ def user_lock_status(request_form, uid, user, lock_id):
     if request.method == 'GET':
         return jsonify(lock_manager.get_lock_status(lock_id))
 
+api = restful.api(locks_routes)
+api.add_resource(UserLock, "/api/v1/userLocks)

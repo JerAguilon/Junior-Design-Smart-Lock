@@ -24,10 +24,8 @@ class User(object):
         }
 
     @staticmethod
-    @require_fields(['email'])
     def build(request_form):
         return User(
             email=request_form['email'],
-            name=request_form.get('name', []),
-            tokens=request_form.get('tokens', [])
+            name=request_form.get('name', ''),
         )

@@ -27,7 +27,7 @@ def authorize(admin=False):
             if admin and not found_user.get('isAdmin', False):
                 raise AdminOnlyException("Admin account required")
 
-            return f(uid, user, *args, **kws)
+            return f(uid, user, *args)
         return decorated_func
     return actual_decorator
 

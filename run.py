@@ -15,8 +15,18 @@ def handle_error(error):
     response.status_code = error.status_code
     return response
 
+# Return validation errors as JSON
+@app.errorhandler(422)
+@app.errorhandler(400)
+def handle_error(err):
+    headers = err.data.get("headers", None)
+    messages = err.data.get("messages", ["Invalid request."])
+    if headers:
+        return jsonify({"errors": messages}), err.code, headers
+    else:
+        return jsonify({"errors": messages}), err.code
+
 @app.route('/')
 def index():
     return render_template('/index.html')
-    return "<h1>Health check: SUCCESS</h1>"
 

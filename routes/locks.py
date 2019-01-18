@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify
 
 from utils.decorators import authorize
 from document_templates.user_locks import UserLocks
-from managers import user_lock_manager
+from managers import lock_manager, user_lock_manager
+from security import security_utils
 
 locks_routes = Blueprint('locks_routes', __name__)
 
@@ -17,11 +18,13 @@ def user_locks(uid, user):
     if request.method == 'GET':
         return jsonify(user_lock_manager.get_user_locks(uid))
 
-@locks_routes.route('/api/v1/locks/<lock_id>/lock_status', methods=['POST', 'GET'])
+@locks_routes.route('/api/v1/locks/<lock_id>/lock_status', methods=['PUT', 'GET'])
 @authorize()
-def user_lock_status(uid, user):
-    if request.method ==  'POST':
+def user_lock_status(uid, user, lock_id):
+    security_utils.verify_lock_ownership(uid, lock_id)
+
+    if request.method ==  'PUT':
         return jsonify({})
 
     if request.method == 'GET':
-        return jsonify({})
+        return jsonify(lock_manager.get_lock_status(lock_id))

@@ -22,7 +22,7 @@ def authorize(admin=False):
             if not found_user:
                 create_or_update_user_from_json(uid, user)
 
-            if admin and not found_user.get('is_admin', False):
+            if admin and not found_user.get('isAdmin', False):
                 raise AdminOnlyException("Admin account required")
 
             return f(uid, user, *args, **kws)

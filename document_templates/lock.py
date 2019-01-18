@@ -13,6 +13,7 @@ class PasswordType(Enum):
 class LockStatus(Enum):
     CLOSED="CLOSED"
     OPEN="OPEN"
+    OPEN_REQUESTED="OPEN_REQUESTED"
 
 class Lock(object):
     def __init__(
@@ -32,7 +33,7 @@ class Lock(object):
             "status": str(self.status.value),
             "nickname": self.nickname,
             "passwords": [p.serialize() for p in self.passwords],
-            "created_at": self.created_at,
+            "createdAt": self.created_at,
         }
 
     @staticmethod

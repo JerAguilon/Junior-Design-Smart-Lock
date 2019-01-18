@@ -20,7 +20,7 @@ class User(object):
         return {
             "email": self.email,
             "name": self.name,
-            "created_at": self.created_at,
+            "createdAt": self.created_at,
         }
 
     @staticmethod

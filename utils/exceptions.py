@@ -16,6 +16,10 @@ class AppException(Exception):
 class ValidationException(AppException):
     pass
 
-class AdminOnlyException(AppException):
+class AuthorizationException(AppException):
+    def __init__(self, message, status_code=401):
+        super().__init__(message, status_code)
+
+class AdminOnlyException(AuthorizationException):
     def __init__(self, message):
         super().__init__(message, status_code=401)

@@ -12,7 +12,7 @@ def create_or_update_user_lock(uid, user_locks, should_overwrite=False):
 
     if not should_overwrite:
         user_lock_entry = DB.child("UserLocks").child(uid).get().val()
-        prev_locks = user_lock_entry.get('owned_lock_ids') if user_lock_entry else []
+        prev_locks = user_lock_entry.get('ownedLockIds') if user_lock_entry else []
 
         combined_locks = list( set(prev_locks).union(user_locks.owned_lock_ids) )
         user_locks.owned_lock_ids = combined_locks
@@ -20,4 +20,4 @@ def create_or_update_user_lock(uid, user_locks, should_overwrite=False):
     return user_locks.serialize()
 
 def get_user_locks(uid):
-    return { 'owned_lock_ids': DB.child("UserLocks").child(uid).child('owned_lock_ids').get().val() }
+    return { 'ownedLockIds': DB.child("UserLocks").child(uid).child('ownedLockIds').get().val() }

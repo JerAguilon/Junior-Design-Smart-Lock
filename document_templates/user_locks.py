@@ -9,12 +9,12 @@ class UserLocks(object):
 
     def serialize(self):
         return {
-            'owned_lock_ids': self.owned_lock_ids
+            'ownedLockIds': self.owned_lock_ids
         }
 
     @staticmethod
-    @require_fields(['owned_lock_ids'])
+    @require_fields(['ownedLockIds'])
     def build(request_form):
         return UserLocks(
-            owned_lock_ids=request_form['owned_lock_ids']
+            owned_lock_ids=request_form['ownedLockIds']
         )

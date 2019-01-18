@@ -37,7 +37,6 @@ class Lock(object):
         }
 
     @staticmethod
-    @require_fields([])
     def build(request_form):
         return Lock([])
 

@@ -1,18 +1,24 @@
 from flask import Blueprint, request, jsonify
+from flask_restful import Resource, Api
+from webargs.flaskparser import use_args
 
-from utils.decorators import authorize
 from document_templates.user import User
 from managers import user_manager
+from parsers.parsers import POST_USER_ARGS
+from utils.decorators import authorize
 
 users_routes = Blueprint('users_routes', __name__)
 
-@users_routes.route('/api/v1/user', methods=['GET', 'POST'])
-@authorize()
-def user(uid, user):
-    if request.method ==  'POST':
+class User(Resource):
+    method_decorators = [authorize()]
+
+    def get(self, uid, user):
+        return jsonify(user_manager.get_user(uid))
+
+    def post(self, uid, user):
         user = User.build(request.form)
         user_manager.create_or_update_user(user)
         return jsonify(user.serialize())
 
-    if request.method == 'GET':
-        return jsonify(user_manager.get_user(uid))
+api = Api(users_routes)
+api.add_resource(User, "/api/v1/user")

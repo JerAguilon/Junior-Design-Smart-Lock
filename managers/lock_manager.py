@@ -16,11 +16,7 @@ def get_locks(lock_ids):
 def get_lock(lock_id):
     return get_locks([lock_id])[lock_id]
 
-def change_lock_status(lock_id, status_str):
-    try:
-        status = LockStatus(status_str)
-    except:
-        raise ValidationException("Valid status field required in post form")
+def change_lock_status(lock_id, status):
     DB.child("Locks").child(lock_id).update({ 'status': status.value })
     return {
         "lockStatus": status.value

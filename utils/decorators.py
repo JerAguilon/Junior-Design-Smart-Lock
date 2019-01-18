@@ -1,4 +1,5 @@
 from flask import request, abort
+from functools import wraps
 
 from utils.exceptions import AdminOnlyException
 
@@ -8,6 +9,7 @@ from secrets import AUTH, DB
 
 def authorize(admin=False):
     def actual_decorator(f):
+        @wraps(f)
         def decorated_func(*args, **kws):
             if not 'Authorization' in request.headers:
                 abort(401)

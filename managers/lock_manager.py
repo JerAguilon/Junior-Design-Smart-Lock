@@ -1,5 +1,6 @@
 from secrets import DB
 from document_templates.lock import LockStatus
+from utils.exceptions import AuthorizationException
 
 
 def add_lock(lock):
@@ -19,7 +20,7 @@ def change_lock_status(lock_id, status):
     DB.child("Locks").child(lock_id).child("status").set(status.value)
 
 def get_lock_status(lock_id):
-    status_str = DB.child("Locks").child(lock_id).get().val().get().get("status")
+    status_str = DB.child("Locks").child(lock_id).get().val().get("status")
     return {
         "lockStatus": status_str
     }

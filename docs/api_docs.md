@@ -108,27 +108,27 @@ localhost
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| created_at | string |  | No |
-| id | string |  | No |
-| nickname | string |  | No |
-| status | string |  | No |
+| created_at | string |  | Yes |
+| id | string |  | Yes |
+| nickname | string |  | Yes |
+| status | string |  | Yes |
 
 ### UserLockResponse  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| ownedLockIds | [ string ] |  | No |
+| ownedLockIds | [ string ] |  | Yes |
 
 ### UserLockStatusResponse  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| status | string |  | No |
+| status | string |  | Yes |
 
 ### UserResponse  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| displayName | string |  | No |
-| email | string |  | No |
-| id | string |  | No |
+| displayName | string |  | Yes |
+| email | string |  | Yes |
+| id | string |  | Yes |

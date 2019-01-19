@@ -20,6 +20,11 @@ class ResponseBase(object):
 
     @overridable
     @classmethod
+    def required(cls):
+        return []
+
+    @overridable
+    @classmethod
     def message(cls):
         return 'A {} object'.format(cls.__name__)
 
@@ -37,7 +42,9 @@ class AdminLocksResponse(ResponseBase):
         'nickname': fields.String(),
         'created_at': fields.String(attribute="created_at")
     }
+    required=['id', 'status', 'nickname', 'created_at']
     code = 200
+
 
 @swagger.model
 class UserResponse(ResponseBase):
@@ -46,6 +53,7 @@ class UserResponse(ResponseBase):
         'email': fields.String(attribute='email'),
         'displayName': fields.String(attribute='name'),
     }
+    required=['id', 'email', 'displayName']
     code = 200
 
 @swagger.model
@@ -53,6 +61,7 @@ class UserLockResponse(ResponseBase):
     resource_fields = {
         'ownedLockIds': fields.List(fields.String()),
     }
+    required=['ownedLockIds']
     code = 200
 
 @swagger.model
@@ -60,4 +69,5 @@ class UserLockStatusResponse(ResponseBase):
     resource_fields = {
         'status': fields.String()
     }
+    required=['status']
     code = 200

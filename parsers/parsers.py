@@ -32,15 +32,34 @@ POST_LOCKS_ARGS = {
 }
 
 POST_USER_ARGS = {
-    "email":  fields.Str(),
-    "name":  fields.Str(missing=""),
+    "email":  fields.Str(
+        description="The email of the user",
+        required=True,
+    ),
+    "name":  fields.Str(
+        missing="",
+        description="The name of the user",
+        required=False
+    ),
 }
 
 POST_USER_LOCK_ARGS = {
-    "ownedLockIds":  fields.DelimitedList(fields.Str()),
+    "ownedLockIds":  fields.DelimitedList(
+        fields.Str(),
+        description="A list of lock ids to add to the user",
+        required=True
+    ),
 }
 
 PUT_LOCK_STATUS = {
-    "status":  EnumField(LockStatus, required=True),
-    "lock_id": fields.Str(location='view_args', required=True),
+    "status":  EnumField(
+        LockStatus,
+        description="The latest lock status to update to",
+        required=True
+    ),
+    "lock_id": fields.Str(
+        location='view_args',
+        description='A unique lock id',
+        required=True
+    ),
 }

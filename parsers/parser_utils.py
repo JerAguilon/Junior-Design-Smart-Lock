@@ -15,7 +15,9 @@ def _add_data_type(instance, entry):
     if instance.__class__ == EnumField:
         enum_values = [f.value for f in instance.enum]
         entry["enum"] = enum_values
-        entry["description"] += ' (one of {})'.format(enum_values)
+        if entry["description"][-1] != '.':
+            entry["description"] += '.'
+        entry["description"] += ' One of {}'.format(enum_values)
 
 
 def webargs_to_doc(args):

@@ -10,6 +10,7 @@ from parsers.response_parsers import UserLockResponse, UserLockStatusResponse
 from security import security_utils
 from utils.decorators import authorize
 
+
 class UserLock(Resource):
     method_decorators = [authorize()]
 
@@ -32,8 +33,10 @@ class UserLock(Resource):
     @marshal_with(UserLockResponse.resource_fields)
     def post(self, uid, user, **args):
         user_locks = UserLocks.build(args)
-        result = user_lock_manager.create_or_update_user_lock(uid, user_locks, should_overwrite=False)
+        result = user_lock_manager.create_or_update_user_lock(
+            uid, user_locks, should_overwrite=False)
         return result, UserLockResponse.code
+
 
 class LockStatus(Resource):
     method_decorators = [authorize()]
@@ -69,4 +72,3 @@ class LockStatus(Resource):
     def get(self, uid, user, lock_id):
         security_utils.verify_lock_ownership(uid, lock_id)
         return lock_manager.get_lock_status(lock_id)
-

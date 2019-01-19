@@ -107,7 +107,8 @@ class EnumField(Field):
             self.fail('by_name', input=value, name=value)
 
     def fail(self, key, **kwargs):
-        kwargs['values'] = ', '.join([text_type(mem.value) for mem in self.enum])
+        kwargs['values'] = ', '.join(
+            [text_type(mem.value) for mem in self.enum])
         kwargs['names'] = ', '.join([mem.name for mem in self.enum])
 
         if self.error:
@@ -119,4 +120,3 @@ class EnumField(Field):
             raise ValidationError(msg)
         else:
             super(EnumField, self).fail(key, **kwargs)
-

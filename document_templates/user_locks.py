@@ -1,5 +1,6 @@
 from document_templates.template_utils import require_fields
 
+
 class UserLocks(object):
     def __init__(
         self,

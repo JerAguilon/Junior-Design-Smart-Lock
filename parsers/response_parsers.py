@@ -4,8 +4,10 @@ from flask_restful_swagger import swagger
 
 class overridable(property):
     """Subclass property to make classmethod properties possible"""
+
     def __get__(self, cls, owner):
         return self.fget.__get__(None, owner)()
+
 
 class ResponseBase(object):
     @overridable
@@ -42,7 +44,7 @@ class AdminLocksResponse(ResponseBase):
         'nickname': fields.String(),
         'created_at': fields.String(attribute="created_at")
     }
-    required=['id', 'status', 'nickname', 'created_at']
+    required = ['id', 'status', 'nickname', 'created_at']
     code = 200
 
 
@@ -53,21 +55,23 @@ class UserResponse(ResponseBase):
         'email': fields.String(attribute='email'),
         'displayName': fields.String(attribute='name'),
     }
-    required=['id', 'email', 'displayName']
+    required = ['id', 'email', 'displayName']
     code = 200
+
 
 @swagger.model
 class UserLockResponse(ResponseBase):
     resource_fields = {
         'ownedLockIds': fields.List(fields.String()),
     }
-    required=['ownedLockIds']
+    required = ['ownedLockIds']
     code = 200
+
 
 @swagger.model
 class UserLockStatusResponse(ResponseBase):
     resource_fields = {
         'status': fields.String()
     }
-    required=['status']
+    required = ['status']
     code = 200

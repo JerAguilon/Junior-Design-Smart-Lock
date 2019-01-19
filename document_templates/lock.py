@@ -7,13 +7,15 @@ from document_templates.template_utils import require_fields
 
 
 class PasswordType(Enum):
-    OTP="OTP"
-    PERMANENT="PERMANENT"
+    OTP = "OTP"
+    PERMANENT = "PERMANENT"
+
 
 class LockStatus(Enum):
-    CLOSED="CLOSED"
-    OPEN="OPEN"
-    OPEN_REQUESTED="OPEN_REQUESTED"
+    CLOSED = "CLOSED"
+    OPEN = "OPEN"
+    OPEN_REQUESTED = "OPEN_REQUESTED"
+
 
 class Lock(object):
     def __init__(
@@ -26,7 +28,7 @@ class Lock(object):
     ):
         self.id = id
         self.status = status
-        self.nickname=nickname
+        self.nickname = nickname
         self.passwords = passwords
         self.created_at = created_at
 
@@ -42,6 +44,7 @@ class Lock(object):
     def build(request_form):
         return Lock([])
 
+
 class Password(object):
     def __init__(self, type, password):
         self.type = type
@@ -52,4 +55,3 @@ class Password(object):
             "type": str(self.type.value),
             "password": self.password
         }
-

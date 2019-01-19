@@ -6,6 +6,7 @@ from managers import user_manager
 from parsers.response_parsers import UserResponse
 from utils.decorators import authorize
 
+
 class User(Resource):
     method_decorators = [authorize()]
 
@@ -17,7 +18,8 @@ class User(Resource):
     )
     @marshal_with(UserResponse.resource_fields)
     def get(self, uid, user_dict):
-        found_user = UserTemplate.from_database(uid, user_manager.get_user(uid))
+        found_user = UserTemplate.from_database(
+            uid, user_manager.get_user(uid))
         return found_user, UserResponse.code
 
     @swagger.operation(
@@ -37,4 +39,3 @@ class User(Resource):
         new_user_template = UserTemplate.build(new_user)
         user_manager.create_or_update_user(uid, new_user_template)
         return new_user, UserResponse.code
-

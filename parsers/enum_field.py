@@ -38,7 +38,8 @@ class EnumField(Field):
         self.enum = enum
         self.by_value = by_value
 
-        if error and any(old in error for old in ('{name', '{value', '{choices')):
+        if error and any(old in error for old in (
+                '{name', '{value', '{choices')):
             warnings.warn(
                 "'name', 'value', and 'choices' fail inputs are deprecated,"
                 "use input, names and values instead",

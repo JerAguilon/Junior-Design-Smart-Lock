@@ -32,7 +32,7 @@ class User(Resource):
     def post(self, uid, user_dict):
 
         new_user = {
-            'email':  user_dict['email'],
+            'email': user_dict['email'],
             'name': user_dict.get('displayName', '')
         }
         new_user['id'] = uid

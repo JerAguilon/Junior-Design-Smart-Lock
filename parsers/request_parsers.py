@@ -7,18 +7,18 @@ from parsers.enum_field import EnumField
 from document_templates.lock import LockStatus
 
 POST_LOCKS_ARGS = {
-    "passwords":  fields.DelimitedList(
+    "passwords": fields.DelimitedList(
         fields.Str(),
         missing=[],
         description="A list of passwords to initialize the lock with",
         required=False
     ),
-    "nickname":  fields.Str(
+    "nickname": fields.Str(
         missing="Smart Lock",
         description="A readable nickname for the lock",
         required=False
     ),
-    "status":  EnumField(
+    "status": EnumField(
         LockStatus,
         missing=LockStatus.CLOSED,
         description="A lock status to initialize the lock to",
@@ -32,7 +32,7 @@ POST_LOCKS_ARGS = {
 }
 
 POST_USER_LOCK_ARGS = {
-    "ownedLockIds":  fields.DelimitedList(
+    "ownedLockIds": fields.DelimitedList(
         fields.Str(),
         description="A list of lock ids to add to the user",
         required=True
@@ -40,7 +40,7 @@ POST_USER_LOCK_ARGS = {
 }
 
 PUT_LOCK_STATUS_ARGS = {
-    "status":  EnumField(
+    "status": EnumField(
         LockStatus,
         description="The latest lock status to update to",
         required=True

@@ -1,7 +1,6 @@
 import time
 import calendar
 
-from document_templates.template_utils import require_fields
 
 class User(object):
     def __init__(
@@ -20,7 +19,6 @@ class User(object):
 
     def serialize(self):
         return {
-            "id": self.id,
             "email": self.email,
             "name": self.name,
             "createdAt": self.created_at,

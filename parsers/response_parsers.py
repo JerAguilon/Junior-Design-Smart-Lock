@@ -37,3 +37,4 @@ class UserResponse(ResponseBase):
         'displayName': fields.String(attribute='name'),
     }
     code = 200
+

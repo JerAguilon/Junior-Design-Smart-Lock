@@ -31,18 +31,6 @@ POST_LOCKS_ARGS = {
     ),
 }
 
-POST_USER_ARGS = {
-    "email":  fields.Str(
-        description="The email of the user",
-        required=True,
-    ),
-    "name":  fields.Str(
-        missing="",
-        description="The name of the user",
-        required=False
-    ),
-}
-
 POST_USER_LOCK_ARGS = {
     "ownedLockIds":  fields.DelimitedList(
         fields.Str(),

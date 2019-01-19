@@ -107,3 +107,14 @@ localhost
 | Code | Description |
 | ---- | ----------- |
 | 200 | No response was specified |
+
+### Models
+---
+
+### UserResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| displayName | string |  | No |
+| email | string |  | No |
+| id | string |  | No |

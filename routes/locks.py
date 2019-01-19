@@ -35,9 +35,9 @@ class LockStatus(Resource):
 
     @swagger.operation(
         notes='Updates a lock status',
-        parameters=webargs_to_doc(PUT_LOCK_STATUS)
+        parameters=webargs_to_doc(PUT_LOCK_STATUS_ARGS)
     )
-    @use_kwargs(PUT_LOCK_STATUS, locations=("json", "form"))
+    @use_kwargs(PUT_LOCK_STATUS_ARGS, locations=("json", "form"))
     def put(self, uid, user, **args):
         lock_id = args['lock_id']
         security_utils.verify_lock_ownership(uid, lock_id)

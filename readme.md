@@ -8,3 +8,7 @@
    auto-reload when a .py file is updated
 6. `flask run` to start the app. You may query endpoints at `localhost:5000`
 
+# Updating the API
+
+1. If you don't have swagger-markdown and api-spec converter, install them. `npm install swagger-markdown api-spec-converter`
+2. From the root directory of the project, run `python create_docs.py`

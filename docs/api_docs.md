@@ -13,7 +13,7 @@ localhost
 | ---- | ---------- | ----------- | -------- | ---- |
 | passwords | body | A list of passwords to initialize the lock with | No | [ string ] |
 | nickname | body | A readable nickname for the lock | No | string |
-| status | body | A lock status to initialize the lock to | No | string |
+| status | body | A lock status to initialize the lock to. One of ['CLOSED', 'OPEN', 'OPEN_REQUESTED'] | No | string |
 | createdAt | body | The unix milliseconds since epoch in which the lock was registered | No | integer |
 
 **Responses**
@@ -46,8 +46,8 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path |  | Yes | string |
-| status | body |  | Yes | string |
+| lock_id | path | A unique lock id | Yes | string |
+| status | body | The latest lock status to update to. One of ['CLOSED', 'OPEN', 'OPEN_REQUESTED'] | Yes | string |
 
 **Responses**
 
@@ -73,8 +73,8 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| email | body |  | No | string |
-| name | body |  | No | string |
+| email | body | The email of the user | Yes | string |
+| name | body | The name of the user | No | string |
 
 **Responses**
 
@@ -100,7 +100,7 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| ownedLockIds | body |  | No | [ string ] |
+| ownedLockIds | body | A list of lock ids to add to the user | Yes | [ string ] |
 
 **Responses**
 

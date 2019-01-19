@@ -26,7 +26,8 @@ POST_LOCKS_ARGS = {
     ),
     "createdAt": fields.Int(
         missing=calendar.timegm(time.gmtime()),
-        description="The unix milliseconds since epoch in which the lock was registered",
+        description=("The unix milliseconds since epoch in "
+                     "which the lock was registered"),
         required=False,
     ),
 }

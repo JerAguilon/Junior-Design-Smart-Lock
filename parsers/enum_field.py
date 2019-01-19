@@ -57,20 +57,24 @@ class EnumField(Field):
         self.error = error
 
         if load_by is None:
-            load_by = LoadDumpOptions.value if by_value else LoadDumpOptions.name
+            load_by = LoadDumpOptions.value if by_value \
+                else LoadDumpOptions.name
 
         if load_by not in LoadDumpOptions:
             raise ValueError(
-                'Invalid selection for load_by must be EnumField.VALUE or EnumField.NAME, got {}'.
+                'Invalid selection for load_by must be EnumField.VALUE or ' + \
+                'EnumField.NAME, got {}'.
                 format(load_by)
             )
 
         if dump_by is None:
-            dump_by = LoadDumpOptions.value if by_value else LoadDumpOptions.name
+            dump_by = LoadDumpOptions.value if by_value \
+                else LoadDumpOptions.name
 
         if dump_by not in LoadDumpOptions:
             raise ValueError(
-                'Invalid selection for load_by must be EnumField.VALUE or EnumField.NAME, got {}'.
+                'Invalid selection for load_by must be EnumField.VALUE ' + \
+                'or EnumField.NAME, got {}'.
                 format(dump_by)
             )
 

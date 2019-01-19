@@ -6,9 +6,9 @@ from webargs.flaskparser import use_kwargs
 from document_templates.user_locks import UserLocks
 from managers import lock_manager, user_lock_manager
 from parsers.parser_utils import webargs_to_doc
-from parsers.parsers import POST_USER_LOCK_ARGS, PUT_LOCK_STATUS
+from parsers.request_parsers import POST_USER_LOCK_ARGS, PUT_LOCK_STATUS_ARGS
 from security import security_utils
-from utils.decorators import authorize, use_request_form
+from utils.decorators import authorize
 
 class UserLock(Resource):
     method_decorators = [authorize()]

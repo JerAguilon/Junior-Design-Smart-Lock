@@ -6,7 +6,7 @@ from webargs.flaskparser import use_kwargs
 from utils.decorators import authorize
 from document_templates.lock import Lock
 from managers import lock_manager
-from parsers.parsers import POST_LOCKS_ARGS
+from parsers.request_parsers import POST_LOCKS_ARGS
 from parsers.parser_utils import webargs_to_doc
 
 class Locks(Resource):

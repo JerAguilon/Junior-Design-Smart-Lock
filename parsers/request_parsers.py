@@ -51,7 +51,7 @@ POST_USER_LOCK_ARGS = {
     ),
 }
 
-PUT_LOCK_STATUS = {
+PUT_LOCK_STATUS_ARGS = {
     "status":  EnumField(
         LockStatus,
         description="The latest lock status to update to",

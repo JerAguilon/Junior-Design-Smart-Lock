@@ -5,7 +5,6 @@ from flask_restful_swagger import swagger
 from routes import admin, locks, users
 
 from utils.exceptions import AppException
-from secrets import DB  # do not remove, DB needs to be initialized at app start
 
 app = Flask(__name__)
 api = swagger.docs(Api(app), apiVersion="0.1")

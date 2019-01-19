@@ -1,10 +1,8 @@
 from secrets import DB
-from document_templates.lock import LockStatus
-from utils.exceptions import AuthorizationException, ValidationException
-
 
 def add_lock(lock):
     new_id = DB.child("Locks").push(lock.serialize())['name']
+    lock.id = new_id
     return { new_id : lock.serialize() }
 
 
@@ -19,12 +17,12 @@ def get_lock(lock_id):
 def change_lock_status(lock_id, status):
     DB.child("Locks").child(lock_id).update({ 'status': status.value })
     return {
-        "lockStatus": status.value
+        "status": status.value
     }
 
 def get_lock_status(lock_id):
     status_str = DB.child("Locks").child(lock_id).get().val().get("status")
     return {
-        "lockStatus": status_str
+        "status": status_str
     }
 

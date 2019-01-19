@@ -30,6 +30,16 @@ class ResponseBase(object):
 
 
 @swagger.model
+class AdminLocksResponse(ResponseBase):
+    resource_fields = {
+        'id': fields.String(),
+        'status': fields.String(),
+        'nickname': fields.String(),
+        'created_at': fields.String(attribute="created_at")
+    }
+    code = 200
+
+@swagger.model
 class UserResponse(ResponseBase):
     resource_fields = {
         'id': fields.String(attribute='id'),
@@ -38,3 +48,16 @@ class UserResponse(ResponseBase):
     }
     code = 200
 
+@swagger.model
+class UserLockResponse(ResponseBase):
+    resource_fields = {
+        'ownedLockIds': fields.List(fields.String()),
+    }
+    code = 200
+
+@swagger.model
+class UserLockStatusResponse(ResponseBase):
+    resource_fields = {
+        'status': fields.String()
+    }
+    code = 200

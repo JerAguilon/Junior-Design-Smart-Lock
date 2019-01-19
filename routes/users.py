@@ -26,6 +26,7 @@ class User(Resource):
         responseClass=UserResponse.__name__,
         responseMessages=[UserResponse.description]
     )
+    @marshal_with(UserResponse.resource_fields)
     def post(self, uid, user_dict):
 
         new_user = {

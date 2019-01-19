@@ -11,10 +11,14 @@ def authorize(admin=False):
     def actual_decorator(f):
         @wraps(f)
         def decorated_func(*args, **kws):
-            if not 'Authorization' in request.headers:
-                abort(401)
-            data = str(request.headers['Authorization'])
-            token = str.replace(str(data), 'Bearer ', '')
+            if 'api_key' in request.args:
+                token = request.args['api_key']
+            else:
+                if not 'Authorization' in request.headers:
+                    abort(401)
+                data = str(request.headers['Authorization'])
+                token = str.replace(str(data), 'Bearer ', '')
+
             try:
                 user = AUTH.get_account_info(token)['users'][0]
             except:
@@ -27,7 +31,7 @@ def authorize(admin=False):
             if admin and not found_user.get('isAdmin', False):
                 raise AdminOnlyException("Admin account required")
 
-            return f(uid, user, *args)
+            return f(uid, user, *args, **kws)
         return decorated_func
     return actual_decorator
 

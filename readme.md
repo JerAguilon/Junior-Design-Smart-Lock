@@ -8,7 +8,12 @@
    auto-reload when a .py file is updated
 6. `flask run` to start the app. You may query endpoints at `localhost:5000`
 
-# Updating the API
+# Playing with the endpoints
+
+This package has great tool to play with the API. Simply go to `localhost:5000/api/spec.html`
+to fiddle with endpoints. Copy/paste your OAuth key into the API key field to validate requests.
+
+# Updating the API docs
 
 1. If you don't have swagger-markdown and api-spec converter, install them. `npm install swagger-markdown api-spec-converter`
 2. From the root directory of the project, run `python create_docs.py`

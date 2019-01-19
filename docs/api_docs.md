@@ -62,9 +62,9 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | No response was specified | [UserResponse](#userresponse) |
 
 ##### ***POST***
 **Description:** Returns user information

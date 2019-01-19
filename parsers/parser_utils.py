@@ -12,6 +12,8 @@ def _add_data_type(instance, entry):
     entry["dataType"] = DATA_TYPE_MAP[instance.__class__]
     if instance.__class__ == fields.DelimitedList:
         entry["items"] = {"type": DATA_TYPE_MAP[instance.container.__class__]}
+    if instance.__class__ == EnumField:
+        entry["enum"] = [f.value for f in instance.enum]
 
 
 def webargs_to_doc(args):

@@ -9,7 +9,8 @@ def add_lock(lock):
 
 def get_locks(lock_ids):
     return {
-        lock_id: DB.child("Locks").child(lock_id).get().val() for lock_id in lock_ids
+        lock_id: DB.child("Locks").child(lock_id).get().val()
+        for lock_id in lock_ids
     }
 
 

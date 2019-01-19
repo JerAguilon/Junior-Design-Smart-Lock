@@ -1,6 +1,5 @@
 import json
 
-import sys
 import subprocess
 
 from run import app
@@ -10,7 +9,7 @@ with open('docs/api_docs.json', 'w') as fp:
     json.dump(swagger_docs, fp)
 
 subprocess.run(
-    'api-spec-converter --from=swagger_1 --to=swagger_2 --syntax=json ' + \
+    'api-spec-converter --from=swagger_1 --to=swagger_2 --syntax=json ' +
     'docs/api_docs.json > docs/api_docs_v2.json',
     shell=True
 )

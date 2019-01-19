@@ -64,7 +64,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserResponse](#userresponse) |
+| 200 | A UserResponse object | [UserResponse](#userresponse) |
 
 ##### ***POST***
 **Description:** Returns user information

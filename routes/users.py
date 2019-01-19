@@ -15,14 +15,14 @@ class User(Resource):
 
     @swagger.operation(
         notes='Returns user information',
+        parameters=[],
         responseClass=UserResponse.__name__,
-        parameters=[]
+        responseMessages=[UserResponse.description]
     )
     @marshal_with(UserResponse.resource_fields)
     def get(self, uid, user_dict):
         found_user = UserTemplate.from_database(uid, user_manager.get_user(uid))
-        return found_user
-        return jsonify(user_manager.get_user(uid))
+        return found_user, UserResponse.code
 
     @swagger.operation(
         notes='Returns user information',

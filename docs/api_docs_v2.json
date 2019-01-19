@@ -1,0 +1,204 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "localhost",
+    "version": "0.1"
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/v1/admin/locks": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "A list of passwords to initialize the lock with",
+            "in": "body",
+            "name": "passwords",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "A readable nickname for the lock",
+            "in": "body",
+            "name": "nickname",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A lock status to initialize the lock to",
+            "in": "body",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The unix milliseconds since epoch in which the lock was registered",
+            "in": "body",
+            "name": "createdAt",
+            "required": false,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Creates a lock given an admin id token",
+        "operationId": "nickname"
+      }
+    },
+    "/api/v1/locks/{lock_id}/lockStatus": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "A lock id that the user owns",
+            "in": "path",
+            "name": "lock_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Gets the lock status of a user owned lock",
+        "operationId": "nickname"
+      },
+      "put": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lock_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "status",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Updates a lock status",
+        "operationId": "nickname"
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Returns user information",
+        "operationId": "nickname"
+      },
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Returns user information",
+        "operationId": "nickname"
+      }
+    },
+    "/api/v1/userLocks": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Returns a list of locks owned by a user",
+        "operationId": "nickname"
+      },
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "ownedLockIds",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified"
+          }
+        },
+        "description": "Adds a valid lock id to a user's account",
+        "operationId": "nickname"
+      }
+    }
+  }
+}

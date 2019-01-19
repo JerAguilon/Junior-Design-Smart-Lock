@@ -22,7 +22,9 @@ class Lock(object):
         nickname="Smart Lock",
         status=LockStatus.CLOSED,
         created_at=calendar.timegm(time.gmtime()),
+        id="UNKNOWN"
     ):
+        self.id = id
         self.status = status
         self.nickname=nickname
         self.passwords = passwords

@@ -15,7 +15,10 @@ def require_fields(required_fields=[]):
             is_valid = all(f in request_form for f in required_fields)
             if not is_valid:
                 raise ValidationException(
-                    "Missing arguments, required fields: {}".format(required_fields))
+                    "Missing arguments, required fields: {}".format(
+                        required_fields,
+                    )
+                )
             return function(request_form, **kwargs)
         return wrapper
     return actual_decorator

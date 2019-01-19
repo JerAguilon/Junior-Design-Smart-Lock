@@ -62,7 +62,7 @@ class EnumField(Field):
 
         if load_by not in LoadDumpOptions:
             raise ValueError(
-                'Invalid selection for load_by must be EnumField.VALUE or ' + \
+                'Invalid selection for load_by must be EnumField.VALUE or ' +
                 'EnumField.NAME, got {}'.
                 format(load_by)
             )
@@ -73,7 +73,7 @@ class EnumField(Field):
 
         if dump_by not in LoadDumpOptions:
             raise ValueError(
-                'Invalid selection for load_by must be EnumField.VALUE ' + \
+                'Invalid selection for load_by must be EnumField.VALUE ' +
                 'or EnumField.NAME, got {}'.
                 format(dump_by)
             )

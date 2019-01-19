@@ -14,7 +14,7 @@ def authorize(admin=False):
             if 'api_key' in request.args:
                 token = request.args['api_key']
             else:
-                if not 'Authorization' in request.headers:
+                if 'Authorization' not in request.headers:
                     abort(401)
                 data = str(request.headers['Authorization'])
                 token = str.replace(str(data), 'Bearer ', '')

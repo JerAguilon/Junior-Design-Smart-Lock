@@ -18,9 +18,9 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A AdminLocksResponse object | [AdminLocksResponse](#adminlocksresponse) |
 
 ### /api/v1/locks/{lock_id}/lockStatus
 ---
@@ -35,9 +35,9 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
 
 ##### ***PUT***
 **Description:** Updates a lock status
@@ -51,9 +51,9 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
 
 ### /api/v1/user
 ---
@@ -69,18 +69,11 @@ localhost
 ##### ***POST***
 **Description:** Returns user information
 
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| email | body | The email of the user | Yes | string |
-| name | body | The name of the user | No | string |
-
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserResponse object | [UserResponse](#userresponse) |
 
 ### /api/v1/userLocks
 ---
@@ -89,9 +82,9 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
 ##### ***POST***
 **Description:** Adds a valid lock id to a user's account
@@ -104,12 +97,33 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
 ### Models
 ---
+
+### AdminLocksResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| created_at | string |  | No |
+| id | string |  | No |
+| nickname | string |  | No |
+| status | string |  | No |
+
+### UserLockResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| ownedLockIds | [ string ] |  | No |
+
+### UserLockStatusResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| status | string |  | No |
 
 ### UserResponse  
 

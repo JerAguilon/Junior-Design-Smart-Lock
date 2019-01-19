@@ -8,6 +8,7 @@ DATA_TYPE_MAP = {
     fields.DelimitedList: "array"
 }
 
+
 def _add_data_type(instance, entry):
     entry["dataType"] = DATA_TYPE_MAP[instance.__class__]
     if instance.__class__ == fields.DelimitedList:

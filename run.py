@@ -14,6 +14,7 @@ api.add_resource(locks.LockStatus, "/api/v1/locks/<lock_id>/lockStatus")
 api.add_resource(locks.UserLock, "/api/v1/userLocks")
 api.add_resource(users.User, "/api/v1/user")
 
+
 @app.errorhandler(AppException)
 def handle_error(error):
     response = jsonify(error.to_dict())
@@ -21,6 +22,8 @@ def handle_error(error):
     return response
 
 # Return validation errors as JSON
+
+
 @app.errorhandler(422)
 @app.errorhandler(400)
 def handle_error(err):
@@ -31,7 +34,7 @@ def handle_error(err):
     else:
         return jsonify({"errors": messages}), err.code
 
+
 @app.route('/')
 def index():
     return render_template('/index.html')
-

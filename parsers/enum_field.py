@@ -33,12 +33,20 @@ class EnumField(Field):
     }
 
     def __init__(
-            self, enum, by_value=False, load_by=None, dump_by=None, error='', missing=None, *args, **kwargs
-    ):
+            self,
+            enum,
+            by_value=False,
+            load_by=None,
+            dump_by=None,
+            error='',
+            missing=None,
+            *args,
+            **kwargs):
         self.enum = enum
         self.by_value = by_value
 
-        if error and any(old in error for old in ('{name', '{value', '{choices')):
+        if error and any(old in error for old in (
+                '{name', '{value', '{choices')):
             warnings.warn(
                 "'name', 'value', and 'choices' fail inputs are deprecated,"
                 "use input, names and values instead",
@@ -49,20 +57,24 @@ class EnumField(Field):
         self.error = error
 
         if load_by is None:
-            load_by = LoadDumpOptions.value if by_value else LoadDumpOptions.name
+            load_by = LoadDumpOptions.value if by_value \
+                else LoadDumpOptions.name
 
         if load_by not in LoadDumpOptions:
             raise ValueError(
-                'Invalid selection for load_by must be EnumField.VALUE or EnumField.NAME, got {}'.
+                'Invalid selection for load_by must be EnumField.VALUE or ' +
+                'EnumField.NAME, got {}'.
                 format(load_by)
             )
 
         if dump_by is None:
-            dump_by = LoadDumpOptions.value if by_value else LoadDumpOptions.name
+            dump_by = LoadDumpOptions.value if by_value \
+                else LoadDumpOptions.name
 
         if dump_by not in LoadDumpOptions:
             raise ValueError(
-                'Invalid selection for load_by must be EnumField.VALUE or EnumField.NAME, got {}'.
+                'Invalid selection for load_by must be EnumField.VALUE ' +
+                'or EnumField.NAME, got {}'.
                 format(dump_by)
             )
 
@@ -107,7 +119,8 @@ class EnumField(Field):
             self.fail('by_name', input=value, name=value)
 
     def fail(self, key, **kwargs):
-        kwargs['values'] = ', '.join([text_type(mem.value) for mem in self.enum])
+        kwargs['values'] = ', '.join(
+            [text_type(mem.value) for mem in self.enum])
         kwargs['names'] = ', '.join([mem.name for mem in self.enum])
 
         if self.error:
@@ -119,4 +132,3 @@ class EnumField(Field):
             raise ValidationError(msg)
         else:
             super(EnumField, self).fail(key, **kwargs)
-

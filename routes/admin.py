@@ -9,6 +9,7 @@ from parsers.request_parsers import POST_LOCKS_ARGS
 from parsers.response_parsers import AdminLocksResponse
 from utils.decorators import authorize
 
+
 class Locks(Resource):
     method_decorators = [authorize(admin=True)]
 

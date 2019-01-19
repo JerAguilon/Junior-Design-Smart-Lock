@@ -1,3 +1,6 @@
+# API Documentation
+[docs/api_docs.md](docs/api_docs.md)
+
 # Running this repo
 
 1. cd into the root of this repository

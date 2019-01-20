@@ -187,9 +187,9 @@ localhost
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| lock_id | [null](#null) |  | Yes |
+| lockId | [null](#null) |  | No |
 | password | [null](#null) |  | No |
-| status | [null](#null) |  | Yes |
+| status | [null](#null) |  | No |
 
 ### UserLockResponse  
 

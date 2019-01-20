@@ -6,7 +6,7 @@ from webargs import fields
 
 from document_templates.lock import LockStatus
 from parsers.enum_field import EnumField
-from parsers.parser_utils import swagger_generator
+from parsers.parser_utils import swagger_generator, swagger_input_model
 
 POST_LOCKS_ARGS = {
     "passwords": fields.DelimitedList(
@@ -49,7 +49,7 @@ PUT_LOCK_STATUS_ARGS = {
         description="The latest lock status to update to",
         required=True
     ),
-    "lock_id": fields.Str(
+    "lockId": fields.Str(
         location='view_args',
         description='A unique lock id',
         required=True
@@ -61,11 +61,6 @@ PUT_LOCK_STATUS_ARGS = {
     )
 }
 
-@swagger.model
-@swagger_generator
+@swagger_input_model
 class PutLockStatusArgs(object):
     resource_fields = PUT_LOCK_STATUS_ARGS
-    required = [key for (key, value) in PUT_LOCK_STATUS_ARGS.items() if value.required]
-    code = 200
-
-

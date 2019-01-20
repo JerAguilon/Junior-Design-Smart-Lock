@@ -42,7 +42,7 @@ class LockStatus(Resource):
         parameters=[
             {
                 'name': 'body',
-                'dataType': PutLockStatusArgs.name,
+                'dataType': PutLockStatusArgs.__name__,
                 'paramType': 'PutLockStatusArgs'
             }
         ],

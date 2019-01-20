@@ -69,4 +69,3 @@ class LockStatus(Resource):
         security_utils.verify_lock_ownership(uid, lock_id)
         return lock_manager.get_lock_status(lock_id)
 
-

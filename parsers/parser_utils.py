@@ -23,6 +23,7 @@ def _add_data_type(instance, entry):
             entry["description"] += '.'
         entry["description"] += ' One of {}'.format(enum_values)
 
+
 def marshal_with_parser(resp_parser):
     def actual_decorator(function):
         def wrapper(*args, **kwargs):
@@ -31,8 +32,7 @@ def marshal_with_parser(resp_parser):
 
             missing_fields = [
                 req for req in resp_parser.required if
-                (req not in marshaled_result
-                or marshaled_result[req] is None)
+                (req not in marshaled_result or marshaled_result[req] is None)
             ]
             if len(missing_fields) > 0:
                 raise ValidationException(
@@ -43,7 +43,6 @@ def marshal_with_parser(resp_parser):
             return marshaled_result, code
         return wrapper
     return actual_decorator
-
 
 
 def webargs_to_doc(args):

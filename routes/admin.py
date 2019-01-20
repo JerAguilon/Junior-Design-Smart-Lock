@@ -12,7 +12,8 @@ from utils.decorators import authorize
 
 class Locks(Resource):
     """
-    An admin api token is required in order to use this route. This is used to register new lock devices to the database.
+    An admin api token is required in order to use this route.
+    This is used to register new lock devices to the database.
     """
     method_decorators = [authorize(admin=True)]
 

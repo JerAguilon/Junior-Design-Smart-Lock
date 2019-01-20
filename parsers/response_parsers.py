@@ -55,6 +55,7 @@ class AdminLocksResponse(object):
     required = ['id', 'status', 'nickname', 'created_at']
     code = 200
 
+
 @swagger.model
 @swagger_generator
 class LockPasswordResponse(object):

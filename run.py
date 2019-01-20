@@ -9,12 +9,30 @@ from utils.exceptions import AppException
 app = Flask(__name__)
 api = swagger.docs(Api(app), apiVersion="0.1")
 
-api.add_resource(admin.Locks, "/api/v1/admin/locks")
-api.add_resource(lock_security.LockPassword, "/api/v1/locks/<lock_id>/passwords/<password_id>")
-api.add_resource(lock_security.LockPasswords, "/api/v1/locks/<lock_id>/passwords")
-api.add_resource(lock_security.LockStatus, "/api/v1/locks/<lock_id>/status")
-api.add_resource(locks.UserLock, "/api/v1/locks")
-api.add_resource(users.User, "/api/v1/user")
+api.add_resource(
+    admin.Locks,
+    "/api/v1/admin/locks"
+)
+api.add_resource(
+    lock_security.LockPassword,
+    "/api/v1/locks/<lock_id>/passwords/<password_id>"
+)
+api.add_resource(
+    lock_security.LockPasswords,
+    "/api/v1/locks/<lock_id>/passwords"
+)
+api.add_resource(
+    lock_security.LockStatus,
+    "/api/v1/locks/<lock_id>/status"
+)
+api.add_resource(
+    locks.UserLock,
+    "/api/v1/locks"
+)
+api.add_resource(
+    users.User,
+    "/api/v1/user"
+)
 
 
 @app.errorhandler(AppException)

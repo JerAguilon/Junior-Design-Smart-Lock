@@ -3,7 +3,10 @@ from flask_restful_swagger import swagger
 
 
 def swagger_generator(cls):
-    class WrapperClass(cls):
+    class SwaggerWrapperSingleton(cls):
+        def __init__(self):
+            self.__doc__ = cls.__doc__
+            self.__name__ = cls.__name__
 
         _resource_fields = cls.resource_fields if hasattr(
             cls, 'resource_fields') else {}
@@ -34,10 +37,10 @@ def swagger_generator(cls):
             return {'code': self._code, 'message': self._message}
 
         @property
-        def __name__(self):
+        def name(self):
             return cls.__name__
 
-    return WrapperClass()
+    return SwaggerWrapperSingleton()
 
 
 @swagger.model
@@ -83,3 +86,4 @@ class UserLockStatusResponse(object):
     }
     required = ['status']
     code = 200
+

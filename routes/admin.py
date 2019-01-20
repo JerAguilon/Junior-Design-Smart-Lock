@@ -11,12 +11,15 @@ from utils.decorators import authorize
 
 
 class Locks(Resource):
+    """
+    Here's a great doc
+    """
     method_decorators = [authorize(admin=True)]
 
     @swagger.operation(
         notes='Creates a lock given an admin id token',
         parameters=webargs_to_doc(POST_LOCKS_ARGS),
-        responseClass=AdminLocksResponse.__name__,
+        responseClass=AdminLocksResponse.name,
         responseMessages=[AdminLocksResponse.description],
     )
     @marshal_with(AdminLocksResponse.resource_fields)

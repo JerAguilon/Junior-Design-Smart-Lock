@@ -22,7 +22,33 @@ localhost
 | ---- | ----------- | ------ |
 | 200 | A AdminLocksResponse object | [AdminLocksResponse](#adminlocksresponse) |
 
-### /api/v1/locks/{lock_id}/lockStatus
+### /api/v1/locks
+---
+##### ***GET***
+**Description:** Returns a list of locks owned by a user
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
+
+##### ***POST***
+**Description:** Adds a valid lock id to a user's account
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| ownedLockIds | body | A list of lock ids to add to the user | Yes | [ string ] |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
+
+### /api/v1/locks/{lock_id}/status
 ---
 ##### ***GET***
 **Description:** Gets the lock status of a user owned lock
@@ -74,32 +100,6 @@ localhost
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | A UserResponse object | [UserResponse](#userresponse) |
-
-### /api/v1/userLocks
----
-##### ***GET***
-**Description:** Returns a list of locks owned by a user
-
-**Responses**
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
-
-##### ***POST***
-**Description:** Adds a valid lock id to a user's account
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| ownedLockIds | body | A list of lock ids to add to the user | Yes | [ string ] |
-
-**Responses**
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
 ### Models
 ---

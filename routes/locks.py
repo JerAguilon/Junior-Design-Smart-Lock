@@ -17,7 +17,7 @@ class UserLock(Resource):
     @swagger.operation(
         notes='Returns a list of locks owned by a user',
         parameters=[],
-        responseClass=UserLockResponse.__name__,
+        responseClass=UserLockResponse.name,
         responseMessages=[UserLockResponse.description],
     )
     def get(self, uid, user):
@@ -26,7 +26,7 @@ class UserLock(Resource):
     @swagger.operation(
         notes='Adds a valid lock id to a user\'s account',
         parameters=webargs_to_doc(POST_USER_LOCK_ARGS),
-        responseClass=UserLockResponse.__name__,
+        responseClass=UserLockResponse.name,
         responseMessages=[UserLockResponse.description],
     )
     @use_kwargs(POST_USER_LOCK_ARGS, locations=("json", "form"))
@@ -44,7 +44,7 @@ class LockStatus(Resource):
     @swagger.operation(
         notes='Updates a lock status',
         parameters=webargs_to_doc(PUT_LOCK_STATUS_ARGS),
-        responseClass=UserLockStatusResponse.__name__,
+        responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
     )
     @use_kwargs(PUT_LOCK_STATUS_ARGS, locations=("json", "form"))
@@ -65,7 +65,7 @@ class LockStatus(Resource):
                 'paramType': 'path',
             },
         ],
-        responseClass=UserLockStatusResponse.__name__,
+        responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
     )
     @marshal_with(UserLockStatusResponse.resource_fields)

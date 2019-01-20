@@ -13,7 +13,7 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.__name__,
+        responseClass=UserResponse.name,
         responseMessages=[UserResponse.description]
     )
     @marshal_with(UserResponse.resource_fields)
@@ -25,7 +25,7 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.__name__,
+        responseClass=UserResponse.name,
         responseMessages=[UserResponse.description]
     )
     @marshal_with(UserResponse.resource_fields)

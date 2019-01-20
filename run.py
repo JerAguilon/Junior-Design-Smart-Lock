@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template
 from flask_restful import Api
 from flask_restful_swagger import swagger
 
-from routes import admin, locks, users
+from routes import admin, lock_security, locks, users,
 
 from utils.exceptions import AppException
 
@@ -10,13 +10,15 @@ app = Flask(__name__)
 api = swagger.docs(Api(app), apiVersion="0.1")
 
 api.add_resource(admin.Locks, "/api/v1/admin/locks")
-api.add_resource(locks.LockStatus, "/api/v1/locks/<lock_id>/lockStatus")
-api.add_resource(locks.UserLock, "/api/v1/userLocks")
+api.add_resource(locks.LockStatus, "/api/v1/locks/<lock_id>/status")
+api.add_resource(locks.UserLock, "/api/v1/locks")
+api.add_resource(lock_security.LockPasswords, "/api/v1/locks/<lock_id>/passwords")
+api.add_resource(lock_security.LockPassword, "/api/v1/locks/<lock_id>/passwords/<password_id>")
 api.add_resource(users.User, "/api/v1/user")
 
 
 @app.errorhandler(AppException)
-def handle_error(error):
+def handle_app_exceptions(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response

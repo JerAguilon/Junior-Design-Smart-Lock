@@ -168,11 +168,11 @@ localhost
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| createdAt | string |  | No |
+| createdAt | string |  | Yes |
 | expires | string |  | No |
 | id | string |  | Yes |
 | status | string |  | Yes |
-| type | string |  | No |
+| type | string |  | Yes |
 
 ### UserLockResponse  
 

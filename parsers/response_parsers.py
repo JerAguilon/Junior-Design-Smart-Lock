@@ -66,7 +66,7 @@ class LockPasswordResponse(object):
         'createdAt': fields.String(attribute="created_at"),
         'expires': fields.String()
     }
-    required = ['id', 'status', 'nickname', 'created_at']
+    required = ['id', 'status', 'nickname', 'createdAt', 'type']
     code = 200
 
 

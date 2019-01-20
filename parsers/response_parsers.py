@@ -2,42 +2,47 @@ from flask_restful import fields
 from flask_restful_swagger import swagger
 
 
-class overridable(property):
-    """Subclass property to make classmethod properties possible"""
+def swagger_generator(cls):
+    class WrapperClass(cls):
 
-    def __get__(self, cls, owner):
-        return self.fget.__get__(None, owner)()
+        _resource_fields = cls.resource_fields if hasattr(
+            cls, 'resource_fields') else {}
+        _code = cls.code if hasattr(cls, 'code') else 200
+        _message = cls.message if hasattr(
+            cls, 'message') else 'A {} object'.format(
+            cls.__name__)
+        _required = cls.required if hasattr(cls, 'required') else True
 
+        @property
+        def resource_fields(self):
+            return self._resource_fields
 
-class ResponseBase(object):
-    @overridable
-    @classmethod
-    def resource_fields(cls):
-        return {}
+        @property
+        def code(self):
+            return self._code
 
-    @overridable
-    @classmethod
-    def code(cls):
-        return 200
+        @property
+        def required(self):
+            return self._required
 
-    @overridable
-    @classmethod
-    def required(cls):
-        return []
+        @property
+        def message(self):
+            self._message
 
-    @overridable
-    @classmethod
-    def message(cls):
-        return 'A {} object'.format(cls.__name__)
+        @property
+        def description(self):
+            return {'code': self._code, 'message': self._message}
 
-    @overridable
-    @classmethod
-    def description(cls):
-        return {'code': cls.code, 'message': cls.message}
+        @property
+        def __name__(self):
+            return cls.__name__
+
+    return WrapperClass()
 
 
 @swagger.model
-class AdminLocksResponse(ResponseBase):
+@swagger_generator
+class AdminLocksResponse(object):
     resource_fields = {
         'id': fields.String(),
         'status': fields.String(),
@@ -49,7 +54,8 @@ class AdminLocksResponse(ResponseBase):
 
 
 @swagger.model
-class UserResponse(ResponseBase):
+@swagger_generator
+class UserResponse(object):
     resource_fields = {
         'id': fields.String(attribute='id'),
         'email': fields.String(attribute='email'),
@@ -60,7 +66,8 @@ class UserResponse(ResponseBase):
 
 
 @swagger.model
-class UserLockResponse(ResponseBase):
+@swagger_generator
+class UserLockResponse(object):
     resource_fields = {
         'ownedLockIds': fields.List(fields.String()),
     }
@@ -69,7 +76,8 @@ class UserLockResponse(ResponseBase):
 
 
 @swagger.model
-class UserLockStatusResponse(ResponseBase):
+@swagger_generator
+class UserLockStatusResponse(object):
     resource_fields = {
         'status': fields.String()
     }

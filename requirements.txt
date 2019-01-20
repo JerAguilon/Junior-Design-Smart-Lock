@@ -1,8 +1,10 @@
 aniso8601==4.1.0
 autopep8==1.4.3
+bcrypt==3.1.6
 CacheControl==0.12.5
 cachetools==3.0.0
 certifi==2018.11.29
+cffi==1.11.5
 chardet==3.0.4
 Click==7.0
 firebase-admin==2.14.0
@@ -34,12 +36,13 @@ protobuf==3.6.1
 pyasn1==0.4.5
 pyasn1-modules==0.2.3
 pycodestyle==2.4.0
-pycryptodome==3.4.3
+pycparser==2.19
+pycryptodome==3.7.2
 Pyrebase==3.0.27
 python-firebase==1.2
 python-jwt==2.0.1
 pytz==2018.9
-requests==2.11.1
+requests==2.21.0
 requests-toolbelt==0.7.0
 rsa==4.0
 six==1.12.0

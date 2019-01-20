@@ -144,7 +144,7 @@ def marshal_with_parser(resp_parser):
                 missing_fields = [
                     req for req in resp_parser.required if
                     (req not in marshaled_result
-                    or marshaled_result[req] is None)
+                        or marshaled_result[req] is None)
                 ]
                 if len(missing_fields) > 0:
                     raise ValidationException(

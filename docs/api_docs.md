@@ -48,6 +48,57 @@ localhost
 | ---- | ----------- | ------ |
 | 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
+### /api/v1/locks/{lock_id}/passwords
+---
+##### ***GET***
+**Description:** Adds a password
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lock_id | path |  | Yes | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response was specified |
+
+### /api/v1/locks/{lock_id}/passwords/{password_id}
+---
+##### ***GET***
+**Description:** Gets information on a lock password
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lock_id | path |  | Yes | string |
+| password_id | path |  | Yes | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response was specified |
+
+##### ***PUT***
+**Description:** Changes a password
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lock_id | path |  | Yes | string |
+| password_id | path |  | Yes | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response was specified |
+
 ### /api/v1/locks/{lock_id}/status
 ---
 ##### ***GET***
@@ -108,10 +159,20 @@ localhost
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| created_at | string |  | Yes |
+| createdAt | string |  | No |
 | id | string |  | Yes |
 | nickname | string |  | Yes |
 | status | string |  | Yes |
+
+### LockPasswordResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| createdAt | string |  | No |
+| expires | string |  | No |
+| id | string |  | Yes |
+| status | string |  | Yes |
+| type | string |  | No |
 
 ### UserLockResponse  
 

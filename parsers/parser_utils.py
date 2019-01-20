@@ -1,5 +1,8 @@
+from flask_restful import marshal
 from webargs import fields
+
 from parsers.enum_field import EnumField
+from utils.exceptions import ValidationException
 
 DATA_TYPE_MAP = {
     fields.Str: "string",
@@ -19,6 +22,28 @@ def _add_data_type(instance, entry):
         if entry["description"][-1] != '.':
             entry["description"] += '.'
         entry["description"] += ' One of {}'.format(enum_values)
+
+def marshal_with_parser(resp_parser):
+    def actual_decorator(function):
+        def wrapper(*args, **kwargs):
+            result, code = function(*args, **kwargs)
+            marshaled_result = marshal(result, resp_parser.resource_fields)
+
+            missing_fields = [
+                req for req in resp_parser.required if
+                (req not in marshaled_result
+                or marshaled_result[req] is None)
+            ]
+            if len(missing_fields) > 0:
+                raise ValidationException(
+                    "Response is missing required field(s): {}".format(
+                        missing_fields
+                    )
+                )
+            return marshaled_result, code
+        return wrapper
+    return actual_decorator
+
 
 
 def webargs_to_doc(args):

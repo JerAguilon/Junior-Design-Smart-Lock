@@ -4,7 +4,7 @@ from webargs.flaskparser import use_kwargs
 
 from managers import lock_manager
 from parsers.parser_utils import marshal_with_parser, webargs_to_doc
-from parsers.request_parsers import PUT_LOCK_STATUS_ARGS
+from parsers.request_parsers import PutLockStatusArgs, PUT_LOCK_STATUS_ARGS
 from parsers.response_parsers import UserLockStatusResponse
 from security import security_utils
 from utils.decorators import authorize
@@ -39,16 +39,17 @@ class LockStatus(Resource):
 
     @swagger.operation(
         notes='Updates a lock status',
-        parameters=webargs_to_doc(PUT_LOCK_STATUS_ARGS),
+        parameters=[PutLockStatusArgs.schema],
         responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
     )
-    @use_kwargs(PUT_LOCK_STATUS_ARGS, locations=("json", "form"))
+    @use_kwargs(PutLockStatusArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockStatusResponse)
     def put(self, uid, user, **args):
         lock_id = args['lock_id']
         security_utils.verify_lock_ownership(uid, lock_id)
-        return lock_manager.change_lock_status(lock_id, args.get('status'))
+        return lock_manager.change_lock_status(
+            lock_id, args.get('status')), UserLockStatusResponse.code
 
     @swagger.operation(
         notes='Gets the lock status of a user owned lock',
@@ -67,4 +68,5 @@ class LockStatus(Resource):
     @marshal_with_parser(UserLockStatusResponse)
     def get(self, uid, user, lock_id):
         security_utils.verify_lock_ownership(uid, lock_id)
-        return lock_manager.get_lock_status(lock_id)
+        return lock_manager.get_lock_status(
+            lock_id), UserLockStatusResponse.code

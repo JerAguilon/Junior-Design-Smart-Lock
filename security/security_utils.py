@@ -6,6 +6,7 @@ from utils.exceptions import AuthorizationException
 
 def verify_lock_ownership(uid, lock_id):
     is_owned = True
+    message = ''
 
     uid_lookup = DB.child("UserLocks").child(uid).get().val()
 

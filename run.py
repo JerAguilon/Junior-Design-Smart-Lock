@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify
 from flask_restful import Api
 from flask_restful_swagger import swagger
 
@@ -6,7 +6,8 @@ from routes import admin, lock_security, locks, users
 
 from utils.exceptions import AppException
 
-app = Flask(__name__)
+
+app = Flask(__name__, static_url_path='')
 api = swagger.docs(Api(app), apiVersion="0.1")
 
 api.add_resource(
@@ -36,10 +37,9 @@ api.add_resource(
 
 
 @app.errorhandler(AppException)
-def handle_app_exceptions(error):
+def exception_handler(error):
     response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
+    return response, error.status_code
 
 # Return validation errors as JSON
 
@@ -55,6 +55,6 @@ def handle_error(err):
         return jsonify({"errors": messages}), err.code
 
 
-@app.route('/')
-def index():
-    return render_template('/index.html')
+@app.route('/docs')
+def docs():
+    return app.send_static_file('index.html')

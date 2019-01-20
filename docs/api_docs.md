@@ -2,6 +2,15 @@ localhost
 =========
 **Version:** 0.1
 
+### Security
+---
+**Authorization**  
+
+|apiKey|*API Key*|
+|---|---|
+|Name|Authorization|
+|In|header|
+
 ### /api/v1/admin/locks
 ---
 ##### ***POST***
@@ -11,16 +20,19 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| passwords | body | A list of passwords to initialize the lock with | No | [ string ] |
-| nickname | body | A readable nickname for the lock | No | string |
-| status | body | A lock status to initialize the lock to. One of ['CLOSED', 'OPEN', 'OPEN_REQUESTED'] | No | string |
-| createdAt | body | The unix milliseconds since epoch in which the lock was registered | No | integer |
+| body | body |  | Yes | [PostLocksArgs](#postlocksargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | A AdminLocksResponse object | [AdminLocksResponse](#adminlocksresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
 
 ### /api/v1/locks
 ---
@@ -33,6 +45,12 @@ localhost
 | ---- | ----------- | ------ |
 | 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ##### ***POST***
 **Description:** Adds a valid lock id to a user's account
 
@@ -40,13 +58,19 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| ownedLockIds | body | A list of lock ids to add to the user | Yes | [ string ] |
+| body | body |  | Yes | [PostUserLockArgs](#postuserlockargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
 
 ### /api/v1/locks/{lock_id}/passwords
 ---
@@ -64,6 +88,12 @@ localhost
 | Code | Description |
 | ---- | ----------- |
 | 200 | No response was specified |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
 
 ### /api/v1/locks/{lock_id}/passwords/{password_id}
 ---
@@ -83,6 +113,12 @@ localhost
 | ---- | ----------- |
 | 200 | No response was specified |
 
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ##### ***PUT***
 **Description:** Changes a password
 
@@ -98,6 +134,12 @@ localhost
 | Code | Description |
 | ---- | ----------- |
 | 200 | No response was specified |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
 
 ### /api/v1/locks/{lock_id}/status
 ---
@@ -116,6 +158,12 @@ localhost
 | ---- | ----------- | ------ |
 | 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
 
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ##### ***PUT***
 **Description:** Updates a lock status
 
@@ -123,14 +171,20 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path | A unique lock id | Yes | string |
-| status | body | The latest lock status to update to. One of ['CLOSED', 'OPEN', 'OPEN_REQUESTED'] | Yes | string |
+| lock_id | path |  | Yes | string |
+| body | body |  | Yes | [PutLockStatusArgs](#putlockstatusargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
 
 ### /api/v1/user
 ---
@@ -143,6 +197,12 @@ localhost
 | ---- | ----------- | ------ |
 | 200 | A UserResponse object | [UserResponse](#userresponse) |
 
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ##### ***POST***
 **Description:** Returns user information
 
@@ -151,6 +211,12 @@ localhost
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | A UserResponse object | [UserResponse](#userresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
 
 ### Models
 ---
@@ -173,6 +239,31 @@ localhost
 | id | string |  | Yes |
 | status | string |  | Yes |
 | type | string |  | Yes |
+
+### PostLocksArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| createdAt | integer |  | No |
+| nickname | string |  | No |
+| passwords | [ string ] |  | No |
+| status | string |  | No |
+
+### PostUserLockArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| createdAt | integer |  | No |
+| nickname | string |  | No |
+| passwords | [ string ] |  | No |
+| status | string |  | No |
+
+### PutLockStatusArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| password | string |  | No |
+| status | string |  | Yes |
 
 ### UserLockResponse  
 

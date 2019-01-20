@@ -51,13 +51,8 @@ def swagger_input_model(cls):
             args = []
             if hasattr(value, 'container'):
                 args.append(WEBARGS_TO_RESTFUL_MAP[value.container.__class__])
+            resource_fields[key] = restful_field(*args)
 
-            try:
-                resource_fields[key] = restful_field(*args)
-            except Exception as e:
-                import pdb
-                pdb.set_trace()
-                print("FOO")
         return resource_fields, required
 
     resource_fields, required = _transform_resource_fields(cls)

@@ -33,9 +33,11 @@ POST_LOCKS_ARGS = {
     ),
 }
 
+
 @swagger_input_model
 class PostLocksArgs(object):
     resource_fields = POST_LOCKS_ARGS
+
 
 POST_USER_LOCK_ARGS = {
     "ownedLockIds": fields.DelimitedList(
@@ -44,6 +46,7 @@ POST_USER_LOCK_ARGS = {
         required=True
     ),
 }
+
 
 @swagger_input_model
 class PostUserLockArgs(object):

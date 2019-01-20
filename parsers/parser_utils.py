@@ -55,7 +55,8 @@ def swagger_input_model(cls):
             try:
                 resource_fields[key] = restful_field(*args)
             except Exception as e:
-                import pdb; pdb.set_trace()
+                import pdb
+                pdb.set_trace()
                 print("FOO")
         return resource_fields, required
 
@@ -135,6 +136,7 @@ def swagger_output_model(cls):
             return cls.__name__
 
     return SwaggerOutputSingleton()
+
 
 def marshal_with_parser(resp_parser):
     def actual_decorator(function):

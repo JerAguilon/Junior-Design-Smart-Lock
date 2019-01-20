@@ -48,7 +48,8 @@ class LockStatus(Resource):
     def put(self, uid, user, **args):
         lock_id = args['lock_id']
         security_utils.verify_lock_ownership(uid, lock_id)
-        return lock_manager.change_lock_status(lock_id, args.get('status')), UserLockStatusResponse.code
+        return lock_manager.change_lock_status(
+            lock_id, args.get('status')), UserLockStatusResponse.code
 
     @swagger.operation(
         notes='Gets the lock status of a user owned lock',
@@ -67,4 +68,5 @@ class LockStatus(Resource):
     @marshal_with_parser(UserLockStatusResponse)
     def get(self, uid, user, lock_id):
         security_utils.verify_lock_ownership(uid, lock_id)
-        return lock_manager.get_lock_status(lock_id), UserLockStatusResponse.code
+        return lock_manager.get_lock_status(
+            lock_id), UserLockStatusResponse.code

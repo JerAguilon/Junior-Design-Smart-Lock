@@ -13,7 +13,7 @@
 
 # Playing with the endpoints
 
-This package has great tool to play with the API. Simply go to `localhost:5000/api/spec.html`
+This package has great tool to play with the API. Simply go to `localhost:5000/docs`
 to fiddle with endpoints. Copy/paste your OAuth key into the API key field to validate requests.
 
 # Updating the API docs

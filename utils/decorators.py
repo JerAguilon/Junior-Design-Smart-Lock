@@ -11,7 +11,8 @@ def authorize(admin=False):
     def actual_decorator(f):
         @wraps(f)
         def decorated_func(*args, **kws):
-            import pdb; pdb.set_trace()
+            import pdb
+            pdb.set_trace()
             if 'api_key' in request.args:
                 token = request.args['api_key']
             else:

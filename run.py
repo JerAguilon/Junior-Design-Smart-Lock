@@ -42,6 +42,8 @@ def exception_handler(error):
     return response, error.status_code
 
 # Return validation errors as JSON
+
+
 @app.errorhandler(422)
 @app.errorhandler(400)
 def handle_error(err):
@@ -51,6 +53,7 @@ def handle_error(err):
         return jsonify({"errors": messages}), err.code, headers
     else:
         return jsonify({"errors": messages}), err.code
+
 
 @app.route('/docs')
 def docs():

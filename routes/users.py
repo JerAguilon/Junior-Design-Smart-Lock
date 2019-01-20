@@ -1,8 +1,9 @@
-from flask_restful import Resource, marshal_with
+from flask_restful import Resource
 from flask_restful_swagger import swagger
 
 from document_templates.user import User as UserTemplate
 from managers import user_manager
+from parsers.parser_utils import marshal_with_parser
 from parsers.response_parsers import UserResponse
 from utils.decorators import authorize
 
@@ -13,10 +14,10 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.__name__,
+        responseClass=UserResponse.name,
         responseMessages=[UserResponse.description]
     )
-    @marshal_with(UserResponse.resource_fields)
+    @marshal_with_parser(UserResponse)
     def get(self, uid, user_dict):
         found_user = UserTemplate.from_database(
             uid, user_manager.get_user(uid))
@@ -25,10 +26,10 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.__name__,
+        responseClass=UserResponse.name,
         responseMessages=[UserResponse.description]
     )
-    @marshal_with(UserResponse.resource_fields)
+    @marshal_with_parser(UserResponse)
     def post(self, uid, user_dict):
 
         new_user = {

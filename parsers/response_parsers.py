@@ -3,7 +3,10 @@ from flask_restful_swagger import swagger
 
 
 def swagger_generator(cls):
-    class WrapperClass(cls):
+    class SwaggerWrapperSingleton(cls):
+        def __init__(self):
+            self.__doc__ = cls.__doc__
+            self.__name__ = cls.__name__
 
         _resource_fields = cls.resource_fields if hasattr(
             cls, 'resource_fields') else {}
@@ -34,10 +37,10 @@ def swagger_generator(cls):
             return {'code': self._code, 'message': self._message}
 
         @property
-        def __name__(self):
+        def name(self):
             return cls.__name__
 
-    return WrapperClass()
+    return SwaggerWrapperSingleton()
 
 
 @swagger.model
@@ -47,7 +50,21 @@ class AdminLocksResponse(object):
         'id': fields.String(),
         'status': fields.String(),
         'nickname': fields.String(),
-        'created_at': fields.String(attribute="created_at")
+        'createdAt': fields.String(attribute="created_at")
+    }
+    required = ['id', 'status', 'nickname', 'created_at']
+    code = 200
+
+
+@swagger.model
+@swagger_generator
+class LockPasswordResponse(object):
+    resource_fields = {
+        'id': fields.String(),
+        'status': fields.String(),
+        'type': fields.String(),
+        'createdAt': fields.String(attribute="created_at"),
+        'expires': fields.String()
     }
     required = ['id', 'status', 'nickname', 'created_at']
     code = 200

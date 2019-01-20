@@ -39,13 +39,7 @@ class LockStatus(Resource):
 
     @swagger.operation(
         notes='Updates a lock status',
-        parameters=[
-            {
-                'name': 'body',
-                'dataType': PutLockStatusArgs.__name__,
-                'paramType': 'body'
-            }
-        ],
+        parameters=[PutLockStatusArgs.schema],
         responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
     )

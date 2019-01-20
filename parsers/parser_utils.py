@@ -40,12 +40,23 @@ def swagger_input_model(cls):
         required = []
 
         for key, value in cls.resource_fields.items():
+            # skip all URL parameters
+            if value.metadata.get('location', '') == 'view_args':
+                continue
+
             if value.required:
                 required.append(key)
 
-            restful_field = WEBARGS_TO_RESTFUL_MAP[value.__class__]()
+            restful_field = WEBARGS_TO_RESTFUL_MAP[value.__class__]
+            args = []
+            if hasattr(value, 'container'):
+                args.append(WEBARGS_TO_RESTFUL_MAP[value.container.__class__])
 
-            resource_fields[key] = restful_field
+            try:
+                resource_fields[key] = restful_field(*args)
+            except Exception as e:
+                import pdb; pdb.set_trace()
+                print("FOO")
         return resource_fields, required
 
     resource_fields, required = _transform_resource_fields(cls)
@@ -55,7 +66,7 @@ def swagger_input_model(cls):
             self.__doc__ = cls.__doc__
             self.__name__ = cls.__name__
             self._resource_fields = resource_fields
-            self._required = []
+            self._required = required
 
         @property
         def resource_fields(self):
@@ -68,6 +79,18 @@ def swagger_input_model(cls):
         @property
         def name(self):
             return cls.__name__
+
+    schema = {
+        'in': 'body',
+        'name': 'body',
+        'required': True,
+        'schema': {
+            "$ref": "#\/definitions\/{}".format(cls.__name__),
+        },
+        'dataType': cls.__name__,
+        'paramType': 'body'
+    }
+    cls.schema = schema
 
     swagger.model(SwaggerInputSingleton(resource_fields, required))
     return cls
@@ -118,7 +141,6 @@ def marshal_with_parser(resp_parser):
         @wraps(function)
         def wrapper(*args, **kwargs):
             try:
-                import pdb; pdb.set_trace()
                 result, code = function(*args, **kwargs)
                 marshaled_result = marshal(result, resp_parser.resource_fields)
 

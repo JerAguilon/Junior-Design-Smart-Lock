@@ -33,6 +33,10 @@ POST_LOCKS_ARGS = {
     ),
 }
 
+@swagger_input_model
+class PostLocksArgs(object):
+    resource_fields = POST_LOCKS_ARGS
+
 POST_USER_LOCK_ARGS = {
     "ownedLockIds": fields.DelimitedList(
         fields.Str(),
@@ -40,6 +44,10 @@ POST_USER_LOCK_ARGS = {
         required=True
     ),
 }
+
+@swagger_input_model
+class PostUserLockArgs(object):
+    resource_fields = POST_LOCKS_ARGS
 
 
 PUT_LOCK_STATUS_ARGS = {
@@ -59,6 +67,7 @@ PUT_LOCK_STATUS_ARGS = {
         validate=lambda p: len(p) == 6 and p.isdigit(),
     )
 }
+
 
 @swagger_input_model
 class PutLockStatusArgs(object):

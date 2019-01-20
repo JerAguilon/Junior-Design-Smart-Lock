@@ -15,13 +15,17 @@ subprocess.run(
 )
 json_data = json.loads(open('static/api_docs_v2.json').read())
 json_data['securityDefinitions'] = {
-    "api_key": {
+    "Authorization": {
         "type": "apiKey",
         "name": "Authorization",
         "in": "header"
     }
 }
 json_data['host'] = 'localhost:5000'
+for endpoint, endpoint_val in json_data['paths'].items():
+    for verb, endpoint_data in endpoint_val.items():
+        endpoint_data['security'] = [{'Authorization':[]}]
+
 with open('static/api_docs_v2.json', 'w') as fp:
     json.dump(json_data, fp)
 

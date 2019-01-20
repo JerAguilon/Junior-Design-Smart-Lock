@@ -4,8 +4,8 @@ from webargs.flaskparser import use_kwargs
 
 from document_templates.user_locks import UserLocks
 from managers import user_lock_manager
-from parsers.parser_utils import marshal_with_parser, webargs_to_doc
-from parsers.request_parsers import POST_USER_LOCK_ARGS
+from parsers.parser_utils import marshal_with_parser
+from parsers.request_parsers import PostUserLockArgs
 from parsers.response_parsers import UserLockResponse
 from utils.decorators import authorize
 
@@ -24,11 +24,11 @@ class UserLock(Resource):
 
     @swagger.operation(
         notes='Adds a valid lock id to a user\'s account',
-        parameters=webargs_to_doc(POST_USER_LOCK_ARGS),
+        parameters=[PostUserLockArgs.schema],
         responseClass=UserLockResponse.name,
         responseMessages=[UserLockResponse.description],
     )
-    @use_kwargs(POST_USER_LOCK_ARGS, locations=("json", "form"))
+    @use_kwargs(PostUserLockArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockResponse)
     def post(self, uid, user, **args):
         user_locks = UserLocks.build(args)

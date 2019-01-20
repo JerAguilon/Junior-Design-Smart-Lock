@@ -2,6 +2,15 @@ localhost
 =========
 **Version:** 0.1
 
+### Security
+---
+**api_key**  
+
+|apiKey|*API Key*|
+|---|---|
+|Name|Authorization|
+|In|header|
+
 ### /api/v1/admin/locks
 ---
 ##### ***POST***
@@ -125,6 +134,7 @@ localhost
 | ---- | ---------- | ----------- | -------- | ---- |
 | lock_id | path | A unique lock id | Yes | string |
 | status | body | The latest lock status to update to. One of ['CLOSED', 'OPEN', 'OPEN_REQUESTED'] | Yes | string |
+| password | body | A valid password if requesting to open | No | string |
 
 **Responses**
 

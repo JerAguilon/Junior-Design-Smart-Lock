@@ -1,8 +1,9 @@
 from flask_restful import marshal
+from functools import wraps
 from webargs import fields
 
 from parsers.enum_field import EnumField
-from utils.exceptions import ValidationException
+from utils.exceptions import AppException, ValidationException
 
 DATA_TYPE_MAP = {
     fields.Str: "string",
@@ -26,21 +27,27 @@ def _add_data_type(instance, entry):
 
 def marshal_with_parser(resp_parser):
     def actual_decorator(function):
+        @wraps(function)
         def wrapper(*args, **kwargs):
-            result, code = function(*args, **kwargs)
-            marshaled_result = marshal(result, resp_parser.resource_fields)
+            try:
+                import pdb; pdb.set_trace()
+                result, code = function(*args, **kwargs)
+                marshaled_result = marshal(result, resp_parser.resource_fields)
 
-            missing_fields = [
-                req for req in resp_parser.required if
-                (req not in marshaled_result or marshaled_result[req] is None)
-            ]
-            if len(missing_fields) > 0:
-                raise ValidationException(
-                    "Response is missing required field(s): {}".format(
-                        missing_fields
+                missing_fields = [
+                    req for req in resp_parser.required if
+                    (req not in marshaled_result or marshaled_result[req] is None)
+                ]
+                if len(missing_fields) > 0:
+                    raise ValidationException(
+                        "Response is missing required field(s): {}".format(
+                            missing_fields
+                        )
                     )
-                )
-            return marshaled_result, code
+                return marshaled_result, code
+            except AppException as e:
+                return e.to_dict(), e.status_code
+
         return wrapper
     return actual_decorator
 

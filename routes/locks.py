@@ -20,7 +20,7 @@ class UserLock(Resource):
         responseMessages=[UserLockResponse.description],
     )
     def get(self, uid, user):
-        return user_lock_manager.get_user_locks(uid), 200
+        return user_lock_manager.get_user_locks(uid), UserLockResponse.code
 
     @swagger.operation(
         notes='Adds a valid lock id to a user\'s account',

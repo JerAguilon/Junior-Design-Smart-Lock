@@ -51,4 +51,9 @@ PUT_LOCK_STATUS_ARGS = {
         description='A unique lock id',
         required=True
     ),
+    "password": fields.Str(
+        description='A valid password if requesting to open',
+        required=False,
+        validate=lambda p: len(p) == 6 and p.isdigit(),
+    )
 }

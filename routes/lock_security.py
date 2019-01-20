@@ -4,7 +4,7 @@ from webargs.flaskparser import use_kwargs
 
 from managers import lock_manager
 from parsers.parser_utils import marshal_with_parser, webargs_to_doc
-from parsers.request_parsers import PUT_LOCK_STATUS_ARGS
+from parsers.request_parsers import PutLockStatusArgs, PUT_LOCK_STATUS_ARGS
 from parsers.response_parsers import UserLockStatusResponse
 from security import security_utils
 from utils.decorators import authorize
@@ -39,7 +39,13 @@ class LockStatus(Resource):
 
     @swagger.operation(
         notes='Updates a lock status',
-        parameters=webargs_to_doc(PUT_LOCK_STATUS_ARGS),
+        parameters=[
+            {
+                'name': 'body',
+                'dataType': PutLockStatusArgs.name,
+                'paramType': 'PutLockStatusArgs'
+            }
+        ],
         responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
     )

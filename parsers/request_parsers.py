@@ -1,10 +1,12 @@
 import time
 import calendar
 
+from flask_restful_swagger import swagger
 from webargs import fields
-from parsers.enum_field import EnumField
 
 from document_templates.lock import LockStatus
+from parsers.enum_field import EnumField
+from parsers.parser_utils import swagger_generator
 
 POST_LOCKS_ARGS = {
     "passwords": fields.DelimitedList(
@@ -40,6 +42,7 @@ POST_USER_LOCK_ARGS = {
     ),
 }
 
+
 PUT_LOCK_STATUS_ARGS = {
     "status": EnumField(
         LockStatus,
@@ -57,3 +60,12 @@ PUT_LOCK_STATUS_ARGS = {
         validate=lambda p: len(p) == 6 and p.isdigit(),
     )
 }
+
+@swagger.model
+@swagger_generator
+class PutLockStatusArgs(object):
+    resource_fields = PUT_LOCK_STATUS_ARGS
+    required = [key for (key, value) in PUT_LOCK_STATUS_ARGS.items() if value.required]
+    code = 200
+
+

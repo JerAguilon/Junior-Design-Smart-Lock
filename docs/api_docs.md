@@ -132,9 +132,8 @@ localhost
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path | A unique lock id | Yes | string |
-| status | body | The latest lock status to update to. One of ['CLOSED', 'OPEN', 'OPEN_REQUESTED'] | Yes | string |
-| password | body | A valid password if requesting to open | No | string |
+| lock_id | path |  | Yes | string |
+| body | PutLockStatusArgs |  | No | PutLockStatusArgs |
 
 **Responses**
 
@@ -183,6 +182,14 @@ localhost
 | id | string |  | Yes |
 | status | string |  | Yes |
 | type | string |  | Yes |
+
+### PutLockStatusArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| lock_id | [null](#null) |  | Yes |
+| password | [null](#null) |  | No |
+| status | [null](#null) |  | Yes |
 
 ### UserLockResponse  
 

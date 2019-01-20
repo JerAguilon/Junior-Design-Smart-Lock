@@ -1,10 +1,11 @@
-from secrets import *
+import bcrypt
+
+from secrets import DB
 from utils.exceptions import AuthorizationException
 
 
 def verify_lock_ownership(uid, lock_id):
     is_owned = True
-    error_message = ''
 
     uid_lookup = DB.child("UserLocks").child(uid).get().val()
 
@@ -22,3 +23,15 @@ def verify_lock_ownership(uid, lock_id):
 
     if not is_owned:
         raise AuthorizationException(message=message)
+
+
+def hash_password(plaintext):
+    if isinstance(plaintext, str):
+        plaintext = bytes(plaintext, 'utf-8')
+    return str(bcrypt.hashpw(plaintext, bcrypt.gensalt()), 'utf8')
+
+
+def check_password(plaintext, hashed):
+    if isinstance(plaintext, str):
+        plaintext = bytes(plaintext, 'utf-8')
+    return bcrypt.checkpw(plaintext, hashed)

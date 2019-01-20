@@ -3,7 +3,7 @@ import calendar
 
 from enum import Enum
 
-from document_templates.template_utils import require_fields
+from utils.exceptions import ValidationException
 
 
 class PasswordType(Enum):
@@ -46,9 +46,18 @@ class Lock(object):
 
 
 class Password(object):
-    def __init__(self, type, password):
+    def __init__(self, type, hashed_password=None, salt=None, expiration=None):
+        if expiration is None:
+            if type != PasswordType.PERMANENT:
+                raise ValidationException(
+                    "Non-permanent passwords must specify an expiration"
+                )
+            expiration = -1
+
         self.type = type
-        self.password = password
+        self.hashed_password = hashed_password
+        self.salt = salt
+        self.expiration = expiration
 
     def serialize(self):
         return {

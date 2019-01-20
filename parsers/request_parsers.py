@@ -1,12 +1,11 @@
 import time
 import calendar
 
-from flask_restful_swagger import swagger
 from webargs import fields
 
 from document_templates.lock import LockStatus
 from parsers.enum_field import EnumField
-from parsers.parser_utils import swagger_generator, swagger_input_model
+from parsers.parser_utils import swagger_input_model
 
 POST_LOCKS_ARGS = {
     "passwords": fields.DelimitedList(

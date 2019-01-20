@@ -133,7 +133,7 @@ localhost
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | lock_id | path |  | Yes | string |
-| body | PutLockStatusArgs |  | No | PutLockStatusArgs |
+| body | body |  | No | [PutLockStatusArgs](#putlockstatusargs) |
 
 **Responses**
 
@@ -187,9 +187,9 @@ localhost
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| lockId | [null](#null) |  | No |
-| password | [null](#null) |  | No |
-| status | [null](#null) |  | No |
+| lockId | string |  | No |
+| password | string |  | No |
+| status | string |  | No |
 
 ### UserLockResponse  
 

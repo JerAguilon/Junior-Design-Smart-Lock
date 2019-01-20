@@ -49,51 +49,32 @@ def swagger_input_model(cls):
         return resource_fields, required
 
     resource_fields, required = _transform_resource_fields(cls)
-    import pdb; pdb.set_trace()
 
-    class SwaggerWrapperSingleton(cls):
-        def __init__(self):
+    class SwaggerInputSingleton(cls):
+        def __init__(self, resource_fields={}, required=[]):
             self.__doc__ = cls.__doc__
             self.__name__ = cls.__name__
-
-        _resource_fields = cls.resource_fields if hasattr(
-            cls, 'resource_fields') else {}
-        _code = cls.code if hasattr(cls, 'code') else 200
-        _message = cls.message if hasattr(
-            cls, 'message') else 'A {} object'.format(
-            cls.__name__)
-        _required = cls.required if hasattr(cls, 'required') else True
+            self._resource_fields = resource_fields
+            self._required = []
 
         @property
         def resource_fields(self):
             return self._resource_fields
 
         @property
-        def code(self):
-            return self._code
-
-        @property
         def required(self):
             return self._required
 
         @property
-        def message(self):
-            self._message
-
-        @property
-        def description(self):
-            return {'code': self._code, 'message': self._message}
-
-        @property
         def name(self):
             return cls.__name__
-    swagger.model(SwaggerWrapperSingleton())
+
+    swagger.model(SwaggerInputSingleton(resource_fields, required))
     return cls
 
 
-
-def swagger_generator(cls):
-    class SwaggerWrapperSingleton(cls):
+def swagger_output_model(cls):
+    class SwaggerOutputSingleton(cls):
         def __init__(self):
             self.__doc__ = cls.__doc__
             self.__name__ = cls.__name__
@@ -130,7 +111,7 @@ def swagger_generator(cls):
         def name(self):
             return cls.__name__
 
-    return SwaggerWrapperSingleton()
+    return SwaggerOutputSingleton()
 
 def marshal_with_parser(resp_parser):
     def actual_decorator(function):

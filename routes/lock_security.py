@@ -43,13 +43,13 @@ class LockStatus(Resource):
             {
                 'name': 'body',
                 'dataType': PutLockStatusArgs.__name__,
-                'paramType': 'PutLockStatusArgs'
+                'paramType': 'body'
             }
         ],
         responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
     )
-    @use_kwargs(PUT_LOCK_STATUS_ARGS, locations=("json", "form"))
+    @use_kwargs(PutLockStatusArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockStatusResponse)
     def put(self, uid, user, **args):
         lock_id = args['lock_id']

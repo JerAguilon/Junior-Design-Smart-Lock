@@ -49,13 +49,15 @@ class Password(object):
     def __init__(self, type, hashed_password=None, salt=None, expiration=None):
         if expiration is None:
             if type != PasswordType.PERMANENT:
-                raise ValidationException("Non-permanent passwords must specify an expiration")
+                raise ValidationException(
+                    "Non-permanent passwords must specify an expiration"
+                )
             expiration = -1
 
         self.type = type
         self.hashed_password = hashed_password
         self.salt = salt
-        self.expiration=expiration
+        self.expiration = expiration
 
     def serialize(self):
         return {

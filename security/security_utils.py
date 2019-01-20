@@ -24,10 +24,12 @@ def verify_lock_ownership(uid, lock_id):
     if not is_owned:
         raise AuthorizationException(message=message)
 
+
 def hash_password(plaintext):
     if isinstance(plaintext, str):
         plaintext = bytes(plaintext, 'utf-8')
     return str(bcrypt.hashpw(plaintext, bcrypt.gensalt()), 'utf8')
+
 
 def check_password(plaintext, hashed):
     if isinstance(plaintext, str):

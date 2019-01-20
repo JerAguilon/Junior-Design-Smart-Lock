@@ -40,4 +40,3 @@ class User(Resource):
         new_user_template = UserTemplate.build(new_user)
         user_manager.create_or_update_user(uid, new_user_template)
         return new_user, UserResponse.code
-

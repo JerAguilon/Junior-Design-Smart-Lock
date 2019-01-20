@@ -35,4 +35,3 @@ class UserLock(Resource):
         result = user_lock_manager.create_or_update_user_lock(
             uid, user_locks, should_overwrite=False)
         return result, UserLockResponse.code
-

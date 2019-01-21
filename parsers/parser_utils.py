@@ -93,6 +93,7 @@ def swagger_input_model(cls):
 
 
 def swagger_output_model(cls):
+
     class SwaggerOutputSingleton(cls):
         def __init__(self):
             self.__doc__ = cls.__doc__
@@ -129,8 +130,8 @@ def swagger_output_model(cls):
         @property
         def name(self):
             return cls.__name__
-
-    return SwaggerOutputSingleton()
+    swagger.add_model(SwaggerOutputSingleton())
+    return cls
 
 
 def marshal_with_parser(resp_parser):

@@ -3,8 +3,8 @@ from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
 from managers import lock_manager
-from parsers.parser_utils import marshal_with_parser, webargs_to_doc
-from parsers.request_parsers import PutLockStatusArgs, PUT_LOCK_STATUS_ARGS
+from parsers.parser_utils import marshal_with_parser
+from parsers.request_parsers import PutLockStatusArgs
 from parsers.response_parsers import UserLockStatusResponse
 from security import security_utils
 from utils.decorators import authorize
@@ -43,7 +43,7 @@ class LockStatus(Resource):
     @swagger.operation(
         notes='Updates a lock status',
         parameters=[PutLockStatusArgs.schema],
-        responseClass=UserLockStatusResponse.name,
+        responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
         tags=['Locks'],
     )
@@ -66,7 +66,7 @@ class LockStatus(Resource):
                 'paramType': 'path',
             },
         ],
-        responseClass=UserLockStatusResponse.name,
+        responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
         tags=['Locks'],
     )

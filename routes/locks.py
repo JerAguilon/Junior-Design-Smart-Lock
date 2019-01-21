@@ -16,7 +16,7 @@ class UserLock(Resource):
     @swagger.operation(
         notes='Returns a list of locks owned by a user',
         parameters=[],
-        responseClass=UserLockResponse.name,
+        responseClass=UserLockResponse.__name__,
         responseMessages=[UserLockResponse.description],
         tags=['Locks'],
     )
@@ -26,7 +26,7 @@ class UserLock(Resource):
     @swagger.operation(
         notes='Adds a valid lock id to a user\'s account',
         parameters=[PostUserLockArgs.schema],
-        responseClass=UserLockResponse.name,
+        responseClass=UserLockResponse.__name__,
         responseMessages=[UserLockResponse.description],
         tags=['Locks'],
     )

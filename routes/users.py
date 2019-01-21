@@ -14,7 +14,7 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.name,
+        responseClass=UserResponse.__name__,
         responseMessages=[UserResponse.description],
         tags=['Users'],
     )
@@ -27,7 +27,7 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.name,
+        responseClass=UserResponse.__name__,
         responseMessages=[UserResponse.description],
         tags=['Users'],
     )

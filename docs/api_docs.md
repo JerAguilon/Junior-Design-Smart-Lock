@@ -246,8 +246,8 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| otp | [  ] |  | Yes |
-| permanent | [  ] |  | Yes |
+| otp | [ [LockPasswordResponse](#lockpasswordresponse) ] |  | Yes |
+| permanent | [ [LockPasswordResponse](#lockpasswordresponse) ] |  | Yes |
 
 ### PostLocksArgs  
 

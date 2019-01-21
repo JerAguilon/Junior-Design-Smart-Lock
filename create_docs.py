@@ -28,6 +28,12 @@ for endpoint, endpoint_val in json_data['paths'].items():
     for verb, endpoint_data in endpoint_val.items():
         endpoint_data['security'] = [{'Authorization': []}]
 
+# Terrible hack due to bugs in flask-restful-swagger
+json_data['definitions']['LockPasswordsResponse']['properties']['otp'][
+    'items'] = {'$ref': '#definitions/LockPasswordResponse'}
+json_data['definitions']['LockPasswordsResponse']['properties']['permanent'][
+    'items'] = {'$ref': '#definitions/LockPasswordResponse'}
+
 with open('static/api_docs_v2.json', 'w') as fp:
     json.dump(json_data, fp)
 

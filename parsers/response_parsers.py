@@ -33,6 +33,21 @@ class LockPasswordResponse(object):
 
 @swagger.model
 @swagger_output_model
+class LockPasswordsResponse():
+    resource_fields = {
+        'otp': fields.List(
+            fields.Nested(LockPasswordResponse.resource_fields)
+        ),
+        'permanent': fields.List(
+            fields.Nested(LockPasswordResponse.resource_fields)
+        ),
+    }
+    required = ['otp', 'permanent']
+    code = 200
+
+
+@swagger.model
+@swagger_output_model
 class UserResponse(object):
     resource_fields = {
         'id': fields.String(attribute='id'),

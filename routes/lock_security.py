@@ -3,9 +3,10 @@ from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
 from managers import lock_manager
-from parsers.parser_utils import marshal_with_parser, webargs_to_doc
-from parsers.request_parsers import PutLockStatusArgs, PUT_LOCK_STATUS_ARGS
-from parsers.response_parsers import UserLockStatusResponse
+from parsers.parser_utils import marshal_with_parser
+from parsers.request_parsers import PutLockStatusArgs
+from parsers.response_parsers import (
+    LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse)
 from security import security_utils
 from utils.decorators import authorize
 
@@ -15,12 +16,18 @@ class LockPassword(Resource):
 
     @swagger.operation(
         notes='Gets information on a lock password',
+        tags=['Password Management'],
+        responseClass=LockPasswordResponse.__name__,
+        responseMessages=[LockPasswordResponse.description],
     )
     def get(self):
         return {}, 200
 
     @swagger.operation(
         notes='Changes a password',
+        tags=['Password Management'],
+        responseClass=LockPasswordResponse.__name__,
+        responseMessages=[LockPasswordResponse.description],
     )
     def put(self):
         return {}, 200
@@ -29,6 +36,9 @@ class LockPassword(Resource):
 class LockPasswords(Resource):
     @swagger.operation(
         notes='Adds a password',
+        tags=['Password Management'],
+        responseClass=LockPasswordsResponse.__name__,
+        responseMessages=[LockPasswordsResponse.description],
     )
     def get(self):
         return {}, 200
@@ -40,8 +50,9 @@ class LockStatus(Resource):
     @swagger.operation(
         notes='Updates a lock status',
         parameters=[PutLockStatusArgs.schema],
-        responseClass=UserLockStatusResponse.name,
+        responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
+        tags=['Locks'],
     )
     @use_kwargs(PutLockStatusArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockStatusResponse)
@@ -62,8 +73,9 @@ class LockStatus(Resource):
                 'paramType': 'path',
             },
         ],
-        responseClass=UserLockStatusResponse.name,
+        responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
+        tags=['Locks'],
     )
     @marshal_with_parser(UserLockStatusResponse)
     def get(self, uid, user, lock_id):

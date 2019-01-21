@@ -14,8 +14,9 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.name,
-        responseMessages=[UserResponse.description]
+        responseClass=UserResponse.__name__,
+        responseMessages=[UserResponse.description],
+        tags=['Users'],
     )
     @marshal_with_parser(UserResponse)
     def get(self, uid, user_dict):
@@ -26,8 +27,9 @@ class User(Resource):
     @swagger.operation(
         notes='Returns user information',
         parameters=[],
-        responseClass=UserResponse.name,
-        responseMessages=[UserResponse.description]
+        responseClass=UserResponse.__name__,
+        responseMessages=[UserResponse.description],
+        tags=['Users'],
     )
     @marshal_with_parser(UserResponse)
     def post(self, uid, user_dict):

@@ -26,8 +26,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [AdminLocksResponse](#adminlocksresponse) |
-| undefined | Description was not specified |  |
+| 200 | A AdminLocksResponse object | [AdminLocksResponse](#adminlocksresponse) |
 
 **Security**
 
@@ -44,8 +43,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserLockResponse](#userlockresponse) |
-| undefined | Description was not specified |  |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
 **Security**
 
@@ -66,8 +64,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserLockResponse](#userlockresponse) |
-| undefined | Description was not specified |  |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
 
 **Security**
 
@@ -90,8 +87,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [LockPasswordsResponse](#lockpasswordsresponse) |
-| undefined | Description was not specified |  |
+| 200 | A LockPasswordsResponse object | [LockPasswordsResponse](#lockpasswordsresponse) |
 
 **Security**
 
@@ -115,8 +111,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [LockPasswordResponse](#lockpasswordresponse) |
-| undefined | Description was not specified |  |
+| 200 | A LockPasswordResponse object | [LockPasswordResponse](#lockpasswordresponse) |
 
 **Security**
 
@@ -138,8 +133,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [LockPasswordResponse](#lockpasswordresponse) |
-| undefined | Description was not specified |  |
+| 200 | A LockPasswordResponse object | [LockPasswordResponse](#lockpasswordresponse) |
 
 **Security**
 
@@ -162,8 +156,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserLockStatusResponse](#userlockstatusresponse) |
-| undefined | Description was not specified |  |
+| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
 
 **Security**
 
@@ -185,8 +178,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserLockStatusResponse](#userlockstatusresponse) |
-| undefined | Description was not specified |  |
+| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
 
 **Security**
 
@@ -203,8 +195,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserResponse](#userresponse) |
-| undefined | Description was not specified |  |
+| 200 | A UserResponse object | [UserResponse](#userresponse) |
 
 **Security**
 
@@ -219,8 +210,7 @@ localhost
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | No response was specified | [UserResponse](#userresponse) |
-| undefined | Description was not specified |  |
+| 200 | A UserResponse object | [UserResponse](#userresponse) |
 
 **Security**
 

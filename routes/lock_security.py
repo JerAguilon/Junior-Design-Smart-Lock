@@ -5,7 +5,8 @@ from webargs.flaskparser import use_kwargs
 from managers import lock_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import PutLockStatusArgs
-from parsers.response_parsers import LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse
+from parsers.response_parsers import (
+    LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse)
 from security import security_utils
 from utils.decorators import authorize
 

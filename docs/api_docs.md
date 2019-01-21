@@ -88,9 +88,10 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | No response was specified | [LockPasswordsResponse](#lockpasswordsresponse) |
+| undefined | Description was not specified |  |
 
 **Security**
 
@@ -112,9 +113,10 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | No response was specified | [LockPasswordResponse](#lockpasswordresponse) |
+| undefined | Description was not specified |  |
 
 **Security**
 
@@ -134,9 +136,10 @@ localhost
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | No response was specified |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | No response was specified | [LockPasswordResponse](#lockpasswordresponse) |
+| undefined | Description was not specified |  |
 
 **Security**
 
@@ -251,8 +254,8 @@ localhost
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| otp | [  ] |  | No |
-| permanent | [  ] |  | No |
+| otp | [  ] |  | Yes |
+| permanent | [  ] |  | Yes |
 
 ### PostLocksArgs  
 

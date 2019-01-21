@@ -47,12 +47,10 @@ class LockPasswordResponse(ResponseBase):
 @swagger_output_model
 class LockPasswordsResponse(ResponseBase):
     resource_fields = {
-        'otp': fields.List(
-            fields.Nested(
-                LockPasswordResponse.resource_fields)), 'permanent': fields.List(
-            fields.Nested(
-                LockPasswordResponse.resource_fields)), }
-    required = ['id', 'status', 'nickname', 'createdAt', 'type']
+        'otp': fields.List(fields.Nested(LockPasswordResponse.resource_fields)),
+        'permanent': fields.List(fields.Nested(LockPasswordResponse.resource_fields)),
+    }
+    required = ['otp', 'permanent']
     code = 200
     description = 'A response of the user\'s passwords'
 

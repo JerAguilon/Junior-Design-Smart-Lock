@@ -5,7 +5,7 @@ from webargs.flaskparser import use_kwargs
 from managers import lock_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import PutLockStatusArgs
-from parsers.response_parsers import UserLockStatusResponse
+from parsers.response_parsers import LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse
 from security import security_utils
 from utils.decorators import authorize
 
@@ -16,13 +16,17 @@ class LockPassword(Resource):
     @swagger.operation(
         notes='Gets information on a lock password',
         tags=['Password Management'],
+        responseClass=LockPasswordResponse.__name__,
+        responseMessages=[LockPasswordResponse.description],
     )
     def get(self):
         return {}, 200
 
     @swagger.operation(
         notes='Changes a password',
-        tags=['Password Management']
+        tags=['Password Management'],
+        responseClass=LockPasswordResponse.__name__,
+        responseMessages=[LockPasswordResponse.description],
     )
     def put(self):
         return {}, 200
@@ -32,6 +36,8 @@ class LockPasswords(Resource):
     @swagger.operation(
         notes='Adds a password',
         tags=['Password Management'],
+        responseClass=LockPasswordsResponse.__name__,
+        responseMessages=[LockPasswordsResponse.description],
     )
     def get(self):
         return {}, 200

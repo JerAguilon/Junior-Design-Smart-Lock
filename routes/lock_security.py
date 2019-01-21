@@ -15,12 +15,14 @@ class LockPassword(Resource):
 
     @swagger.operation(
         notes='Gets information on a lock password',
+        tags=['Password Management'],
     )
     def get(self):
         return {}, 200
 
     @swagger.operation(
         notes='Changes a password',
+        tags=['Password Management']
     )
     def put(self):
         return {}, 200
@@ -29,6 +31,7 @@ class LockPassword(Resource):
 class LockPasswords(Resource):
     @swagger.operation(
         notes='Adds a password',
+        tags=['Password Management'],
     )
     def get(self):
         return {}, 200
@@ -42,6 +45,7 @@ class LockStatus(Resource):
         parameters=[PutLockStatusArgs.schema],
         responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
+        tags=['Locks'],
     )
     @use_kwargs(PutLockStatusArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockStatusResponse)
@@ -64,6 +68,7 @@ class LockStatus(Resource):
         ],
         responseClass=UserLockStatusResponse.name,
         responseMessages=[UserLockStatusResponse.description],
+        tags=['Locks'],
     )
     @marshal_with_parser(UserLockStatusResponse)
     def get(self, uid, user, lock_id):

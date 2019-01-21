@@ -22,6 +22,7 @@ class Locks(Resource):
         parameters=[PostLocksArgs.schema],
         responseClass=AdminLocksResponse.__name__,
         responseMessages=[AdminLocksResponse.description],
+        tags=['Admin']
     )
     @marshal_with_parser(AdminLocksResponse)
     @use_kwargs(PostLocksArgs.resource_fields, locations=("json", "form"))

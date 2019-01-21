@@ -18,6 +18,7 @@ class UserLock(Resource):
         parameters=[],
         responseClass=UserLockResponse.name,
         responseMessages=[UserLockResponse.description],
+        tags=['Locks'],
     )
     def get(self, uid, user):
         return user_lock_manager.get_user_locks(uid), UserLockResponse.code
@@ -27,6 +28,7 @@ class UserLock(Resource):
         parameters=[PostUserLockArgs.schema],
         responseClass=UserLockResponse.name,
         responseMessages=[UserLockResponse.description],
+        tags=['Locks'],
     )
     @use_kwargs(PostUserLockArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockResponse)

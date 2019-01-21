@@ -15,7 +15,8 @@ class User(Resource):
         notes='Returns user information',
         parameters=[],
         responseClass=UserResponse.name,
-        responseMessages=[UserResponse.description]
+        responseMessages=[UserResponse.description],
+        tags=['Users'],
     )
     @marshal_with_parser(UserResponse)
     def get(self, uid, user_dict):
@@ -27,7 +28,8 @@ class User(Resource):
         notes='Returns user information',
         parameters=[],
         responseClass=UserResponse.name,
-        responseMessages=[UserResponse.description]
+        responseMessages=[UserResponse.description],
+        tags=['Users'],
     )
     @marshal_with_parser(UserResponse)
     def post(self, uid, user_dict):

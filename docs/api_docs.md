@@ -75,7 +75,7 @@ localhost
 ### /api/v1/locks/{lock_id}/passwords
 ---
 ##### ***GET***
-**Description:** Adds a password
+**Description:** Gets metadata about a user's passwords. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
 
 **Parameters**
 
@@ -98,7 +98,7 @@ localhost
 ### /api/v1/locks/{lock_id}/passwords/{password_id}
 ---
 ##### ***GET***
-**Description:** Gets information on a lock password
+**Description:** Gets information on a lock password. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
 
 **Parameters**
 
@@ -120,7 +120,7 @@ localhost
 | Authorization | |
 
 ##### ***PUT***
-**Description:** Changes a password
+**Description:** Changes a password. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
 
 **Parameters**
 

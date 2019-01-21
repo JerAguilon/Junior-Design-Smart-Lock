@@ -11,11 +11,16 @@ from security import security_utils
 from utils.decorators import authorize
 
 
+PASSWORD_INFO = ("Passwords are passed as arguments "
+    "to change the status or sensitive metadata of a lock. "
+    "In addition, the user needs to own the lock as well")
+
 class LockPassword(Resource):
+
     method_decorators = [authorize()]
 
     @swagger.operation(
-        notes='Gets information on a lock password',
+        notes='Gets information on a lock password. ' + PASSWORD_INFO,
         tags=['Password Management'],
         responseClass=LockPasswordResponse.__name__,
         responseMessages=[LockPasswordResponse.description],
@@ -24,7 +29,7 @@ class LockPassword(Resource):
         return {}, 200
 
     @swagger.operation(
-        notes='Changes a password',
+        notes='Changes a password. ' + PASSWORD_INFO,
         tags=['Password Management'],
         responseClass=LockPasswordResponse.__name__,
         responseMessages=[LockPasswordResponse.description],
@@ -35,7 +40,7 @@ class LockPassword(Resource):
 
 class LockPasswords(Resource):
     @swagger.operation(
-        notes='Adds a password',
+        notes='Gets metadata about a user\'s passwords. ' + PASSWORD_INFO,
         tags=['Password Management'],
         responseClass=LockPasswordsResponse.__name__,
         responseMessages=[LockPasswordsResponse.description],

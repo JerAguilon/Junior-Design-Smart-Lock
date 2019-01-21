@@ -1,5 +1,7 @@
-localhost
-=========
+Junior Design Smartlock
+=======================
+Auto-generated API documentation for this project
+
 **Version:** 0.1
 
 ### Security

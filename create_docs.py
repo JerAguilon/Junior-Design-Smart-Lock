@@ -22,6 +22,8 @@ json_data['securityDefinitions'] = {
     }
 }
 json_data['host'] = 'localhost:5000'
+json_data['info']['title'] = 'Junior Design Smartlock'
+json_data['info']['description'] = 'Auto-generated API documentation for this project'
 for endpoint, endpoint_val in json_data['paths'].items():
     for verb, endpoint_data in endpoint_val.items():
         endpoint_data['security'] = [{'Authorization': []}]

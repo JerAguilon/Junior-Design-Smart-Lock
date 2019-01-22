@@ -74,7 +74,7 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
-### /api/v1/locks/{lock_id}/passwords
+### /api/v1/locks/{lockId}/passwords
 ---
 ##### ***GET***
 **Description:** Gets metadata about a user's passwords. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
@@ -83,7 +83,7 @@ Auto-generated API documentation for this project
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path |  | Yes | string |
+| lockId | path |  | Yes | string |
 
 **Responses**
 
@@ -97,17 +97,39 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
-### /api/v1/locks/{lock_id}/passwords/{password_id}
----
-##### ***GET***
-**Description:** Gets information on a lock password. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
+##### ***POST***
+**Description:** Adds a password to a lock. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path |  | Yes | string |
-| password_id | path |  | Yes | string |
+| lockId | path |  | Yes | string |
+| body | body |  | Yes | [PostLockPasswordsArgs](#postlockpasswordsargs) |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A LockPasswordResponse object | [LockPasswordResponse](#lockpasswordresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
+### /api/v1/locks/{lockId}/passwords/{passwordId}
+---
+##### ***GET***
+**Description:** Gets metadata on a lock password. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lockId | path |  | Yes | string |
+| passwordId | path |  | Yes | string |
 
 **Responses**
 
@@ -128,8 +150,8 @@ Auto-generated API documentation for this project
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path |  | Yes | string |
-| password_id | path |  | Yes | string |
+| lockId | path |  | Yes | string |
+| passwordId | path |  | Yes | string |
 
 **Responses**
 
@@ -143,7 +165,7 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
-### /api/v1/locks/{lock_id}/status
+### /api/v1/locks/{lockId}/status
 ---
 ##### ***GET***
 **Description:** Gets the lock status of a user owned lock
@@ -152,7 +174,7 @@ Auto-generated API documentation for this project
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path | A lock id that the user owns | Yes | string |
+| lockId | path |  | Yes | string |
 
 **Responses**
 
@@ -173,7 +195,7 @@ Auto-generated API documentation for this project
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| lock_id | path |  | Yes | string |
+| lockId | path |  | Yes | string |
 | body | body |  | Yes | [PutLockStatusArgs](#putlockstatusargs) |
 
 **Responses**
@@ -249,13 +271,20 @@ Auto-generated API documentation for this project
 | otp | [ [LockPasswordResponse](#lockpasswordresponse) ] |  | Yes |
 | permanent | [ [LockPasswordResponse](#lockpasswordresponse) ] |  | Yes |
 
+### PostLockPasswordsArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| expiration | integer |  | No |
+| password | string |  | Yes |
+| type | string |  | Yes |
+
 ### PostLocksArgs  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | createdAt | integer |  | No |
 | nickname | string |  | No |
-| passwords | [ string ] |  | No |
 | status | string |  | No |
 
 ### PostUserLockArgs  
@@ -264,7 +293,6 @@ Auto-generated API documentation for this project
 | ---- | ---- | ----------- | -------- |
 | createdAt | integer |  | No |
 | nickname | string |  | No |
-| passwords | [ string ] |  | No |
 | status | string |  | No |
 
 ### PutLockStatusArgs  

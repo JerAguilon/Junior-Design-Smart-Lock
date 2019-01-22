@@ -16,15 +16,15 @@ api.add_resource(
 )
 api.add_resource(
     lock_security.LockPassword,
-    "/api/v1/locks/<lock_id>/passwords/<password_id>"
+    "/api/v1/locks/<lockId>/passwords/<passwordId>"
 )
 api.add_resource(
     lock_security.LockPasswords,
-    "/api/v1/locks/<lock_id>/passwords"
+    "/api/v1/locks/<lockId>/passwords"
 )
 api.add_resource(
     lock_security.LockStatus,
-    "/api/v1/locks/<lock_id>/status"
+    "/api/v1/locks/<lockId>/status"
 )
 api.add_resource(
     locks.UserLock,

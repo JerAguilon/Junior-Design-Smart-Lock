@@ -13,7 +13,7 @@ class AdminLocksResponse(object):
         'nickname': fields.String(),
         'createdAt': fields.String(attribute="created_at")
     }
-    required = ['id', 'status', 'nickname', 'created_at']
+    required = ['id', 'status', 'nickname', 'createdAt']
     code = 200
 
 

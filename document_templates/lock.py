@@ -3,7 +3,8 @@ import calendar
 
 from enum import Enum
 
-from utils.exceptions import ValidationException
+from utils.exceptions import AppException, ValidationException
+from security.security_utils import hash_password
 
 
 class PasswordType(Enum):
@@ -20,7 +21,7 @@ class LockStatus(Enum):
 class Lock(object):
     def __init__(
         self,
-        passwords,
+        passwords={},
         nickname="Smart Lock",
         status=LockStatus.CLOSED,
         created_at=calendar.timegm(time.gmtime()),
@@ -36,17 +37,16 @@ class Lock(object):
         return {
             "status": str(self.status.value),
             "nickname": self.nickname,
-            "passwords": [p.serialize() for p in self.passwords],
+            "passwords": dict((pw_id, pw.serialize()) for (pw_id, pw) in self.passwords.items()),
             "createdAt": self.created_at,
         }
 
     @staticmethod
     def build(request_form):
-        return Lock([])
+        return Lock()
 
-
-class Password(object):
-    def __init__(self, type, hashed_password=None, salt=None, expiration=None):
+class PasswordMetadata(object):
+    def __init__(self, type, expiration, id="UNKNOWN"):
         if expiration is None:
             if type != PasswordType.PERMANENT:
                 raise ValidationException(
@@ -55,12 +55,43 @@ class Password(object):
             expiration = -1
 
         self.type = type
-        self.hashed_password = hashed_password
-        self.salt = salt
         self.expiration = expiration
+        self.id = id
 
     def serialize(self):
         return {
             "type": str(self.type.value),
-            "password": self.password
+            "password": self.password,
+            "expiration": self.expiration
         }
+
+    @staticmethod
+    def from_database(lock_id, lock_dict):
+        return Password(
+            type=PasswordType(lock_dict['type']),
+            expiration=lock_dict['expiration'],
+            id=lock_id
+        )
+
+class Password(PasswordMetadata):
+    def __init__(self, type, password, expiration=None, id="UNKNOWN"):
+        super().__init__(type, expiration, id)
+        self.hashed_password = hash_password(password)
+
+    def serialize(self):
+        if self.id == "UNKNWON":
+            raise AppException("An ID could not be created for this resource")
+        return {
+            "type": str(self.type.value),
+            "password": self.password,
+            "expiration": self.expiration
+        }
+
+    @staticmethod
+    def build(request_form):
+        return Password(
+            type=PasswordType(request_form['type']),
+            password=request_form['password'],
+            expiration=request_form['expiration'],
+            id=request_form['id']
+        )

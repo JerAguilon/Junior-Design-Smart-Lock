@@ -3,17 +3,11 @@ import calendar
 
 from webargs import fields
 
-from document_templates.lock import LockStatus
+from document_templates.lock import LockStatus, PasswordType
 from parsers.enum_field import EnumField
 from parsers.parser_utils import swagger_input_model
 
 POST_LOCKS_ARGS = {
-    "passwords": fields.DelimitedList(
-        fields.Str(),
-        missing=[],
-        description="A list of passwords to initialize the lock with",
-        required=False
-    ),
     "nickname": fields.Str(
         missing="Smart Lock",
         description="A readable nickname for the lock",
@@ -75,3 +69,44 @@ PUT_LOCK_STATUS_ARGS = {
 @swagger_input_model
 class PutLockStatusArgs(object):
     resource_fields = PUT_LOCK_STATUS_ARGS
+
+
+@swagger_input_model
+class GetLockPasswordMetadataArgs(object):
+    resource_fields = {
+        "lockId": fields.Str(
+            location='view_args',
+            description='A unique lock id',
+            required=True
+        ),
+        "passwordId": fields.Str(
+            location='view_args',
+            description='A unique password id',
+            required=True
+        ),
+    }
+
+@swagger_input_model
+class PostLockPasswordsArgs(object):
+    resource_fields = {
+        "lockId": fields.Str(
+            location='view_args',
+            description='A unique lock id',
+            required=True
+        ),
+        "type": EnumField(
+            PasswordType,
+            description='The type of the password',
+            required=True
+        ),
+        "password": fields.Str(
+            description='The six digit password',
+            required=True,
+            validate=lambda p: len(p) == 6 and p.isdigit(),
+        ),
+        "expiration": fields.Int(
+            description='The number of milliseconds in the future to expire',
+            required = False,
+            missing = None,
+        )
+    }

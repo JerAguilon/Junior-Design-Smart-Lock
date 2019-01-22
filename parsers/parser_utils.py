@@ -88,7 +88,10 @@ def swagger_input_model(cls):
     }
     cls.schema = schema
 
-    swagger.model(SwaggerInputSingleton(resource_fields, required))
+    # sometimes we define models that only have URL parameters, which
+    # don't need to be registered.
+    if len(resource_fields) > 0:
+        swagger.model(SwaggerInputSingleton(resource_fields, required))
     return cls
 
 

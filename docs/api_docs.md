@@ -77,7 +77,7 @@ Auto-generated API documentation for this project
 ### /api/v1/locks/{lockId}/passwords
 ---
 ##### ***GET***
-**Description:** Gets metadata about a user's passwords. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
+**Description:** Gets metadata about a lock's passwords. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
 
 **Parameters**
 
@@ -249,7 +249,7 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| createdAt | string |  | No |
+| createdAt | string |  | Yes |
 | id | string |  | Yes |
 | nickname | string |  | Yes |
 | status | string |  | Yes |

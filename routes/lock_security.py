@@ -50,12 +50,16 @@ class LockPasswords(Resource):
     method_decorators = [authorize()]
 
     @swagger.operation(
-        notes='Gets metadata about a user\'s passwords. ' + PASSWORD_INFO,
+        notes='Gets metadata about a lock\'s passwords. ' + PASSWORD_INFO,
         tags=['Password Management'],
         responseClass=LockPasswordsResponse.__name__,
         responseMessages=[LockPasswordsResponse.description],
     )
-    def get(self):
+    @use_kwargs(PostLockPasswordsArgs.resource_fields, locations=("json", "form"))
+    def get(self, uid, user, **kwargs):
+        lock_id = kwargs['lockId']
+        security_utils.verify_lock_ownership(uid, lock_id)
+
         return {}, 200
 
     @swagger.operation(
@@ -69,6 +73,8 @@ class LockPasswords(Resource):
     def post(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
+
+        kwargs['password'] = security_utils.hash_password(kwargs['password'])
 
         password  = Password.build(kwargs)
         return (password_manager.add_password(password),
@@ -90,6 +96,11 @@ class LockStatus(Resource):
     def put(self, uid, user, **args):
         lock_id = args['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
+
+        # TODO: refactor this into something less hacky than string matching
+        if args.get('status') == 'OPEN_REQUESTED':
+            security_utils.verify_password(lock_id, args.get('password'))
+
         return lock_manager.change_lock_status(
             lock_id, args.get('status')), UserLockStatusResponse.code
 

@@ -4,7 +4,6 @@ import calendar
 from enum import Enum
 
 from utils.exceptions import AppException, ValidationException
-from security.security_utils import hash_password
 
 
 class PasswordType(Enum):
@@ -76,7 +75,7 @@ class PasswordMetadata(object):
 class Password(PasswordMetadata):
     def __init__(self, type, password, expiration=None, id="UNKNOWN"):
         super().__init__(type, expiration, id)
-        self.hashed_password = hash_password(password)
+        self.hashed_password = password
 
     def serialize(self):
         if self.id == "UNKNWON":
@@ -93,5 +92,4 @@ class Password(PasswordMetadata):
             type=PasswordType(request_form['type']),
             password=request_form['password'],
             expiration=request_form['expiration'],
-            id=request_form['id']
         )

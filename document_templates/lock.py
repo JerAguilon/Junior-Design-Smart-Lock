@@ -4,7 +4,6 @@ import calendar
 from enum import Enum
 
 from utils.exceptions import AppException, ValidationException
-from security.security_utils import hash_password
 
 
 class PasswordType(Enum):
@@ -35,15 +34,21 @@ class Lock(object):
 
     def serialize(self):
         return {
-            "status": str(self.status.value),
+            "status": str(
+                self.status.value),
             "nickname": self.nickname,
-            "passwords": dict((pw_id, pw.serialize()) for (pw_id, pw) in self.passwords.items()),
+            "passwords": dict(
+                (pw_id,
+                 pw.serialize()) for (
+                    pw_id,
+                    pw) in self.passwords.items()),
             "createdAt": self.created_at,
         }
 
     @staticmethod
     def build(request_form):
         return Lock()
+
 
 class PasswordMetadata(object):
     def __init__(self, type, expiration, id="UNKNOWN"):
@@ -73,10 +78,11 @@ class PasswordMetadata(object):
             id=lock_id
         )
 
+
 class Password(PasswordMetadata):
     def __init__(self, type, password, expiration=None, id="UNKNOWN"):
         super().__init__(type, expiration, id)
-        self.hashed_password = hash_password(password)
+        self.hashed_password = password
 
     def serialize(self):
         if self.id == "UNKNWON":
@@ -93,5 +99,4 @@ class Password(PasswordMetadata):
             type=PasswordType(request_form['type']),
             password=request_form['password'],
             expiration=request_form['expiration'],
-            id=request_form['id']
         )

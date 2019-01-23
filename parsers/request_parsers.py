@@ -86,6 +86,7 @@ class GetLockPasswordMetadataArgs(object):
         ),
     }
 
+
 @swagger_input_model
 class PostLockPasswordsArgs(object):
     resource_fields = {
@@ -106,7 +107,7 @@ class PostLockPasswordsArgs(object):
         ),
         "expiration": fields.Int(
             description='The number of milliseconds in the future to expire',
-            required = False,
-            missing = None,
+            required=False,
+            missing=None,
         )
     }

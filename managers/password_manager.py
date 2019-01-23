@@ -3,6 +3,7 @@ from document_templates.lock import Password, PasswordMetadata, PasswordType
 from utils.exceptions import AppException, ValidationException
 from secrets import DB
 
+
 def get_password_metadata(lock_id, password_id):
     passwords = get_lock(lock_id).get('passwords', {})
 
@@ -38,7 +39,6 @@ def get_passwords_metadata(lock_id):
         else:
             raise AppException("Error: a password entry is malformed.")
     return result
-
 
 
 def add_password(lock_id, password: Password) -> PasswordMetadata:

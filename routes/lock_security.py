@@ -6,7 +6,7 @@ from document_templates.lock import Password
 from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
-        GetLockPasswordMetadataArgs, PostLockPasswordsArgs, PutLockStatusArgs)
+    GetLockPasswordMetadataArgs, PostLockPasswordsArgs, PutLockStatusArgs)
 from parsers.response_parsers import (
     LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse)
 from security import security_utils
@@ -14,8 +14,9 @@ from utils.decorators import authorize
 
 
 PASSWORD_INFO = ("Passwords are passed as arguments "
-    "to change the status or sensitive metadata of a lock. "
-    "In addition, the user needs to own the lock as well")
+                 "to change the status or sensitive metadata of a lock. "
+                 "In addition, the user needs to own the lock as well")
+
 
 class LockPassword(Resource):
 
@@ -27,13 +28,17 @@ class LockPassword(Resource):
         responseClass=LockPasswordResponse.__name__,
         responseMessages=[LockPasswordResponse.description],
     )
-    @use_kwargs(GetLockPasswordMetadataArgs.resource_fields, locations=("json", "form"))
+    @use_kwargs(
+        GetLockPasswordMetadataArgs.resource_fields,
+        locations=(
+            "json",
+            "form"))
     def get(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         password_id = kwargs['passwordId']
         security_utils.verify_lock_ownership(uid, lock_id)
         return (password_manager.get_password_metadata(lock_id, password_id),
-            LockPasswordResponse.code)
+                LockPasswordResponse.code)
 
     @swagger.operation(
         notes='Changes a password. ' + PASSWORD_INFO,
@@ -55,7 +60,11 @@ class LockPasswords(Resource):
         responseClass=LockPasswordsResponse.__name__,
         responseMessages=[LockPasswordsResponse.description],
     )
-    @use_kwargs(PostLockPasswordsArgs.resource_fields, locations=("json", "form"))
+    @use_kwargs(
+        PostLockPasswordsArgs.resource_fields,
+        locations=(
+            "json",
+            "form"))
     def get(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
@@ -69,16 +78,20 @@ class LockPasswords(Resource):
         responseClass=LockPasswordResponse.__name__,
         responseMessages=[LockPasswordResponse.description],
     )
-    @use_kwargs(PostLockPasswordsArgs.resource_fields, locations=("json", "form"))
+    @use_kwargs(
+        PostLockPasswordsArgs.resource_fields,
+        locations=(
+            "json",
+            "form"))
     def post(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
 
         kwargs['password'] = security_utils.hash_password(kwargs['password'])
 
-        password  = Password.build(kwargs)
+        password = Password.build(kwargs)
         return (password_manager.add_password(password),
-            LockPasswordResponse.code)
+                LockPasswordResponse.code)
 
 
 class LockStatus(Resource):

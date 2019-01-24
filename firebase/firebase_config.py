@@ -1,10 +1,21 @@
 import pyrebase
+import logging
+import os
 
 from configparser import ConfigParser
 
-config = ConfigParser()
-config.read('env/variables.ini')
-firebase_variables = config['FIREBASE_DEV_CONFIG']
+logger = logging.getLogger('firebase_config')
+
+env_mode = os.environ.get('SMARTLOCK_MODE', None)
+if env_mode == "DEV":
+    config = ConfigParser()
+    config.read('env/variables.ini')
+    firebase_variables = config['FIREBASE_DEV_CONFIG']
+else:
+    raise ValueError(
+        "SMARTLOCK_MODE environment variable not found or invalid")
+
+logger.info('%s environment mode set', env_mode)
 
 
 config = {

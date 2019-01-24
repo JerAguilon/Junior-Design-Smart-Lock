@@ -1,4 +1,4 @@
-from secrets import DB
+from firebase.firebase_config import DB
 
 
 def add_lock(lock):

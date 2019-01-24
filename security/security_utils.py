@@ -2,7 +2,7 @@ from typing import Optional
 
 import bcrypt
 
-from secrets import DB
+from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
 from document_templates.lock import PasswordType
 

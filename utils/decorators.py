@@ -4,7 +4,7 @@ from functools import wraps
 from utils.exceptions import AdminOnlyException, ValidationException
 
 from managers.user_manager import create_or_update_user_from_json
-from secrets import AUTH, DB
+from firebase.firebase_config import AUTH, DB
 
 
 def authorize(admin=False):

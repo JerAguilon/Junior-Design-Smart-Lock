@@ -1,5 +1,5 @@
 from utils.exceptions import ValidationException
-from secrets import DB
+from firebase.firebase_config import DB
 
 
 def create_or_update_user_lock(uid, user_locks, should_overwrite=False):

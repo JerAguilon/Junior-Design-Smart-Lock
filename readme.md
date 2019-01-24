@@ -20,3 +20,7 @@ to fiddle with endpoints. Copy/paste your OAuth key into the API key field to va
 
 1. If you don't have swagger-markdown and api-spec converter, install them. `npm install swagger-markdown api-spec-converter`
 2. From the root directory of the project, run `python create_docs.py`
+
+# Running tests
+
+`python -m pytest tests`

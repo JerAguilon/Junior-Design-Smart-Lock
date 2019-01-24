@@ -6,14 +6,20 @@ from configparser import ConfigParser
 
 logger = logging.getLogger('firebase_config')
 
-env_mode = os.environ.get('SMARTLOCK_MODE', None)
+env_mode = os.environ.get('SMARTLOCK_MODE', "TEST")
 if env_mode == "DEV":
     config = ConfigParser()
     config.read('env/variables.ini')
     firebase_variables = config['FIREBASE_DEV_CONFIG']
+elif env_mode == "TEST":
+    config = ConfigParser()
+    config.read('env/variables.ini')
+    firebase_variables = config['FIREBASE_TEST_CONFIG']
 else:
     raise ValueError(
-        "SMARTLOCK_MODE environment variable not found or invalid")
+        "SMARTLOCK_MODE environment variable not found or invalid: {}".format(
+            env_mode)
+    )
 
 logger.info('%s environment mode set', env_mode)
 

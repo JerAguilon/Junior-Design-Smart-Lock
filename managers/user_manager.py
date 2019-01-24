@@ -1,4 +1,4 @@
-from secrets import DB
+from firebase.firebase_config import DB
 from document_templates.user import User
 
 

@@ -1,7 +1,7 @@
 from managers.lock_manager import get_lock
 from document_templates.lock import Password, PasswordMetadata, PasswordType
 from utils.exceptions import AppException, ValidationException
-from secrets import DB
+from firebase.firebase_config import DB
 
 
 def get_password_metadata(lock_id, password_id):

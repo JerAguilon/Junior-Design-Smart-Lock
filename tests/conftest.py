@@ -15,7 +15,6 @@ def client(request):
     client = app.test_client()
 
     def fin():
-        print("FINALIZING STUFF")
         firebase_config.DB.remove()
     request.addfinalizer(fin)
 

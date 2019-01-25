@@ -23,4 +23,6 @@ to fiddle with endpoints. Copy/paste your OAuth key into the API key field to va
 
 # Running tests
 
-`python -m pytest tests`
+`chmod +x run_tests.sh` if you haven't already.
+
+`./run_tests.sh`

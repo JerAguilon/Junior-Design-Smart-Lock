@@ -23,5 +23,8 @@ def create_or_update_user_lock(uid, user_locks, should_overwrite=False):
 
 
 def get_user_locks(uid):
-    return {'ownedLockIds': DB.child("UserLocks").child(
-        uid).child('ownedLockIds').get().val()}
+    owned_lock_ids = DB.child("UserLocks").child(
+        uid).child('ownedLockIds').get().val()
+    if owned_lock_ids is None:
+        owned_lock_ids = []
+    return {'ownedLockIds': owned_lock_ids}

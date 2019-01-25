@@ -5,7 +5,6 @@ def test_get_user_unauthorized(client, id_token):
 
 
 def test_get_user(client, id_token):
-    print(id_token)
     response = client.get(
         '/api/v1/user',
         headers={'Authorization': id_token}

@@ -13,6 +13,7 @@ def client(request):
     os.environ['SMARTLOCK_MODE'] = "TEST"
     app.config['TESTING'] = True
     client = app.test_client()
+
     def fin():
         print("FINALIZING STUFF")
         firebase_config.DB.remove()
@@ -32,4 +33,3 @@ def id_token():
     user = firebase_config.AUTH.sign_in_with_email_and_password(
         test_email, test_password)
     return user['idToken']
-

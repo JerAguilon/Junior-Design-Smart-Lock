@@ -2,7 +2,6 @@ import os
 import pytest
 
 from configparser import ConfigParser
-from importlib import reload
 
 from firebase import firebase_config
 from run import app
@@ -32,3 +31,8 @@ def id_token():
     user = firebase_config.AUTH.sign_in_with_email_and_password(
         test_email, test_password)
     return user['idToken']
+
+
+@pytest.fixture
+def db():
+    return firebase_config.DB

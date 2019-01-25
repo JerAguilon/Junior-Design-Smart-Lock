@@ -8,7 +8,7 @@ def create_or_update_user(uid, user):
 
 def create_or_update_user_from_json(uid, user):
     create_or_update_user(
-        uid, User(email=user['email'], name=user.get('displayName')))
+        uid, User(id=uid, email=user['email'], name=user.get('displayName')))
 
 
 def create_or_update_user_locks(user_locks):

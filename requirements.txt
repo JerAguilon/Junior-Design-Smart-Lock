@@ -15,6 +15,7 @@ Flask==1.0.2
 Flask-OAuth==0.12
 Flask-RESTful==0.3.7
 flask-restful-swagger==0.20.1
+freezegun==0.3.11
 gcloud==0.17.0
 google-api-core==1.7.0
 google-auth==1.6.2
@@ -48,6 +49,7 @@ Pyrebase==3.0.27
 pytest==4.1.1
 pytest-env==0.6.2
 pytest-mock==1.10.0
+python-dateutil==2.7.5
 python-firebase==1.2
 python-jwt==2.0.1
 pytz==2018.9

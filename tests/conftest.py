@@ -3,8 +3,16 @@ import pytest
 
 from configparser import ConfigParser
 
+from document_templates.lock import Lock
+from document_templates.user import User
+from document_templates.user_locks import UserLocks
 from firebase import firebase_config
 from run import app
+
+
+@pytest.fixture
+def auth():
+    return firebase_config.AUTH
 
 
 @pytest.fixture
@@ -21,18 +29,65 @@ def client(request):
 
 
 @pytest.fixture
-def id_token():
+def db():
+    return firebase_config.DB
+
+
+@pytest.fixture
+def firebase_test_config():
     config = ConfigParser()
     config.read('env/variables.ini')
-    test_config = config['FIREBASE_TEST_CONFIG']
+    return config['FIREBASE_TEST_CONFIG']
 
-    test_email = test_config['testUsername']
-    test_password = test_config['testPassword']
+
+@pytest.fixture
+def id_token(firebase_test_config):
+
+    test_email = firebase_test_config['testUsername']
+    test_password = firebase_test_config['testPassword']
     user = firebase_config.AUTH.sign_in_with_email_and_password(
         test_email, test_password)
     return user['idToken']
 
 
 @pytest.fixture
-def db():
-    return firebase_config.DB
+def mock_lock():
+    return Lock()
+
+
+@pytest.fixture
+def mock_user(auth, id_token, firebase_test_config):
+    user_id = auth.get_account_info(id_token)['users'][0]['localId']
+    return User(
+        id=user_id,
+        email=firebase_test_config['testUsername'],
+        name=firebase_test_config['testName'],
+    )
+
+
+@pytest.fixture
+def seeded_lock(db, mock_lock):
+    id = db.child("Locks").push(mock_lock.serialize())['name']
+    mock_lock.id = id
+    return mock_lock
+
+
+@pytest.fixture
+def seeded_user_lock(seeded_user, seeded_lock, db):
+    db.child("UserLocks").child(seeded_user.id).set(
+        {
+            "ownedLockIds": [seeded_lock.id]
+        }
+    )
+    return UserLocks(
+        owned_lock_ids=[seeded_lock.id]
+    )
+
+
+@pytest.fixture
+def seeded_user(db, auth, id_token, mock_user):
+    user_id = mock_user.id
+    db.child("Users").child(user_id).set(
+        mock_user.serialize()
+    )
+    return mock_user

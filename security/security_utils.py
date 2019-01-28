@@ -30,7 +30,7 @@ def verify_lock_ownership(uid, lock_id):
         message = 'Lock could not be identified'
     elif uid_lookup is None:
         is_owned = False
-        message = 'User could not be identified'
+        message = 'User could not be identified or has not registered a lock'
     else:
         owned_locks = set(uid_lookup.get('ownedLockIds'))
         if lock_id not in owned_locks:

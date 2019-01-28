@@ -3,7 +3,7 @@ import pytest
 
 from configparser import ConfigParser
 
-from document_templates.lock import Lock
+from document_templates.lock import Lock, PasswordType, Password
 from document_templates.user import User
 from document_templates.user_locks import UserLocks
 from firebase import firebase_config
@@ -56,6 +56,14 @@ def mock_lock():
 
 
 @pytest.fixture
+def mock_password():
+    return Password(
+        type=PasswordType.PERMANENT,
+        password='1234abcdefg9ab',  # some "hashed" password
+    )
+
+
+@pytest.fixture
 def mock_user(auth, id_token, firebase_test_config):
     user_id = auth.get_account_info(id_token)['users'][0]['localId']
     return User(
@@ -70,6 +78,14 @@ def seeded_lock(db, mock_lock):
     id = db.child("Locks").push(mock_lock.serialize())['name']
     mock_lock.id = id
     return mock_lock
+
+
+@pytest.fixture
+def seeded_password(db, mock_password, seeded_lock):
+    new_id = db.child("Locks").child(seeded_lock.id).child("passwords").push(
+        mock_password.serialize())['name']
+    mock_password.id = new_id
+    return mock_password
 
 
 @pytest.fixture

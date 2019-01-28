@@ -1,7 +1,20 @@
 from flask_restful import fields
 from flask_restful_swagger import swagger
 
+from document_templates.lock import PasswordType
+from utils.exceptions import AppException
 from parsers.parser_utils import swagger_output_model
+
+
+class EnumField(fields.Raw):
+    def __init__(self, enum_type, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.enum_type = enum_type
+
+    def format(self, enum):
+        if not isinstance(enum, self.enum_type):
+            raise AppException("Response object failed to serialize")
+        return enum.value
 
 
 @swagger.model
@@ -22,12 +35,11 @@ class AdminLocksResponse(object):
 class LockPasswordResponse(object):
     resource_fields = {
         'id': fields.String(),
-        'status': fields.String(),
-        'type': fields.String(),
-        'createdAt': fields.String(attribute="created_at"),
-        'expires': fields.String()
+        'type': EnumField(PasswordType),
+        'expiration': fields.Integer(),
+        'createdAt': fields.Integer(attribute="created_at")
     }
-    required = ['id', 'status', 'nickname', 'createdAt', 'type']
+    required = ['id', 'createdAt', 'type']
     code = 200
 
 

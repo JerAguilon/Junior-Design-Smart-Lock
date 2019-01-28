@@ -62,16 +62,13 @@ class LockPasswords(Resource):
         responseClass=LockPasswordsResponse.__name__,
         responseMessages=[LockPasswordsResponse.description],
     )
-    @use_kwargs(
-        PostLockPasswordsArgs.resource_fields,
-        locations=(
-            "json",
-            "form"))
+    @marshal_with_parser(LockPasswordsResponse)
     def get(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
 
-        return {}, 200
+        result = password_manager.get_passwords_metadata(lock_id), 200
+        return result
 
     @swagger.operation(
         notes='Adds a password to a lock. ' + PASSWORD_INFO,
@@ -85,6 +82,7 @@ class LockPasswords(Resource):
         locations=(
             "json",
             "form"))
+    @marshal_with_parser(LockPasswordResponse)
     def post(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
@@ -92,7 +90,7 @@ class LockPasswords(Resource):
         kwargs['password'] = security_utils.hash_password(kwargs['password'])
 
         password = Password.build(kwargs)
-        return (password_manager.add_password(password),
+        return (password_manager.add_password(lock_id, password),
                 LockPasswordResponse.code)
 
 

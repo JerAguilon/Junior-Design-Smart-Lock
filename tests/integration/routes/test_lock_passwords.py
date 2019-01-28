@@ -2,9 +2,6 @@ import pytest
 
 from freezegun import freeze_time
 
-from document_templates.lock import LockStatus
-from security.security_utils import verify_password
-
 
 def test_get_passwords_unauthorized(client):
     response = client.get('/api/v1/locks/foobar/passwords')

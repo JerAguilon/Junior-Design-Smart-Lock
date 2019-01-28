@@ -35,6 +35,7 @@ class LockPassword(Resource):
         locations=(
             "json",
             "form"))
+    @marshal_with_parser(LockPasswordResponse)
     def get(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         password_id = kwargs['passwordId']

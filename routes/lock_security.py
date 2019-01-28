@@ -3,6 +3,7 @@ from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
 from document_templates.lock import Password
+from document_templates.lock import LockStatus as LockStatusEnum
 from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
@@ -11,6 +12,7 @@ from parsers.response_parsers import (
     LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse)
 from security import security_utils
 from utils.decorators import authorize
+from utils.exceptions import AuthorizationException
 
 
 PASSWORD_INFO = ("Passwords are passed as arguments "
@@ -110,9 +112,13 @@ class LockStatus(Resource):
         lock_id = args['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
 
-        # TODO: refactor this into something less hacky than string matching
-        if args.get('status') == 'OPEN_REQUESTED':
+        # TODO: refactor this into something less hacky than enum matching
+        if args.get('status') == LockStatusEnum.OPEN_REQUESTED:
             security_utils.verify_password(lock_id, args.get('password'))
+        else:
+            error_message = 'Users cannot set the lock to open or closed. ' + \
+                'Open or close the vault to do so.'
+            raise AuthorizationException(error_message)
 
         return lock_manager.change_lock_status(
             lock_id, args.get('status')), UserLockStatusResponse.code

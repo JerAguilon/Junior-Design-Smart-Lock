@@ -51,7 +51,13 @@ class Lock(object):
 
 
 class PasswordMetadata(object):
-    def __init__(self, type, expiration, id="UNKNOWN"):
+    def __init__(
+        self,
+        type,
+        expiration,
+        id="UNKNOWN",
+        created_at=calendar.timegm(time.gmtime())
+    ):
         if expiration is None:
             if type != PasswordType.PERMANENT:
                 raise ValidationException(
@@ -62,25 +68,33 @@ class PasswordMetadata(object):
         self.type = type
         self.expiration = expiration
         self.id = id
+        self.created_at = created_at
 
     def serialize(self):
         return {
             "type": str(self.type.value),
-            "password": self.password,
-            "expiration": self.expiration
+            "expiration": self.expiration,
+            "id": self.id,
+            "createdAt": self.created_at
         }
 
     @staticmethod
-    def from_database(lock_id, lock_dict):
-        return Password(
-            type=PasswordType(lock_dict['type']),
-            expiration=lock_dict['expiration'],
-            id=lock_id
+    def from_database(pw_id, password_dict):
+        return PasswordMetadata(
+            type=PasswordType(password_dict['type']),
+            expiration=password_dict['expiration'],
+            id=pw_id
         )
 
 
 class Password(PasswordMetadata):
-    def __init__(self, type, password, expiration=None, id="UNKNOWN"):
+    def __init__(
+        self,
+        type,
+        password,
+        expiration=None,
+        id="UNKNOWN",
+    ):
         super().__init__(type, expiration, id)
         self.hashed_password = password
 
@@ -89,8 +103,9 @@ class Password(PasswordMetadata):
             raise AppException("An ID could not be created for this resource")
         return {
             "type": str(self.type.value),
-            "password": self.password,
-            "expiration": self.expiration
+            "password": self.hashed_password,
+            "expiration": self.expiration,
+            "createdAt": self.created_at
         }
 
     @staticmethod

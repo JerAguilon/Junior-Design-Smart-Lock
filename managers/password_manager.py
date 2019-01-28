@@ -23,19 +23,19 @@ def get_passwords_metadata(lock_id):
     passwords = get_lock(lock_id).get('passwords', {})
 
     result = {
-        'otp': {},
-        'permanent': {},
+        'otp': [],
+        'permanent': [],
     }
     for pw_id, password in passwords.items():
         password_type = PasswordType(password['type'])
         if password_type == PasswordType.OTP:
-            result['otp'][pw_id] = PasswordMetadata.from_database(
+            result['otp'].append(PasswordMetadata.from_database(
                 pw_id, password
-            )
+            ))
         elif password_type == PasswordType.PERMANENT:
-            result['permanent'][pw_id] = PasswordMetadata.from_database(
+            result['permanent'].append(PasswordMetadata.from_database(
                 pw_id, password
-            )
+            ))
         else:
             raise AppException("Error: a password entry is malformed.")
     return result

@@ -43,13 +43,15 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.3
 pycodestyle==2.4.0
 pycparser==2.19
-pycryptodome==3.7.2
+pycryptodome==3.4.3
 Pyrebase==3.0.27
 pytest==4.1.1
+pytest-env==0.6.2
+pytest-mock==1.10.0
 python-firebase==1.2
 python-jwt==2.0.1
 pytz==2018.9
-requests==2.21.0
+requests==2.11.1
 requests-toolbelt==0.7.0
 rsa==4.0
 six==1.12.0

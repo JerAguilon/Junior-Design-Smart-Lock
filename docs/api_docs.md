@@ -258,11 +258,10 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| createdAt | string |  | Yes |
-| expires | string |  | No |
+| createdAt | integer |  | Yes |
+| expiration | integer |  | No |
 | id | string |  | Yes |
-| status | string |  | Yes |
-| type | string |  | Yes |
+| type | [null](#null) |  | Yes |
 
 ### LockPasswordsResponse  
 

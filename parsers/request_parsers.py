@@ -88,6 +88,36 @@ class GetLockPasswordMetadataArgs(object):
 
 
 @swagger_input_model
+class PutLockPasswordArgs(object):
+    resource_fields = {
+        "lockId": fields.Str(
+            location='view_args',
+            description='A unique lock id',
+            required=True
+        ),
+        "passwordId": fields.Str(
+            location='view_args',
+            description='A unique password id',
+            required=True
+        ),
+        "type": EnumField(
+            PasswordType,
+            description='The type of the password',
+            required=False
+        ),
+        "password": fields.Str(
+            description='The six digit password',
+            required=False,
+            validate=lambda p: len(p) == 6 and p.isdigit(),
+        ),
+        "expiration": fields.Int(
+            description='The ms since unix epoch to expire the password',
+            required=False,
+        )
+    }
+
+
+@swagger_input_model
 class PostLockPasswordsArgs(object):
     resource_fields = {
         "lockId": fields.Str(
@@ -106,7 +136,7 @@ class PostLockPasswordsArgs(object):
             validate=lambda p: len(p) == 6 and p.isdigit(),
         ),
         "expiration": fields.Int(
-            description='The number of milliseconds in the future to expire',
+            description='The ms since unix epoch to expire the password',
             required=False,
             missing=None,
         )

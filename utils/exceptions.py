@@ -15,7 +15,7 @@ class AppException(Exception):
 
 
 class ValidationException(AppException):
-    status_code = 401
+    status_code = 422
 
 
 class AuthorizationException(AppException):

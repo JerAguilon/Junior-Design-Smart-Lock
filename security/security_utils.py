@@ -16,6 +16,8 @@ def hash_password(plaintext):
 def check_password(plaintext, hashed):
     if isinstance(plaintext, str):
         plaintext = bytes(plaintext, 'utf-8')
+    if isinstance(hashed, str):
+        hashed = bytes(hashed, 'utf-8')
     return bcrypt.checkpw(plaintext, hashed)
 
 

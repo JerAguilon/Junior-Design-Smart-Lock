@@ -152,6 +152,7 @@ Auto-generated API documentation for this project
 | ---- | ---------- | ----------- | -------- | ---- |
 | lockId | path |  | Yes | string |
 | passwordId | path |  | Yes | string |
+| body | body |  | Yes | [PutLockPasswordArgs](#putlockpasswordargs) |
 
 **Responses**
 
@@ -293,6 +294,14 @@ Auto-generated API documentation for this project
 | createdAt | integer |  | No |
 | nickname | string |  | No |
 | status | string |  | No |
+
+### PutLockPasswordArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| expiration | integer |  | No |
+| password | string |  | No |
+| type | string |  | No |
 
 ### PutLockStatusArgs  
 

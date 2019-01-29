@@ -7,7 +7,10 @@ from document_templates.lock import LockStatus as LockStatusEnum
 from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
-    GetLockPasswordMetadataArgs, PostLockPasswordsArgs, PutLockStatusArgs)
+    GetLockPasswordMetadataArgs,
+    PostLockPasswordsArgs,
+    PutLockPasswordArgs,
+    PutLockStatusArgs)
 from parsers.response_parsers import (
     LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse)
 from security import security_utils
@@ -46,11 +49,42 @@ class LockPassword(Resource):
     @swagger.operation(
         notes='Changes a password. ' + PASSWORD_INFO,
         tags=['Password Management'],
+        parameters=[PutLockPasswordArgs.schema],
         responseClass=LockPasswordResponse.__name__,
         responseMessages=[LockPasswordResponse.description],
     )
-    def put(self):
-        return {}, 200
+    @use_kwargs(
+        PutLockPasswordArgs.resource_fields,
+        locations=(
+            "json",
+            "form"))
+    @marshal_with_parser(LockPasswordResponse)
+    def put(self, uid, user, **kwargs):
+        lock_id = kwargs['lockId']
+        password_id = kwargs['passwordId']
+
+        # TODO(jeremy): roll this into an update request object
+        update_args = self._build_update_args(kwargs)
+
+        result = password_manager.update_password(
+            lock_id,
+            password_id,
+            update_args,
+        )
+        return result, LockPasswordResponse.code
+
+    def _build_update_args(self, kwargs):
+        if 'password' in kwargs:
+            kwargs['password'] = security_utils.hash_password(
+                kwargs['password'])
+        if 'type' in kwargs:
+            kwargs['type'] = kwargs['type'].value
+
+        update_args = {}
+        for arg in ['type', 'password', 'expiration']:
+            if arg in kwargs:
+                update_args[arg] = kwargs[arg]
+        return update_args
 
 
 class LockPasswords(Resource):

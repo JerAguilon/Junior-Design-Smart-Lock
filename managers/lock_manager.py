@@ -22,7 +22,7 @@ def change_lock_status(lock_id, status, was_lock_removed):
     DB.child("Locks").child(lock_id).update({'status': status.value})
     return {
         "status": status.value,
-        "inputedPasswordDisabled": was_lock_removed
+        "providedPasswordDisabled": was_lock_removed
     }
 
 

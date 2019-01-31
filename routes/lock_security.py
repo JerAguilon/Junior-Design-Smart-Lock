@@ -12,7 +12,11 @@ from parsers.request_parsers import (
     PutLockPasswordArgs,
     PutLockStatusArgs)
 from parsers.response_parsers import (
-    LockPasswordsResponse, LockPasswordResponse, UserLockStatusResponse)
+    LockPasswordsResponse,
+    LockPasswordResponse,
+    UserLockStatusResponse,
+    PutUserLockStatusResponse
+)
 from security import security_utils
 from utils.decorators import authorize
 from utils.exceptions import AuthorizationException
@@ -130,27 +134,25 @@ class LockPasswords(Resource):
 
 
 LOCK_STATUS_PUT_NOTES = ("Updates a lock status. If an inputted password "
-    "is removed (as with OTP passwords), then the JSON "
-    "payload will contain inputedPasswordDisabled: true")
+                         "is removed (as with OTP passwords), then the JSON "
+                         "payload will contain inputedPasswordDisabled: true")
+
 
 class LockStatus(Resource):
     method_decorators = [authorize()]
 
-
-
     @swagger.operation(
         notes=LOCK_STATUS_PUT_NOTES,
         parameters=[PutLockStatusArgs.schema],
-        responseClass=UserLockStatusResponse.__name__,
-        responseMessages=[UserLockStatusResponse.description],
+        responseClass=PutUserLockStatusResponse.__name__,
+        responseMessages=[PutUserLockStatusResponse.description],
         tags=['Locks'],
     )
     @use_kwargs(PutLockStatusArgs.resource_fields, locations=("json", "form"))
-    @marshal_with_parser(UserLockStatusResponse)
+    @marshal_with_parser(PutUserLockStatusResponse)
     def put(self, uid, user, **args):
         lock_id = args['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
-
 
         # TODO: refactor this into something less hacky than enum matching
         if args.get('status') != LockStatusEnum.OPEN_REQUESTED:
@@ -159,14 +161,15 @@ class LockStatus(Resource):
             raise AuthorizationException(error_message)
 
         was_lock_removed = False
-        found_password = security_utils.verify_password(lock_id, args.get('password'))
+        found_password = security_utils.verify_password(
+            lock_id, args.get('password'))
         if found_password.type == PasswordType.OTP:
             password_manager.remove_password(lock_id, found_password)
             was_lock_removed = True
 
         return lock_manager.change_lock_status(
             lock_id, args.get('status'), was_lock_removed
-        ), UserLockStatusResponse.code
+        ), PutUserLockStatusResponse.code
 
     @swagger.operation(
         notes='Gets the lock status of a user owned lock',

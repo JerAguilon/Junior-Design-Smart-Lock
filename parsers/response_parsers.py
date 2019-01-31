@@ -95,7 +95,7 @@ class UserLockStatusResponse(object):
 class PutUserLockStatusResponse(object):
     resource_fields = {
         'status': fields.String(),
-        'inputedPasswordDisabled': fields.Boolean()
+        'providedPasswordDisabled': fields.Boolean()
     }
-    required = ['status']
+    required = ['status', 'providedPasswordDisabled']
     code = 200

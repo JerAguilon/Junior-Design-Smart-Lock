@@ -1,6 +1,8 @@
 import os
 import pytest
 
+import bcrypt
+
 from configparser import ConfigParser
 
 from document_templates.lock import Lock, PasswordType, Password
@@ -56,10 +58,23 @@ def mock_lock():
 
 
 @pytest.fixture
-def mock_password():
+def get_mock_password():
+    password = "123456"
+
+    def actual_fixture(hashed=False):
+        if hashed:
+            plaintext = bytes(password, 'utf-8')
+            return str(bcrypt.hashpw(plaintext, bcrypt.gensalt()), 'utf8')
+        else:
+            return password
+    return actual_fixture
+
+
+@pytest.fixture
+def mock_password(get_mock_password):
     return Password(
         type=PasswordType.PERMANENT,
-        password='1234abcdefg9ab',  # some "hashed" password
+        password=get_mock_password(hashed=True),
     )
 
 

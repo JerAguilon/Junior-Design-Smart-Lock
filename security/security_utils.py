@@ -4,7 +4,31 @@ import bcrypt
 
 from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
-from document_templates.lock import PasswordType
+from document_templates.lock import PasswordType, Password
+
+
+def _get_sorted_passwords(lock_id):
+    type_ordinal = {
+        PasswordType.PERMANENT: 0,
+        PasswordType.OTP: 1,
+    }
+
+    passwords = DB.child("Locks").child(lock_id).child("passwords").get().val()
+    passwords_list = [
+        (pw_id, password_dict) for pw_id, password_dict in passwords.items()
+    ]
+    passwords_list = sorted(
+        passwords_list,
+        key=lambda x: type_ordinal[PasswordType(x[1]['type'])]
+    )
+    return [
+        Password(
+            type=PasswordType(password_dict['type']),
+            password=password_dict['password'],
+            expiration=password_dict['expiration'],
+            id=id
+        ) for id, password_dict in passwords_list
+    ]
 
 
 def hash_password(plaintext):
@@ -43,22 +67,13 @@ def verify_lock_ownership(uid, lock_id):
         raise AuthorizationException(message=message)
 
 
-def verify_password(lock_id, input_password: Optional[str]):
+def verify_password(lock_id, input_password: Optional[str]) -> Password:
     if input_password is None:
         raise ValidationException("A password must be supplied")
 
-    type_ordinal = {
-        PasswordType.PERMANENT: 0,
-        PasswordType.OTP: 1,
-    }
+    passwords_list = _get_sorted_passwords(lock_id)
 
-    passwords = DB.child("Locks").child(lock_id).child("passwords").get().val()
-
-    passwords_list = sorted(
-        passwords.values(),
-        key=lambda x: type_ordinal[PasswordType(x['type'])],
-    )
     for password in passwords_list:
-        if check_password(input_password, password['password']):
-            return
+        if check_password(input_password, password.hashed_password):
+            return password
     raise AuthorizationException("Invalid password supplied")

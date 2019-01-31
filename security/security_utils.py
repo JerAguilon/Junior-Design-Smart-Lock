@@ -67,7 +67,7 @@ def verify_lock_ownership(uid, lock_id):
         raise AuthorizationException(message=message)
 
 
-def verify_password(lock_id, input_password: Optional[str]):
+def verify_password(lock_id, input_password: Optional[str]) -> Password:
     if input_password is None:
         raise ValidationException("A password must be supplied")
 
@@ -75,5 +75,5 @@ def verify_password(lock_id, input_password: Optional[str]):
 
     for password in passwords_list:
         if check_password(input_password, password.hashed_password):
-            return
+            return password
     raise AuthorizationException("Invalid password supplied")

@@ -55,10 +55,15 @@ def test_put_lock_status_not_owned(client, id_token, seeded_lock, db):
 
 @pytest.mark.usefixtures("seeded_user_lock")
 def test_put_lock_status_open_requested_correct_password(
-        client, id_token, seeded_lock, seeded_user, seeded_password, db, mocker):
-    # password_check = mocker.patch(
-    #     'security.security_utils.verify_password', return_value=None)
-
+    client,
+    id_token,
+    get_mock_password,
+    seeded_lock,
+    seeded_user,
+    seeded_password,
+    db,
+    mocker
+):
     lock_id = seeded_lock.id
     response = client.put(
         '/api/v1/locks/{}/status'.format(lock_id),
@@ -67,12 +72,11 @@ def test_put_lock_status_open_requested_correct_password(
         },
         json={
             'status': LockStatus.OPEN_REQUESTED.value,
-            'password': '123456'
+            'password': get_mock_password(),
         }
     )
     assert response.status_code == 200
     assert response.get_json() == {'status': LockStatus.OPEN_REQUESTED.value}
-    # password_check.assert_called_once_with(lock_id, '123456')
 
 
 @pytest.mark.usefixtures("seeded_user", "seeded_user_lock")

@@ -84,7 +84,18 @@ class UserLockResponse(object):
 @swagger_output_model
 class UserLockStatusResponse(object):
     resource_fields = {
-        'status': fields.String()
+        'status': fields.String(),
+    }
+    required = ['status']
+    code = 200
+
+
+@swagger.model
+@swagger_output_model
+class PutUserLockStatusResponse(object):
+    resource_fields = {
+        'status': fields.String(),
+        'inputedPasswordDisabled': fields.Boolean()
     }
     required = ['status']
     code = 200

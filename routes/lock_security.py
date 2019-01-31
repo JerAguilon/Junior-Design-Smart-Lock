@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
-from document_templates.lock import Password
+from document_templates.lock import Password, PasswordType
 from document_templates.lock import LockStatus as LockStatusEnum
 from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
@@ -129,11 +129,17 @@ class LockPasswords(Resource):
                 LockPasswordResponse.code)
 
 
+LOCK_STATUS_PUT_NOTES = ("Updates a lock status. If an inputted password "
+    "is removed (as with OTP passwords), then the JSON "
+    "payload will contain inputedPasswordDisabled: true")
+
 class LockStatus(Resource):
     method_decorators = [authorize()]
 
+
+
     @swagger.operation(
-        notes='Updates a lock status',
+        notes=LOCK_STATUS_PUT_NOTES,
         parameters=[PutLockStatusArgs.schema],
         responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
@@ -145,16 +151,22 @@ class LockStatus(Resource):
         lock_id = args['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)
 
+
         # TODO: refactor this into something less hacky than enum matching
-        if args.get('status') == LockStatusEnum.OPEN_REQUESTED:
-            security_utils.verify_password(lock_id, args.get('password'))
-        else:
+        if args.get('status') != LockStatusEnum.OPEN_REQUESTED:
             error_message = 'Users cannot set the lock to open or closed. ' + \
                 'Open or close the vault to do so.'
             raise AuthorizationException(error_message)
 
+        was_lock_removed = False
+        found_password = security_utils.verify_password(lock_id, args.get('password'))
+        if found_password.type == PasswordType.OTP:
+            password_manager.remove_password(lock_id, found_password)
+            was_lock_removed = True
+
         return lock_manager.change_lock_status(
-            lock_id, args.get('status')), UserLockStatusResponse.code
+            lock_id, args.get('status'), was_lock_removed
+        ), UserLockStatusResponse.code
 
     @swagger.operation(
         notes='Gets the lock status of a user owned lock',

@@ -1,7 +1,9 @@
 from typing import Dict
 
 from managers.lock_manager import get_lock
-from document_templates.password import Password, PasswordMetadata, PasswordType
+from document_templates.password import (
+    Password, PasswordMetadata, PasswordType
+)
 from utils.exceptions import AppException, ValidationException
 from firebase.firebase_config import DB
 

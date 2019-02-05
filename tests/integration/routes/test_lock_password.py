@@ -1,6 +1,6 @@
 import pytest
 
-from document_templates.lock import PasswordType
+from document_templates.password import PasswordType
 from security.security_utils import check_password
 
 

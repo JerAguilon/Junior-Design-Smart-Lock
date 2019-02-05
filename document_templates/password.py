@@ -9,6 +9,7 @@ from utils.exceptions import AppException, ValidationException
 class PasswordType(Enum):
     OTP = "OTP"
     PERMANENT = "PERMANENT"
+    RECURRING = "RECURRING"
 
 
 class PasswordMetadata(object):
@@ -19,8 +20,11 @@ class PasswordMetadata(object):
         id="UNKNOWN",
         created_at=calendar.timegm(time.gmtime())
     ):
+        valid_for_null_expiration = {
+            PasswordType.PERMANENT, PasswordType.OTP
+        }
         if expiration is None:
-            if type != PasswordType.PERMANENT:
+            if type not in valid_for_null_expiration:
                 raise ValidationException(
                     "Non-permanent passwords must specify an expiration"
                 )

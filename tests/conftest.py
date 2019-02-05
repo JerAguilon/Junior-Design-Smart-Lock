@@ -59,10 +59,13 @@ def mock_lock():
 
 
 @pytest.fixture
-def get_mock_password():
-    password = "123456"
+def default_password():
+    return "123456"
 
-    def actual_fixture(hashed=False):
+
+@pytest.fixture
+def get_mock_password(default_password):
+    def actual_fixture(password=default_password, hashed=False):
         if hashed:
             plaintext = bytes(password, 'utf-8')
             return str(bcrypt.hashpw(plaintext, bcrypt.gensalt()), 'utf8')
@@ -72,10 +75,10 @@ def get_mock_password():
 
 
 @pytest.fixture
-def mock_password(get_mock_password):
+def mock_password(get_mock_password, default_password) -> Password:
     return Password(
         type=PasswordType.PERMANENT,
-        password=get_mock_password(hashed=True),
+        password=get_mock_password(default_password, hashed=True),
     )
 
 
@@ -97,11 +100,18 @@ def seeded_lock(db, mock_lock):
 
 
 @pytest.fixture
-def seeded_password(db, mock_password, seeded_lock):
-    new_id = db.child("Locks").child(seeded_lock.id).child("passwords").push(
-        mock_password.serialize())['name']
-    mock_password.id = new_id
-    return mock_password
+def seed_password(db):
+    def actual(password: Password, lock: Lock):
+        new_id = db.child("Locks").child(lock.id).child("passwords").push(
+            password.serialize())['name']
+        password.id = new_id
+        return password
+    return actual
+
+
+@pytest.fixture
+def seeded_password(db, mock_password, seeded_lock, seed_password):
+    return seed_password(password=mock_password, lock=seeded_lock)
 
 
 @pytest.fixture

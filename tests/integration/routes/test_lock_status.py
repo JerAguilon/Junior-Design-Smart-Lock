@@ -72,11 +72,14 @@ def test_put_lock_status_open_requested_correct_password(
         },
         json={
             'status': LockStatus.OPEN_REQUESTED.value,
-            'password': get_mock_password(),
+            'password': get_mock_password()
         }
     )
     assert response.status_code == 200
-    assert response.get_json() == {'status': LockStatus.OPEN_REQUESTED.value}
+    assert response.get_json() == {
+        'status': LockStatus.OPEN_REQUESTED.value,
+        'providedPasswordDisabled': False
+    }
 
 
 @pytest.mark.usefixtures("seeded_user", "seeded_user_lock")

@@ -3,7 +3,8 @@ import calendar
 
 from webargs import fields
 
-from document_templates.lock import LockStatus, PasswordType
+from document_templates.lock import LockStatus
+from document_templates.password import PasswordType
 from parsers.enum_field import EnumField
 from parsers.parser_utils import swagger_input_model
 

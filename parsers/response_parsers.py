@@ -1,9 +1,9 @@
 from flask_restful import fields
 from flask_restful_swagger import swagger
 
-from document_templates.lock import PasswordType
-from utils.exceptions import AppException
+from document_templates.password import PasswordType
 from parsers.parser_utils import swagger_output_model
+from utils.exceptions import AppException
 
 
 class EnumField(fields.Raw):

@@ -2,8 +2,8 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
-from document_templates.lock import Password, PasswordType
 from document_templates.lock import LockStatus as LockStatusEnum
+from document_templates.password import Password, PasswordType
 from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (

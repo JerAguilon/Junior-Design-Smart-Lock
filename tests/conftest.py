@@ -5,7 +5,8 @@ import bcrypt
 
 from configparser import ConfigParser
 
-from document_templates.lock import Lock, PasswordType, Password
+from document_templates.lock import Lock
+from document_templates.password import PasswordType, Password
 from document_templates.user import User
 from document_templates.user_locks import UserLocks
 from firebase import firebase_config

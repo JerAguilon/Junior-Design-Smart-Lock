@@ -4,7 +4,7 @@ import bcrypt
 
 from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
-from document_templates.lock import PasswordType, Password
+from document_templates.password import PasswordType, Password
 
 
 def _get_sorted_passwords(lock_id):

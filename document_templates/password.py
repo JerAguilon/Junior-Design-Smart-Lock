@@ -72,6 +72,10 @@ class PasswordMetadata(object):
             )
 
     def _validate_active_days(self, type, active_days):
+        validation_error_template = (
+            "Active days should be an empty list for password type {}"
+        )
+
         should_have_empty_active = {
             PasswordType.PERMANENT, PasswordType.OTP
         }
@@ -79,8 +83,7 @@ class PasswordMetadata(object):
                 and active_days is not None \
                 and len(active_days) > 0:
             raise ValidationException(
-                "Active days should be an empty list for pasword type {}".format(
-                    type.value))
+                validation_error_template.format(type.value))
 
 
 class Password(PasswordMetadata):

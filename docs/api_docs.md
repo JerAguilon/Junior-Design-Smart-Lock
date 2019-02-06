@@ -250,10 +250,11 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| createdAt | string |  | Yes |
+| createdAt | integer |  | Yes |
 | id | string |  | Yes |
 | nickname | string |  | Yes |
-| status | string |  | Yes |
+| status | [null](#null) |  | Yes |
+| timezone | [null](#null) |  | No |
 
 ### LockPasswordResponse  
 
@@ -284,9 +285,8 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| createdAt | integer |  | No |
 | nickname | string |  | No |
-| status | string |  | No |
+| timezone | string |  | No |
 
 ### PostUserLockArgs  
 

@@ -9,7 +9,7 @@ from document_templates.password import PasswordType, Password
 
 def _get_sorted_passwords(lock_id):
     type_ordinal = {
-        PasswordType.PERMANENT: 0,
+        PasswordType.UNLIMITED: 0,
         PasswordType.OTP: 1,
     }
 

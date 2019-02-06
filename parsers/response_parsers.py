@@ -1,7 +1,7 @@
 from flask_restful import fields
 from flask_restful_swagger import swagger
 
-from document_templates.password import PasswordType
+from document_templates.password import PasswordType, PasswordDays
 from document_templates.lock import LockStatus
 from parsers.parser_utils import swagger_output_model
 from utils.exceptions import AppException
@@ -44,9 +44,11 @@ class LockPasswordResponse(object):
         'id': fields.String(),
         'type': EnumField(PasswordType),
         'expiration': fields.Integer(),
-        'createdAt': fields.Integer(attribute="created_at"),
-        'activeDays': fields.List(fields.String(), attribute="active_days")
-    }
+        'createdAt': fields.Integer(
+            attribute="created_at"),
+        'activeDays': fields.List(
+            EnumField(PasswordDays),
+            attribute="active_days")}
     required = ['id', 'createdAt', 'type']
     code = 200
 

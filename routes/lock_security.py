@@ -81,11 +81,9 @@ class LockPassword(Resource):
         if 'password' in kwargs:
             kwargs['password'] = security_utils.hash_password(
                 kwargs['password'])
-        if 'type' in kwargs:
-            kwargs['type'] = kwargs['type'].value
 
         update_args = {}
-        for arg in ['type', 'password', 'expiration']:
+        for arg in list(PutLockPasswordArgs.resource_fields.keys()):
             if arg in kwargs:
                 update_args[arg] = kwargs[arg]
         return update_args

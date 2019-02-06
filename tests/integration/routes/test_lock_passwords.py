@@ -29,7 +29,8 @@ def test_get_passwords_authorized(
                 'expiration': seeded_password.expiration,
                 'id': seeded_password.id,
                 'type': seeded_password.type.value,
-                'createdAt': seeded_password.created_at
+                'createdAt': seeded_password.created_at,
+                'activeDays': seeded_password.active_days,
             }
         ]
     }
@@ -59,6 +60,7 @@ def test_post_password(
         'type': mock_password.type.value,
         'expiration': mock_password.expiration,
         'createdAt': mock_password.created_at,
+        'activeDays': mock_password.active_days,
     }
     response_json = response.get_json()
     del response_json['id']

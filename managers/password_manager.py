@@ -50,7 +50,11 @@ def add_password(lock_id, password: Password) -> PasswordMetadata:
         password.serialize())['name']
     # return a metadata object instead of a password to ensure that the
     # password is not shared with the outside world
-    return PasswordMetadata(password.type, password.expiration, new_id)
+    return PasswordMetadata(
+        type=password.type,
+        expiration=password.expiration,
+        id=new_id
+    )
 
 
 def remove_password(lock_id: str, password: Password) -> None:

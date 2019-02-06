@@ -31,7 +31,7 @@ def test_get_password(
         'expiration': seeded_password.expiration,
         'id': seeded_password.id,
         'type': seeded_password.type.value,
-        'activeDays': seeded_password.active_days,
+        'activeDays': [d.value for d in seeded_password.active_days],
     }
     assert response.status_code == 200
     assert response.get_json() == expected_json
@@ -79,18 +79,17 @@ def test_put_password(
             'Authorization': id_token
         },
         json={
-            'type': PasswordType.OTP.value,
             'password': password_plaintext,
-            'expiration': 1234,
+            'activeDays': ['MONDAY']
         }
     )
 
     expected_json = {
         'id': seeded_password.id,
-        'type': PasswordType.OTP.value,
-        'expiration': 1234,
+        'type': seeded_password.type.value,
         'createdAt': seeded_password.created_at,
-        'activeDays': seeded_password.active_days,
+        'activeDays': ['MONDAY'],
+        'expiration': -1,
     }
     assert response.status_code == 200
     assert response.get_json() == expected_json

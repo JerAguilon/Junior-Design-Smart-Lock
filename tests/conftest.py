@@ -77,7 +77,7 @@ def get_mock_password(default_password):
 @pytest.fixture
 def mock_password(get_mock_password, default_password) -> Password:
     return Password(
-        type=PasswordType.PERMANENT,
+        type=PasswordType.UNLIMITED,
         password=get_mock_password(default_password, hashed=True),
     )
 

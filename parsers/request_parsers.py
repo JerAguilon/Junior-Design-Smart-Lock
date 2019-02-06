@@ -1,9 +1,7 @@
-import datetime
-
 from webargs import fields
 
 from document_templates.lock import LockStatus
-from document_templates.password import PasswordType
+from document_templates.password import PasswordType, PasswordDays
 from parsers.field_utils import EnumField, TimezoneField
 from parsers.parser_utils import swagger_input_model
 
@@ -77,21 +75,6 @@ class GetLockPasswordMetadataArgs(object):
 @swagger_input_model
 class PutLockPasswordArgs(object):
     resource_fields = {
-        "lockId": fields.Str(
-            location='view_args',
-            description='A unique lock id',
-            required=True
-        ),
-        "passwordId": fields.Str(
-            location='view_args',
-            description='A unique password id',
-            required=True
-        ),
-        "type": EnumField(
-            PasswordType,
-            description='The type of the password',
-            required=False
-        ),
         "password": fields.Str(
             description='The six digit password',
             required=False,
@@ -99,6 +82,11 @@ class PutLockPasswordArgs(object):
         ),
         "expiration": fields.Int(
             description='The ms since unix epoch to expire the password',
+            required=False,
+        ),
+        "activeDays": fields.DelimitedList(
+            EnumField(PasswordDays),
+            description='A list of the days that the password is available',
             required=False,
         )
     }

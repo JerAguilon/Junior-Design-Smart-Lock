@@ -2,6 +2,7 @@ import time
 import calendar
 
 from enum import Enum
+from typing import Dict
 
 from utils.exceptions import AppException, ValidationException
 
@@ -18,8 +19,7 @@ class PasswordDays(Enum):
 
 class PasswordType(Enum):
     OTP = "OTP"
-    PERMANENT = "PERMANENT"
-    RECURRING = "RECURRING"
+    UNLIMITED = "UNLIMITED"
 
 
 class PasswordMetadata(object):
@@ -31,8 +31,8 @@ class PasswordMetadata(object):
         active_days=None,
         created_at=calendar.timegm(time.gmtime())
     ):
-        self._validate_expiration(type, expiration)
-        self._validate_active_days(type, active_days)
+        PasswordMetadata.validate_expiration(type, expiration)
+        PasswordMetadata.validate_active_days(type, active_days)
 
         if expiration is None:
             expiration = -1
@@ -45,41 +45,54 @@ class PasswordMetadata(object):
         self.id = id
         self.created_at = created_at
 
-    def serialize(self):
-        return {
-            "id": self.id,
+    def serialize(self, include_id=True):
+        PasswordMetadata.validate_expiration(self.type, self.expiration)
+        PasswordMetadata.validate_active_days(self.type, self.active_days)
+        output = {
             "type": str(self.type.value),
             "expiration": self.expiration,
-            "activeDays": self.active_days,
+            "activeDays": [d.value for d in self.active_days],
             "createdAt": self.created_at,
         }
+        if include_id:
+            output['id'] = self.id
+        return output
+
+    def update(self, update_args: Dict[str, str]):
+        if 'expiration' in update_args:
+            self.expiration = update_args['expiration']
+        if 'activeDays' in update_args:
+            self.active_days = [
+                PasswordDays(d) for d in update_args['activeDays']
+            ]
+
+
 
     @staticmethod
     def from_database(pw_id, password_dict):
         return PasswordMetadata(
             type=PasswordType(password_dict['type']),
             expiration=password_dict['expiration'],
+            active_days=[
+                PasswordDays(d) for d in password_dict.get('activeDays', [])
+            ],
+            created_at=password_dict['createdAt'],
             id=pw_id
         )
 
-    def _validate_expiration(self, type, expiration):
-        valid_for_null_expiration = {
-            PasswordType.PERMANENT, PasswordType.OTP
-        }
-        if expiration is None and type not in valid_for_null_expiration:
+    @staticmethod
+    def validate_expiration(type, expiration):
+        if type == PasswordType.OTP and expiration is not None:
             raise ValidationException(
-                "Non-permanent passwords must specify an expiration"
+                "OTP passwords should not have an expiration specified"
             )
 
-    def _validate_active_days(self, type, active_days):
+    @staticmethod
+    def validate_active_days(type, active_days):
         validation_error_template = (
             "Active days should be an empty list for password type {}"
         )
-
-        should_have_empty_active = {
-            PasswordType.PERMANENT, PasswordType.OTP
-        }
-        if type in should_have_empty_active \
+        if type == PasswordType.OTP \
                 and active_days is not None \
                 and len(active_days) > 0:
             raise ValidationException(
@@ -89,17 +102,10 @@ class PasswordMetadata(object):
 class Password(PasswordMetadata):
     def __init__(
         self,
-        type,
         password,
-        expiration=None,
-        active_days=None,
-        id="UNKNOWN",
+        **kwargs,
     ):
-        super().__init__(
-            type=type,
-            id=id,
-            expiration=expiration,
-        )
+        super().__init__(**kwargs)
         self.hashed_password = password
 
     def serialize(self):
@@ -117,4 +123,22 @@ class Password(PasswordMetadata):
             type=PasswordType(request_form['type']),
             password=request_form['password'],
             expiration=request_form['expiration'],
+        )
+
+    def update(self, update_args: Dict[str, str]):
+        super().update(update_args)
+        if 'password' in update_args:
+            self.hashed_password = update_args['password']
+
+    @staticmethod
+    def from_database(pw_id, password_dict):
+        return Password(
+            type=PasswordType(password_dict['type']),
+            expiration=password_dict['expiration'],
+            active_days=[
+                PasswordDays(d) for d in password_dict.get('activeDays', [])
+            ],
+            created_at=password_dict['createdAt'],
+            password=password_dict['password'],
+            id=pw_id,
         )

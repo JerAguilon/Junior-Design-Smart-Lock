@@ -8,19 +8,25 @@ from utils.exceptions import AppException, ValidationException
 from firebase.firebase_config import DB
 
 
-def get_password_metadata(lock_id, password_id):
+def _get_password_from_db(lock_id, password_id):
     passwords = get_lock(lock_id).get('passwords', {})
 
-    found_password = None
     for pw_id, found_password in passwords.items():
         if pw_id == password_id:
-            found_password = found_password
+            return found_password
+    raise ValidationException(
+        "Password id could not be found belonging to the lock id")
 
+
+def get_password_metadata(lock_id, password_id):
+    found_password = _get_password_from_db(lock_id, password_id)
     if found_password:
-        return PasswordMetadata.from_database(pw_id, found_password)
-    else:
-        raise ValidationException(
-            "Password id could not be found belonging to the lock id")
+        return PasswordMetadata.from_database(password_id, found_password)
+
+def get_password(lock_id, password_id):
+    found_password = _get_password_from_db(lock_id, password_id)
+    if found_password:
+        return Password.from_database(password_id, found_password)
 
 
 def get_passwords_metadata(lock_id):
@@ -36,7 +42,7 @@ def get_passwords_metadata(lock_id):
             result['otp'].append(PasswordMetadata.from_database(
                 pw_id, password
             ))
-        elif password_type == PasswordType.PERMANENT:
+        elif password_type == PasswordType.UNLIMITED:
             result['permanent'].append(PasswordMetadata.from_database(
                 pw_id, password
             ))
@@ -70,7 +76,9 @@ def update_password(
 ) -> PasswordMetadata:
     if len(update_request.keys()) == 0:
         raise ValidationException("Fields to update weren't supplied")
+    password = get_password(lock_id, password_id)
+    password.update(update_request)
 
     DB.child("Locks").child(lock_id).child("passwords").child(
-        password_id).update(update_request)
+        password_id).update(password.serialize())
     return get_password_metadata(lock_id, password_id)

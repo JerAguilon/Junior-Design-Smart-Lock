@@ -1,11 +1,10 @@
-import time
-import calendar
+import datetime
 
 from webargs import fields
 
 from document_templates.lock import LockStatus
 from document_templates.password import PasswordType
-from parsers.enum_field import EnumField
+from parsers.field_utils import EnumField, TimezoneField
 from parsers.parser_utils import swagger_input_model
 
 
@@ -17,16 +16,11 @@ class PostLocksArgs(object):
             description="A readable nickname for the lock",
             required=False
         ),
-        "status": EnumField(
-            LockStatus,
-            missing=LockStatus.CLOSED,
-            description="A lock status to initialize the lock to",
-            required=False
-        ),
-        "createdAt": fields.Int(
-            missing=calendar.timegm(time.gmtime()),
-            description=("The unix milliseconds since epoch in "
-                         "which the lock was registered"),
+        "timezone": TimezoneField(
+            missing='US/Eastern',
+            description=("The timezone of the lock's location. "
+                         "Important for functionality like recurring "
+                         "passwords."),
             required=False,
         ),
     }

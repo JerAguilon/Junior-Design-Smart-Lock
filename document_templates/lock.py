@@ -3,6 +3,10 @@ import calendar
 
 from enum import Enum
 
+from pytz import timezone
+
+from utils.time_utils import get_current_time_ms
+
 
 class LockStatus(Enum):
     CLOSED = "CLOSED"
@@ -16,14 +20,15 @@ class Lock(object):
         passwords={},
         nickname="Smart Lock",
         status=LockStatus.CLOSED,
-        created_at=calendar.timegm(time.gmtime()),
+        timezone=timezone("US/Eastern"),
         id="UNKNOWN"
     ):
         self.id = id
         self.status = status
         self.nickname = nickname
         self.passwords = passwords
-        self.created_at = created_at
+        self.created_at = get_current_time_ms()
+        self.timezone = timezone
 
     def serialize(self):
         return {
@@ -36,8 +41,12 @@ class Lock(object):
                     pw_id,
                     pw) in self.passwords.items()),
             "createdAt": self.created_at,
+            "timezone": self.timezone.zone,
         }
 
     @staticmethod
     def build(request_form):
-        return Lock()
+        return Lock(
+            nickname=request_form['nickname'],
+            timezone=request_form['timezone'],
+        )

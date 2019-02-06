@@ -4,7 +4,7 @@ from flask_restful_swagger import swagger
 from functools import wraps
 from webargs import fields
 
-from parsers.enum_field import EnumField
+from parsers.field_utils import EnumField, TimezoneField
 from utils.exceptions import AppException, ValidationException
 
 DATA_TYPE_MAP = {
@@ -17,6 +17,7 @@ DATA_TYPE_MAP = {
 WEBARGS_TO_RESTFUL_MAP = {
     fields.Str: restful_fields.String,
     EnumField: restful_fields.String,
+    TimezoneField: restful_fields.String,
     fields.Int: restful_fields.Integer,
     fields.DelimitedList: restful_fields.List,
 }

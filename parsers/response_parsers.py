@@ -2,6 +2,7 @@ from flask_restful import fields
 from flask_restful_swagger import swagger
 
 from document_templates.password import PasswordType
+from document_templates.lock import LockStatus
 from parsers.parser_utils import swagger_output_model
 from utils.exceptions import AppException
 
@@ -17,14 +18,20 @@ class EnumField(fields.Raw):
         return enum.value
 
 
+class TimezoneField(fields.Raw):
+    def format(self, value):
+        return value.zone
+
+
 @swagger.model
 @swagger_output_model
 class AdminLocksResponse(object):
     resource_fields = {
         'id': fields.String(),
-        'status': fields.String(),
+        'status': EnumField(LockStatus),
+        'timezone': TimezoneField(),
         'nickname': fields.String(),
-        'createdAt': fields.String(attribute="created_at")
+        'createdAt': fields.Integer(attribute="created_at")
     }
     required = ['id', 'status', 'nickname', 'createdAt']
     code = 200

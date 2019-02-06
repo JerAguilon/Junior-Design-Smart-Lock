@@ -15,6 +15,7 @@ class PasswordDays(Enum):
     FRIDAY = "FRIDAY"
     SATURDAY = "SATURDAY"
 
+
 class PasswordType(Enum):
     OTP = "OTP"
     PERMANENT = "PERMANENT"
@@ -66,21 +67,20 @@ class PasswordMetadata(object):
             PasswordType.PERMANENT, PasswordType.OTP
         }
         if expiration is None and type not in valid_for_null_expiration:
-                raise ValidationException(
-                    "Non-permanent passwords must specify an expiration"
-                )
+            raise ValidationException(
+                "Non-permanent passwords must specify an expiration"
+            )
 
     def _validate_active_days(self, type, active_days):
         should_have_empty_active = {
             PasswordType.PERMANENT, PasswordType.OTP
         }
         if type in should_have_empty_active \
-            and active_days is not None \
-            and len(active_days) > 0:
+                and active_days is not None \
+                and len(active_days) > 0:
             raise ValidationException(
-                "Active days should be an empty list for pasword type {}".format(type.value)
-            )
-
+                "Active days should be an empty list for pasword type {}".format(
+                    type.value))
 
 
 class Password(PasswordMetadata):

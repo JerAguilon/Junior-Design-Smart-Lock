@@ -133,3 +133,10 @@ def seeded_user(db, auth, id_token, mock_user):
         mock_user.serialize()
     )
     return mock_user
+
+
+@pytest.fixture
+def seeded_admin_user(db, seeded_user):
+    db.child("Users").child(seeded_user.id).update(
+        {'isAdmin': True}
+    )

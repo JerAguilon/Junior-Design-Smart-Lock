@@ -31,6 +31,7 @@ def test_get_password(
         'expiration': seeded_password.expiration,
         'id': seeded_password.id,
         'type': seeded_password.type.value,
+        'activeDays': seeded_password.active_days,
     }
     assert response.status_code == 200
     assert response.get_json() == expected_json
@@ -88,7 +89,8 @@ def test_put_password(
         'id': seeded_password.id,
         'type': PasswordType.OTP.value,
         'expiration': 1234,
-        'createdAt': seeded_password.created_at
+        'createdAt': seeded_password.created_at,
+        'activeDays': seeded_password.active_days,
     }
     assert response.status_code == 200
     assert response.get_json() == expected_json

@@ -190,7 +190,7 @@ Auto-generated API documentation for this project
 | Authorization | |
 
 ##### ***PUT***
-**Description:** Updates a lock status
+**Description:** Updates a lock status. If an inputted password is removed (as with OTP passwords), then the JSON payload will contain inputedPasswordDisabled: true
 
 **Parameters**
 
@@ -203,7 +203,7 @@ Auto-generated API documentation for this project
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
+| 200 | A PutUserLockStatusResponse object | [PutUserLockStatusResponse](#putuserlockstatusresponse) |
 
 **Security**
 
@@ -259,6 +259,7 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
+| activeDays | [ string ] |  | No |
 | createdAt | integer |  | Yes |
 | expiration | integer |  | No |
 | id | string |  | Yes |
@@ -291,9 +292,7 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| createdAt | integer |  | No |
-| nickname | string |  | No |
-| status | string |  | No |
+| ownedLockIds | [ string ] |  | Yes |
 
 ### PutLockPasswordArgs  
 
@@ -308,6 +307,13 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | password | string |  | No |
+| status | string |  | Yes |
+
+### PutUserLockStatusResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| providedPasswordDisabled | boolean |  | Yes |
 | status | string |  | Yes |
 
 ### UserLockResponse  

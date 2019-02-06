@@ -44,9 +44,11 @@ class LockPasswordResponse(object):
         'id': fields.String(),
         'type': EnumField(PasswordType),
         'expiration': fields.Integer(),
-        'createdAt': fields.Integer(attribute="created_at"),
-        'activeDays': fields.List(EnumField(PasswordDays), attribute="active_days")
-    }
+        'createdAt': fields.Integer(
+            attribute="created_at"),
+        'activeDays': fields.List(
+            EnumField(PasswordDays),
+            attribute="active_days")}
     required = ['id', 'createdAt', 'type']
     code = 200
 

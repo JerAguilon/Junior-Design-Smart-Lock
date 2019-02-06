@@ -23,6 +23,7 @@ def get_password_metadata(lock_id, password_id):
     if found_password:
         return PasswordMetadata.from_database(password_id, found_password)
 
+
 def get_password(lock_id, password_id):
     found_password = _get_password_from_db(lock_id, password_id)
     if found_password:

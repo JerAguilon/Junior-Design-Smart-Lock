@@ -66,8 +66,6 @@ class PasswordMetadata(object):
                 PasswordDays(d) for d in update_args['activeDays']
             ]
 
-
-
     @staticmethod
     def from_database(pw_id, password_dict):
         return PasswordMetadata(

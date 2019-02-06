@@ -165,9 +165,11 @@ class LockStatus(Resource):
             password_manager.remove_password(lock_id, found_password)
             was_lock_removed = True
 
-        return lock_manager.change_lock_status(
+        result = lock_manager.change_lock_status(
             lock_id, args.get('status'), was_lock_removed
         ), PutUserLockStatusResponse.code
+
+        return result
 
     @swagger.operation(
         notes='Gets the lock status of a user owned lock',

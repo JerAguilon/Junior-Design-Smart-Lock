@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_restful_swagger import swagger
+from flask_cors import CORS
 
 from routes import admin, lock_security, locks, users
 
@@ -8,6 +9,7 @@ from utils.exceptions import AppException
 
 
 app = Flask(__name__, static_url_path='')
+cors = CORS(app)
 api = swagger.docs(Api(app), apiVersion="0.1")
 
 api.add_resource(

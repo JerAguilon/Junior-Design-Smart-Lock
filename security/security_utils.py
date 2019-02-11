@@ -1,10 +1,26 @@
-from typing import Optional
-
 import bcrypt
+
+from pytz import timezone
+from typing import Optional
 
 from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
-from document_templates.password import PasswordType, Password
+from utils.time_utils import get_current_day, get_current_time_ms
+from document_templates.password import PasswordType, Password, PasswordDays
+
+
+def _prune_passwords(lock_id, passwords):
+    for password in passwords:
+        DB.child("Locks").child(lock_id).child("passwords").child(
+            password.id
+        ).remove()
+
+
+def _password_is_active(password: Password, timezone=timezone("US/Eastern")):
+    if password.active_days == []:
+        return True
+    day = PasswordDays(get_current_day(timezone))
+    return day in password.active_days
 
 
 def _get_sorted_passwords(lock_id):
@@ -21,14 +37,22 @@ def _get_sorted_passwords(lock_id):
         passwords_list,
         key=lambda x: type_ordinal[PasswordType(x[1]['type'])]
     )
-    return [
-        Password(
-            type=PasswordType(password_dict['type']),
-            password=password_dict['password'],
-            expiration=password_dict['expiration'],
-            id=id
-        ) for id, password_dict in passwords_list
+    passwords_list = [
+        Password.from_database(id, password_dict)
+        for id, password_dict in passwords_list
     ]
+
+    expired_passwords = []
+    output = []
+    for password in passwords_list:
+        if password.expiration != -1 \
+                and password.expiration < get_current_time_ms():
+            expired_passwords.append(password)
+        elif _password_is_active(password):
+            output.append(password)
+
+    _prune_passwords(lock_id, expired_passwords)
+    return output
 
 
 def hash_password(plaintext):

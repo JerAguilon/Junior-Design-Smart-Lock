@@ -1,5 +1,7 @@
 import pytest
 
+from freezegun import freeze_time
+
 from document_templates.lock import LockStatus
 from document_templates.password import Password, PasswordType, PasswordDays
 from utils import time_utils

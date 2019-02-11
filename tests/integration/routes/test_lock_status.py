@@ -3,7 +3,7 @@ import pytest
 from freezegun import freeze_time
 
 from document_templates.lock import LockStatus
-from document_templates.password import Password, PasswordType
+from document_templates.password import Password, PasswordType, PasswordDays
 from utils import time_utils
 
 
@@ -182,7 +182,7 @@ def test_put_lock_status_open_requested_expired_password(
 
         assert response.status_code == 401
         assert response.get_json() == {
-            "error": "Invalid password supplied"
+            "error": "Invalid or inactive password supplied"
         }
 
         # Expired passwords should be removed from the database
@@ -190,4 +190,70 @@ def test_put_lock_status_open_requested_expired_password(
         active_password_keys = db.child('Locks').child(lock_id).child(
             'passwords').get().val().keys()
         assert expired_pw.id not in active_password_keys
+        assert seeded_password.id in active_password_keys
+
+
+@pytest.mark.usefixtures("seeded_user", "seeded_user_lock")
+def test_put_lock_status_open_requested_password_not_active(
+    client,
+    id_token,
+    seeded_lock,
+    seeded_password,  # A permanent password
+    seed_password,
+    get_mock_password,
+    db,
+    mocker
+):
+    # Feb 11 2019 is a Monday
+    # NOTE: the lock is located in eastern time, GMT-5
+    # (see document_templates.Lock.timezone)
+    with freeze_time("Feb 11th, 2019 23:59:59", tz_offset=0):
+        pw_str = "192168"
+        expired_pw = Password(
+            type=PasswordType.UNLIMITED,
+            active_days=[PasswordDays.MONDAY],
+            password=get_mock_password(pw_str, hashed=True)
+        )
+        expired_pw = seed_password(password=expired_pw, lock=seeded_lock)
+
+    # One second before Tuesday in eastern time
+    with freeze_time("Feb 12th, 2019 04:59:59", tz_offset=0):
+        lock_id = seeded_lock.id
+        response = client.put(
+            '/api/v1/locks/{}/status'.format(lock_id),
+            headers={
+                'Authorization': id_token,
+            },
+            json={
+                'status': LockStatus.OPEN_REQUESTED.value,
+                'password': pw_str
+            }
+        )
+        assert response.status_code == 200
+
+    # Exactly on Tuesday
+    with freeze_time("Feb 12th, 2019 05:00:00", tz_offset=0):
+        lock_id = seeded_lock.id
+        response = client.put(
+            '/api/v1/locks/{}/status'.format(lock_id),
+            headers={
+                'Authorization': id_token,
+            },
+            json={
+                'status': LockStatus.OPEN_REQUESTED.value,
+                'password': pw_str
+            }
+        )
+        assert response.status_code == 401
+        assert response.get_json() == {
+            "error": "Invalid or inactive password supplied"
+        }
+
+        # Expired passwords should be removed from the database
+        # after PUT request
+        active_password_keys = db.child('Locks').child(lock_id).child(
+            'passwords').get().val().keys()
+
+        # Both passwords should be in the DB still
+        assert expired_pw.id in active_password_keys
         assert seeded_password.id in active_password_keys

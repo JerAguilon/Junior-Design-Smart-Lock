@@ -260,7 +260,7 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| activeDays | [ string ] |  | No |
+| activeDays | [  ] |  | No |
 | createdAt | integer |  | Yes |
 | expiration | integer |  | No |
 | id | string |  | Yes |
@@ -298,9 +298,9 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
+| activeDays | [ string ] |  | No |
 | expiration | integer |  | No |
 | password | string |  | No |
-| type | string |  | No |
 
 ### PutLockStatusArgs  
 

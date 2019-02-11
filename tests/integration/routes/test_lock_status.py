@@ -1,7 +1,10 @@
 import pytest
 
+from freezegun import freeze_time
+
 from document_templates.lock import LockStatus
 from document_templates.password import Password, PasswordType
+from utils import time_utils
 
 
 def test_get_lock_status_unauthorized(client, id_token):
@@ -142,3 +145,49 @@ def test_put_lock_status_other_status(client, id_token, seeded_lock, db):
         assert response.get_json() == {
             'error': expected_message
         }
+
+
+@pytest.mark.usefixtures("seeded_user", "seeded_user_lock")
+def test_put_lock_status_open_requested_expired_password(
+    client,
+    id_token,
+    seeded_lock,
+    seeded_password,  # A permanent password
+    seed_password,
+    get_mock_password,
+    db,
+    mocker
+):
+    with freeze_time("Feb 2nd, 2019") as frozen_time:
+        pw_str = "192168"
+        expired_pw = Password(
+            type=PasswordType.UNLIMITED,
+            expiration=time_utils.get_current_time_ms(),
+            password=get_mock_password(pw_str, hashed=True)
+        )
+        expired_pw = seed_password(password=expired_pw, lock=seeded_lock)
+        frozen_time.tick()
+
+        lock_id = seeded_lock.id
+        response = client.put(
+            '/api/v1/locks/{}/status'.format(lock_id),
+            headers={
+                'Authorization': id_token,
+            },
+            json={
+                'status': LockStatus.OPEN_REQUESTED.value,
+                'password': pw_str
+            }
+        )
+
+        assert response.status_code == 401
+        assert response.get_json() == {
+            "error": "Invalid password supplied"
+        }
+
+        # Expired passwords should be removed from the database
+        # after PUT request
+        active_password_keys = db.child('Locks').child(lock_id).child(
+            'passwords').get().val().keys()
+        assert expired_pw.id not in active_password_keys
+        assert seeded_password.id in active_password_keys

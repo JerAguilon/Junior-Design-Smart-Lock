@@ -80,7 +80,9 @@ class PasswordMetadata(object):
 
     @staticmethod
     def validate_expiration(type, expiration):
-        if type == PasswordType.OTP and expiration is not None:
+        if type == PasswordType.OTP \
+                and expiration is not None \
+                and expiration != -1:
             raise ValidationException(
                 "OTP passwords should not have an expiration specified"
             )

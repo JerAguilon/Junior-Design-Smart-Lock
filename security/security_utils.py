@@ -76,4 +76,4 @@ def verify_password(lock_id, input_password: Optional[str]) -> Password:
     for password in passwords_list:
         if check_password(input_password, password.hashed_password):
             return password
-    raise AuthorizationException("Invalid password supplied")
+    raise AuthorizationException("Invalid or inactive password supplied")

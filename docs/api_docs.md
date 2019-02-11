@@ -253,18 +253,18 @@ Auto-generated API documentation for this project
 | createdAt | integer |  | Yes |
 | id | string |  | Yes |
 | nickname | string |  | Yes |
-| status | [null](#null) |  | Yes |
-| timezone | [null](#null) |  | No |
+| status | string |  | Yes |
+| timezone | string |  | No |
 
 ### LockPasswordResponse  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| activeDays | [  ] |  | No |
+| activeDays | [ string ] |  | No |
 | createdAt | integer |  | Yes |
 | expiration | integer |  | No |
 | id | string |  | Yes |
-| type | [null](#null) |  | Yes |
+| type | string |  | Yes |
 
 ### LockPasswordsResponse  
 

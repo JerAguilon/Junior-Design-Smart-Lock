@@ -7,7 +7,7 @@ from parsers.parser_utils import swagger_output_model
 from utils.exceptions import AppException
 
 
-class EnumField(fields.Raw):
+class EnumField(fields.String):
     def __init__(self, enum_type, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.enum_type = enum_type
@@ -18,7 +18,7 @@ class EnumField(fields.Raw):
         return enum.value
 
 
-class TimezoneField(fields.Raw):
+class TimezoneField(fields.String):
     def format(self, value):
         return value.zone
 

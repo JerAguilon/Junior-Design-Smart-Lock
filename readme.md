@@ -26,3 +26,9 @@ to fiddle with endpoints. Copy/paste your OAuth key into the API key field to va
 `chmod +x run_tests.sh` if you haven't already.
 
 `./run_tests.sh`
+
+# How can I ping my localhost server from an external device?
+
+I recommend [ngrok](https://ngrok.com/), which creates a secure URL
+to the server. Once ngrok has been installed, start the flask server
+and type `/path/to/ngrok http 5000` to generate a URL.

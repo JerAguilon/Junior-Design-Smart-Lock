@@ -2,6 +2,8 @@ import pytest
 
 from freezegun import freeze_time
 
+from document_templates.password import PasswordDays
+
 
 def test_get_passwords_unauthorized(client):
     response = client.get('/api/v1/locks/foobar/passwords')
@@ -46,6 +48,9 @@ def test_post_password(
         seeded_user,
         mock_password,
         seeded_lock):
+    mock_password.active_days = [
+        PasswordDays.MONDAY, PasswordDays.TUESDAY
+    ]
     response = client.post(
         '/api/v1/locks/{}/passwords'.format(seeded_lock.id),
         headers={
@@ -54,13 +59,14 @@ def test_post_password(
         json={
             'password': '123456',
             'type': mock_password.type.value,
+            'activeDays': [day.value for day in mock_password.active_days]
         }
     )
     expected_json = {
         'type': mock_password.type.value,
         'expiration': mock_password.expiration,
         'createdAt': mock_password.created_at,
-        'activeDays': mock_password.active_days,
+        'activeDays': [day.value for day in mock_password.active_days],
     }
     response_json = response.get_json()
     del response_json['id']

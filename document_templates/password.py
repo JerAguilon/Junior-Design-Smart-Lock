@@ -123,6 +123,7 @@ class Password(PasswordMetadata):
             type=PasswordType(request_form['type']),
             password=request_form['password'],
             expiration=request_form['expiration'],
+            active_days=request_form['activeDays'],
         )
 
     def update(self, update_args: Dict[str, str]):

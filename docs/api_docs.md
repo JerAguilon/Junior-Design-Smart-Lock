@@ -277,6 +277,7 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
+| activeDays | [ string ] |  | No |
 | expiration | integer |  | No |
 | password | string |  | Yes |
 | type | string |  | Yes |

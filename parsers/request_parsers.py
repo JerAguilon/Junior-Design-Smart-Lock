@@ -110,9 +110,15 @@ class PostLockPasswordsArgs(object):
             required=True,
             validate=lambda p: len(p) == 6 and p.isdigit(),
         ),
+        "activeDays": fields.DelimitedList(
+            EnumField(PasswordDays),
+            description='A list of the days that the password is available',
+            required=False,
+            missing=[],
+        ),
         "expiration": fields.Int(
             description='The ms since unix epoch to expire the password',
             required=False,
             missing=None,
-        )
+        ),
     }

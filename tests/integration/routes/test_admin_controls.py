@@ -1,11 +1,8 @@
 import datetime
-import pytest
 
 from freezegun import freeze_time
 
-from document_templates.password import PasswordType
 from document_templates.lock import LockStatus
-from security.security_utils import check_password
 
 
 def test_post_lock_unauthorized(client):
@@ -27,6 +24,7 @@ def test_post_lock_not_admin(
             'Authorization': id_token,
         },
         json={
+            'secret': 'password1234',
         }
     )
     expected_json = {
@@ -38,7 +36,7 @@ def test_post_lock_not_admin(
 
 
 @freeze_time("August, 1, 2019")
-def test_post_lock_no_args_admin(
+def test_post_lock_minimal_args_admin(
     client,
     id_token,
     seeded_admin_user,
@@ -49,6 +47,7 @@ def test_post_lock_no_args_admin(
             'Authorization': id_token,
         },
         json={
+            'secret': 'password1234',
         }
     )
     expected_json = {
@@ -81,6 +80,7 @@ def test_post_lock_with_args_admin(
         json={
             'nickname': 'FOOBAR',
             'timezone': 'Europe/London',
+            'secret': 'password1234',
         }
     )
     expected_json = {

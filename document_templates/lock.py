@@ -21,7 +21,8 @@ class Lock(object):
         nickname="Smart Lock",
         status=LockStatus.CLOSED,
         timezone=timezone("US/Eastern"),
-        id="UNKNOWN"
+        id="UNKNOWN",
+        secret="",
     ):
         self.id = id
         self.status = status
@@ -29,6 +30,7 @@ class Lock(object):
         self.passwords = passwords
         self.created_at = get_current_time_ms()
         self.timezone = timezone
+        self.secret = secret
 
     def serialize(self):
         return {
@@ -42,6 +44,7 @@ class Lock(object):
                     pw) in self.passwords.items()),
             "createdAt": self.created_at,
             "timezone": self.timezone.zone,
+            "secret": self.secret,
         }
 
     @staticmethod
@@ -49,4 +52,5 @@ class Lock(object):
         return Lock(
             nickname=request_form['nickname'],
             timezone=request_form['timezone'],
+            secret=request_form['secret'],
         )

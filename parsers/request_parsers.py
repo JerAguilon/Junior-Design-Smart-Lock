@@ -21,6 +21,10 @@ class PostLocksArgs(object):
                          "passwords."),
             required=False,
         ),
+        "secret": fields.Str(
+            description="A secret key for the lock",
+            required=True
+        ),
     }
 
 

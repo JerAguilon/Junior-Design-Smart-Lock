@@ -287,6 +287,7 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | nickname | string |  | No |
+| secret | string |  | Yes |
 | timezone | string |  | No |
 
 ### PostUserLockArgs  

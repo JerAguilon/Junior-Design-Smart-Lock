@@ -5,7 +5,7 @@ from webargs.flaskparser import use_kwargs
 from managers import lock_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
-    HardwarePutLockStatusArgs
+    PutHardwareLockStatusArgs
 )
 from parsers.response_parsers import UserLockStatusResponse
 from security import security_utils
@@ -17,13 +17,13 @@ class LockStatus(Resource):
 
     @swagger.operation(
         notes=None,
-        parameters=[HardwarePutLockStatusArgs.schema],
+        parameters=[PutHardwareLockStatusArgs.schema],
         responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
         tags=['Locks'],
     )
     @use_kwargs(
-        HardwarePutLockStatusArgs.resource_fields,
+        PutHardwareLockStatusArgs.resource_fields,
         locations=("json", "form")
     )
     @marshal_with_parser(UserLockStatusResponse)

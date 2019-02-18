@@ -1,10 +1,47 @@
+import base64
+
 from flask import request, abort
 from functools import wraps
 
-from utils.exceptions import AdminOnlyException, ValidationException
+from utils.exceptions import AuthorizationException, AdminOnlyException, ValidationException
 
 from managers.user_manager import create_or_update_user_from_json
 from firebase.firebase_config import AUTH, DB
+from security import security_utils
+
+
+def authorize_hardware():
+    def actual_decorator(f):
+        @wraps(f)
+        def decorated_func(*args, **kws):
+            if 'Authorization' in request.headers:
+                header_key = 'Authorization'
+            else:
+                abort(401)
+            data = str(request.headers[header_key])
+
+            if not data.startswith('Basic'):
+                raise ValidationException("Basic authorization required")
+
+            coded_string = str.replace(str(data), 'Bearer ', '')
+            decoded = base64.b64decode(coded_string).decode('utf-8')
+            string_split = decoded.split(':')
+            if len(string_split) < 2:
+                raise AuthorizationException(
+                    "Basic auth must be base-64 encoded in 'lockId:password' format")
+
+            lock_id, secret = string_split[0], ':'.join(string_split[1:])
+            try:
+                secret_hashed = DB.child("Locks").child(
+                    lock_id).get().val().get('secret')
+            except:
+                raise AuthorizationException("Lock could not be found")
+
+            if not security_utils.check_password(secret, secret_hashed):
+                raise AuthorizationException("Invalid secret supplied")
+            return f(lock_id, *args, **kws)
+        return decorated_func
+    return actual_decorator
 
 
 def authorize(admin=False):

@@ -27,7 +27,7 @@ class LockStatus(Resource):
         locations=("json", "form")
     )
     @marshal_with_parser(UserLockStatusResponse)
-    def put(self, lock_id, mac_address, status, **args):
+    def put(self, lock_id, status, **args):
         security_utils.update_lock_status(lock_id, status)
         result = lock_manager.change_lock_status(
             lock_id, status

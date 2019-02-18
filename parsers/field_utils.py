@@ -8,7 +8,6 @@ from pytz import timezone
 from utils.exceptions import ValidationException
 
 
-
 class LoadDumpOptions(Enum):
     value = 1
     name = 0

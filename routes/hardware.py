@@ -22,7 +22,10 @@ class LockStatus(Resource):
         responseMessages=[UserLockStatusResponse.description],
         tags=['Locks'],
     )
-    @use_kwargs(HardwarePutLockStatusArgs.resource_fields, locations=("json", "form"))
+    @use_kwargs(
+        HardwarePutLockStatusArgs.resource_fields,
+        locations=("json", "form")
+    )
     @marshal_with_parser(UserLockStatusResponse)
     def put(self, lock_id, mac_address, status, **args):
         security_utils.update_lock_status(lock_id, status)

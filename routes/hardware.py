@@ -12,15 +12,15 @@ from security import security_utils
 from utils.decorators import authorize_hardware
 
 
-class LockStatus(Resource):
+class HardwareLockStatus(Resource):
     method_decorators = [authorize_hardware()]
 
     @swagger.operation(
-        notes=None,
+        notes='Updates a lock status',
         parameters=[PutHardwareLockStatusArgs.schema],
         responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
-        tags=['Locks'],
+        tags=['Hardware'],
     )
     @use_kwargs(
         PutHardwareLockStatusArgs.resource_fields,
@@ -35,10 +35,10 @@ class LockStatus(Resource):
         return result
 
     @swagger.operation(
-        notes='Gets the lock status of a user owned lock',
+        notes='Gets the lock status',
         responseClass=UserLockStatusResponse.__name__,
         responseMessages=[UserLockStatusResponse.description],
-        tags=['Locks'],
+        tags=['Hardware'],
     )
     @marshal_with_parser(UserLockStatusResponse)
     def get(self, **kwargs):

@@ -18,12 +18,18 @@ def get_lock(lock_id):
     return get_locks([lock_id])[lock_id]
 
 
-def change_lock_status(lock_id, status, was_lock_removed):
+def change_lock_status(lock_id, status, was_lock_removed=None):
     DB.child("Locks").child(lock_id).update({'status': status.value})
-    return {
-        "status": status.value,
-        "providedPasswordDisabled": was_lock_removed
-    }
+
+    if was_lock_removed is None:
+        return {
+            "status": status.value,
+        }
+    else:
+        return {
+            "status": status.value,
+            "providedPasswordDisabled": was_lock_removed
+        }
 
 
 def get_lock_status(lock_id):

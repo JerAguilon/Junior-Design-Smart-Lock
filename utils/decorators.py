@@ -10,6 +10,21 @@ from firebase.firebase_config import AUTH, DB
 from security import security_utils
 
 
+def record_history(endpoint_name, f_record):
+    def actual_decorator(f):
+        @wraps(f)
+        def decorated_func(*args, **kws):
+            response, code = f(*args, **kws)
+            if code < 400:
+                result = "SUCCESS"
+            else:
+                result = "FAILURE"
+            f_record(*args, **kws)
+            return response, code
+        return decorated_func
+    return actual_decorator
+
+
 def authorize_hardware():
     def actual_decorator(f):
         @wraps(f)

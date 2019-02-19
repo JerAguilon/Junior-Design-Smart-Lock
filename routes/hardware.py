@@ -8,7 +8,6 @@ from parsers.request_parsers import (
     PutHardwareLockStatusArgs
 )
 from parsers.response_parsers import UserLockStatusResponse
-from security import security_utils
 from utils.decorators import authorize_hardware
 
 
@@ -28,7 +27,6 @@ class HardwareLockStatus(Resource):
     )
     @marshal_with_parser(UserLockStatusResponse)
     def put(self, lock_id, status, **args):
-        security_utils.update_lock_status(lock_id, status)
         result = lock_manager.change_lock_status(
             lock_id, status
         ), UserLockStatusResponse.code
@@ -41,7 +39,6 @@ class HardwareLockStatus(Resource):
         tags=['Hardware'],
     )
     @marshal_with_parser(UserLockStatusResponse)
-    def get(self, **kwargs):
-        lock_id = kwargs['lockId']
+    def get(self, lock_id, **kwargs):
         return lock_manager.get_lock_status(
             lock_id), UserLockStatusResponse.code

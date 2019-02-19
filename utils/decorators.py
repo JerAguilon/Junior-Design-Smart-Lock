@@ -23,7 +23,7 @@ def authorize_hardware():
             if not data.startswith('Basic'):
                 raise ValidationException("Basic authorization required")
 
-            coded_string = str.replace(str(data), 'Bearer ', '')
+            coded_string = str.replace(str(data), 'Basic ', '')
             decoded = base64.b64decode(coded_string).decode('utf-8')
             string_split = decoded.split(':')
             if len(string_split) < 2:
@@ -34,7 +34,7 @@ def authorize_hardware():
             try:
                 secret_hashed = DB.child("Locks").child(
                     lock_id).get().val().get('secret')
-            except:
+            except BaseException:
                 raise AuthorizationException("Lock could not be found")
 
             if not security_utils.check_password(secret, secret_hashed):

@@ -36,6 +36,44 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
+### /api/v1/hardware/status
+---
+##### ***GET***
+**Description:** Gets the lock status
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
+##### ***PUT***
+**Description:** Updates a lock status
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| body | body |  | Yes | [PutHardwareLockStatusArgs](#puthardwarelockstatusargs) |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockStatusResponse object | [UserLockStatusResponse](#userlockstatusresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ### /api/v1/locks
 ---
 ##### ***GET***
@@ -287,6 +325,7 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | nickname | string |  | No |
+| secret | string |  | Yes |
 | timezone | string |  | No |
 
 ### PostUserLockArgs  
@@ -294,6 +333,12 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | ownedLockIds | [ string ] |  | Yes |
+
+### PutHardwareLockStatusArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| status | string |  | Yes |
 
 ### PutLockPasswordArgs  
 

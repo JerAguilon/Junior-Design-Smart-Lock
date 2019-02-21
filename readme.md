@@ -3,13 +3,25 @@
 
 # Running this repo
 
+# Linux/MacOS
+
 1. cd into the root of this repository
 2. Type `python -m virtualenv venv` (you may need to use `python3` to ensure the right version)
 3. Type `npm install -g api-spec-converter`
-4. For macOS/Linux, type `source venv/bin/activate`. For Windows, type `.\env\Scripts\activate`
+4. For macOS/Linux, type `source venv/bin/activate`.
 5. Type `pip install -r requirements.txt`
 6. (Only need to do this once) `chmod +x dev_flask.sh`
 7. `./dev_flask.sh` to start the app. You may query endpoints at `localhost:5000`
+
+# Windows
+
+1. cd into the root of this repository
+2. Type `python -m virtualenv venv` (you may need to use `python3` to ensure the right version)
+3. Type `npm install -g api-spec-converter`
+4. For Windows, type `.\venv\Scripts\activate`
+5. Type `pip install -r requirements.txt`
+6. On command prompt: `C:\path\to\app>set FLASK_APP=run.py`
+7. Type `flask run`
 
 # Playing with the endpoints
 

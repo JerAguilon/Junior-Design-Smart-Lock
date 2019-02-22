@@ -21,7 +21,7 @@
 4. For Windows, type `.\venv\Scripts\activate`
 5. Type `pip install -r requirements.txt`
 6. On command prompt: `C:\path\to\app>set FLASK_APP=run.py`
-7. Type `flask run`
+7. Type `flask run` or `python -m flask run`
 
 # Playing with the endpoints
 

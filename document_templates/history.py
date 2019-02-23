@@ -45,10 +45,10 @@ class Event(object):
     @staticmethod
     def from_database(event_id, d):
         return Event(
-            user_id = d['userId'],
-            lock_id = d['lockId'],
-            response_code = d['responseCode'],
-            status = LockStatus(d['status']),
-            created_at = d['createdAt'],
+            user_id=d['userId'],
+            lock_id=d['lockId'],
+            response_code=d['responseCode'],
+            status=LockStatus(d['status']),
+            created_at=d['createdAt'],
             id=event_id,
         )

@@ -5,8 +5,10 @@ from functools import wraps
 
 from utils.exceptions import AuthorizationException, AdminOnlyException, ValidationException
 
-from managers.user_manager import create_or_update_user_from_json
+from document_templates.history import Event, StateChange
 from firebase.firebase_config import AUTH, DB
+from managers.history_manager import add_event
+from managers.user_manager import create_or_update_user_from_json
 from security import security_utils
 
 
@@ -74,6 +76,24 @@ def authorize(admin=False):
 
             return f(uid, user, *args, **kws)
         return decorated_func
+    return actual_decorator
+
+
+def record_history():
+    def actual_decorator(function):
+        @wraps(function)
+        def wrapper(self, uid, user, *args, **kwargs):
+            response, code = function(self, uid, user, *args, **kwargs)
+            event = Event(
+                user_id=uid,
+                lock_id=kwargs.get('lockId'),
+                endpoint=request.url_rule.rule,
+                response_code=code,
+                status=StateChange.NONE,
+            )
+            add_event(event)
+            return response, code
+        return wrapper
     return actual_decorator
 
 

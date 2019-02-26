@@ -18,7 +18,7 @@ from parsers.response_parsers import (
     PutUserLockStatusResponse
 )
 from security import security_utils
-from utils.decorators import authorize
+from utils.decorators import authorize, record_history
 from utils.exceptions import AuthorizationException
 
 
@@ -63,6 +63,7 @@ class LockPassword(Resource):
             "json",
             "form"))
     @marshal_with_parser(LockPasswordResponse)
+    @record_history()
     def put(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         password_id = kwargs['passwordId']

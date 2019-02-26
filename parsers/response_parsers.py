@@ -1,6 +1,7 @@
 from flask_restful import fields
 from flask_restful_swagger import swagger
 
+from document_templates.history import StateChange
 from document_templates.password import PasswordType, PasswordDays
 from document_templates.lock import LockStatus
 from parsers.parser_utils import swagger_output_model
@@ -117,7 +118,7 @@ class LockEvent(object):
         'userId': fields.String(attribute='user_id'),
         'lockId': fields.String(attribute='lock_id'),
         'endpoint': fields.String(),
-        'status': fields.String(),
+        'status': EnumField(StateChange),
         'createdAt': fields.Integer(attribute='created_at'),
     }
     required = ['userId', 'lockId', 'endpoint', 'status', 'createdAt']
@@ -127,7 +128,7 @@ class LockEvent(object):
 class LockHistoryResponse(object):
     resource_fields = {
         'events': fields.List(
-            fields.Nested(LockEvent)
+            fields.Nested(LockEvent.resource_fields)
         )
     }
 

@@ -3,7 +3,7 @@ from flask_restful import Api
 from flask_restful_swagger import swagger
 from flask_cors import CORS
 
-from routes import admin, lock_security, locks, users, hardware
+from routes import admin, history, lock_security, locks, users, hardware
 
 from utils.exceptions import AppException
 
@@ -19,6 +19,10 @@ api.add_resource(
 api.add_resource(
     hardware.HardwareLockStatus,
     "/api/v1/hardware/status"
+)
+api.add_resource(
+    history.LockHistory,
+    "/api/v1/locks/<lockId>/history"
 )
 api.add_resource(
     lock_security.LockPassword,

@@ -2,12 +2,13 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
+from document_templates.history import StateChange
 from document_templates.user_locks import UserLocks
 from managers import user_lock_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import PostUserLockArgs
 from parsers.response_parsers import UserLockResponse
-from utils.decorators import authorize
+from utils.decorators import authorize, record_history
 
 
 class UserLock(Resource):
@@ -32,6 +33,9 @@ class UserLock(Resource):
     )
     @use_kwargs(PostUserLockArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockResponse)
+    @record_history(state_changes={
+        UserLockResponse.code: StateChange.USER_LOCK_ADDED
+    })
     def post(self, uid, user, **args):
         user_locks = UserLocks.build(args)
         result = user_lock_manager.create_or_update_user_lock(

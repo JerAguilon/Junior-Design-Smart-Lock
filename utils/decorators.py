@@ -3,10 +3,17 @@ import base64
 from flask import request, abort
 from functools import wraps
 
-from utils.exceptions import AuthorizationException, AdminOnlyException, ValidationException
+from utils.exceptions import (
+    AuthorizationException,
+    AdminOnlyException,
+    ValidationException,
+)
 
-from managers.user_manager import create_or_update_user_from_json
+
+from document_templates.history import Event, StateChange
 from firebase.firebase_config import AUTH, DB
+from managers.history_manager import add_event
+from managers.user_manager import create_or_update_user_from_json
 from security import security_utils
 
 
@@ -27,8 +34,9 @@ def authorize_hardware():
             decoded = base64.b64decode(coded_string).decode('utf-8')
             string_split = decoded.split(':')
             if len(string_split) < 2:
-                raise AuthorizationException(
-                    "Basic auth must be base-64 encoded in 'lockId:password' format")
+                msg = ("Basic auth must be base-64 "
+                       "encoded in 'lockId:password' format")
+                raise AuthorizationException(msg)
 
             lock_id, secret = string_split[0], ':'.join(string_split[1:])
             try:
@@ -74,6 +82,33 @@ def authorize(admin=False):
 
             return f(uid, user, *args, **kws)
         return decorated_func
+    return actual_decorator
+
+
+def record_history(state_changes={}):
+    def actual_decorator(function):
+        @wraps(function)
+        def wrapper(self, uid, user, *args, **kwargs):
+            try:
+                response, code = function(self, uid, user, *args, **kwargs)
+                event = Event(
+                    user_id=uid,
+                    lock_id=kwargs.get('lockId'),
+                    endpoint=request.url_rule.rule,
+                    status=state_changes.get(code, StateChange.NONE),
+                )
+                add_event(event)
+                return response, code
+            except Exception as e:
+                event = Event(
+                    user_id=uid,
+                    lock_id=kwargs.get('lockId'),
+                    endpoint=request.url_rule.rule,
+                    status=StateChange.NONE,
+                )
+                add_event(event)
+                raise e
+        return wrapper
     return actual_decorator
 
 

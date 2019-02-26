@@ -112,6 +112,29 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
+### /api/v1/locks/{lockId}/history
+---
+##### ***GET***
+**Description:** Resource that lets users retrieve events given a lock id
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lockId | path |  | Yes | string |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A LockHistoryResponse object | [LockHistoryResponse](#lockhistoryresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ### /api/v1/locks/{lockId}/passwords
 ---
 ##### ***GET***
@@ -293,6 +316,22 @@ Auto-generated API documentation for this project
 | nickname | string |  | Yes |
 | status | string |  | Yes |
 | timezone | string |  | No |
+
+### LockEvent  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| createdAt | integer |  | Yes |
+| endpoint | string |  | Yes |
+| lockId | string |  | Yes |
+| status | string |  | Yes |
+| userId | string |  | Yes |
+
+### LockHistoryResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| events | [  ] |  | Yes |
 
 ### LockPasswordResponse  
 

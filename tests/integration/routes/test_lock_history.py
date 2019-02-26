@@ -6,6 +6,7 @@ from utils.time_utils import get_current_time_ms
 from document_templates.lock import LockStatus
 from document_templates.history import StateChange
 
+
 def _add_password(
         client,
         id_token,
@@ -25,6 +26,7 @@ def _add_password(
             'activeDays': [day.value for day in mock_password.active_days]
         }
     )
+
 
 @pytest.mark.usefixtures("seeded_user_lock")
 def _request_unlock(
@@ -47,6 +49,7 @@ def _request_unlock(
         }
     )
 
+
 @pytest.mark.usefixtures("seeded_user_lock")
 def test_get_history_lock_doesnt_exist(
     client,
@@ -66,6 +69,7 @@ def test_get_history_lock_doesnt_exist(
     }
     assert response.status_code == 401
     assert response.get_json() == expected_json
+
 
 @pytest.mark.usefixtures("seeded_user_lock")
 def test_get_history_empty_history(
@@ -88,6 +92,7 @@ def test_get_history_empty_history(
     assert response.status_code == 200
     assert response.get_json() == expected_json
 
+
 @pytest.mark.usefixtures("seeded_user_lock")
 def test_get_history_with_history(
     client,
@@ -99,17 +104,35 @@ def test_get_history_with_history(
 ):
     with freeze_time("August, 1, 2019") as frozen_time:
         # 1. Add a password to for the lock
-        _add_password(client, id_token, seeded_user, mock_password, seeded_lock, default_password)
+        _add_password(
+            client,
+            id_token,
+            seeded_user,
+            mock_password,
+            seeded_lock,
+            default_password)
         pw_time = get_current_time_ms()
         frozen_time.tick()
 
         # 1. Successfully request an unlock
-        _request_unlock(client, id_token, seeded_user, mock_password, seeded_lock, default_password)
+        _request_unlock(
+            client,
+            id_token,
+            seeded_user,
+            mock_password,
+            seeded_lock,
+            default_password)
         unlock_time_success = get_current_time_ms()
         frozen_time.tick()
 
         # 1. Pass an incorrect password
-        _request_unlock(client, id_token, seeded_user, mock_password, seeded_lock, '192168')
+        _request_unlock(
+            client,
+            id_token,
+            seeded_user,
+            mock_password,
+            seeded_lock,
+            '192168')
         unlock_time_fail = get_current_time_ms()
         frozen_time.tick()
 

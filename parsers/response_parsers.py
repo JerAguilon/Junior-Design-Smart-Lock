@@ -111,6 +111,7 @@ class PutUserLockStatusResponse(object):
     required = ['status', 'providedPasswordDisabled']
     code = 200
 
+
 @swagger.model
 @swagger_output_model
 class LockEvent(object):
@@ -122,6 +123,7 @@ class LockEvent(object):
         'createdAt': fields.Integer(attribute='created_at'),
     }
     required = ['userId', 'lockId', 'endpoint', 'status', 'createdAt']
+
 
 @swagger.model
 @swagger_output_model

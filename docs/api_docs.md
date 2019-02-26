@@ -115,7 +115,7 @@ Auto-generated API documentation for this project
 ### /api/v1/locks/{lockId}/history
 ---
 ##### ***GET***
-**Description:** Resource that lets users retrieve events given a lock id
+**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'PASSWORD_CREATED', 'PASSWORD_METADATA_CHANGED', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'USER_LOCK_ADDED'].
 
 **Parameters**
 

@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
+from document_templates.history import StateChange
 from managers import history_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import GetLockHistoryArgs
@@ -10,7 +11,13 @@ from security import security_utils
 from utils.decorators import authorize
 
 
-HISTORY_INFO = "Resource that lets users retrieve events given a lock id"
+HISTORY_INFO = (
+    "Resource that lets users retrieve events given a lock id. "
+    "See `LockEvent` for the schema for each response. Note that "
+    "status can be one of {}."
+).format(
+    [s.value for s in StateChange]
+)
 
 
 class LockHistory(Resource):

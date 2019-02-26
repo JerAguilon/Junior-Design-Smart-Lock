@@ -1,6 +1,5 @@
 from enum import Enum
 
-from document_templates.lock import LockStatus
 from utils.time_utils import get_current_time_ms
 
 
@@ -20,13 +19,15 @@ class Event(object):
         lock_id,
         endpoint,
         status,
-        created_at=get_current_time_ms(),
+        created_at=None,
         id="UNKNOWN",
     ):
+        if not created_at:
+            created_at = get_current_time_ms()
         self.user_id = user_id
         self.lock_id = lock_id
         self.endpoint = endpoint
-        self.status = status.value
+        self.status = status
         self.id = id
         self.created_at = created_at
 
@@ -35,7 +36,7 @@ class Event(object):
             'lockId': self.lock_id,
             'userId': self.user_id,
             'endpoint': self.endpoint,
-            'status': self.status,
+            'status': self.status.value,
             'createdAt': self.created_at,
         }
 
@@ -44,7 +45,8 @@ class Event(object):
         return Event(
             user_id=d['userId'],
             lock_id=d['lockId'],
-            status=LockStatus(d['status']),
+            endpoint=d['endpoint'],
+            status=StateChange(d['status']),
             created_at=d['createdAt'],
             id=event_id,
         )

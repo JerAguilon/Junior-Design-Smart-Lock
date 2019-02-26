@@ -3,7 +3,12 @@ import base64
 from flask import request, abort
 from functools import wraps
 
-from utils.exceptions import AuthorizationException, AdminOnlyException, ValidationException
+from utils.exceptions import (
+    AuthorizationException,
+    AdminOnlyException,
+    ValidationException,
+)
+
 
 from document_templates.history import Event, StateChange
 from firebase.firebase_config import AUTH, DB
@@ -29,8 +34,9 @@ def authorize_hardware():
             decoded = base64.b64decode(coded_string).decode('utf-8')
             string_split = decoded.split(':')
             if len(string_split) < 2:
-                raise AuthorizationException(
-                    "Basic auth must be base-64 encoded in 'lockId:password' format")
+                msg = ("Basic auth must be base-64 "
+                       "encoded in 'lockId:password' format")
+                raise AuthorizationException(msg)
 
             lock_id, secret = string_split[0], ':'.join(string_split[1:])
             try:

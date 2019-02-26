@@ -8,9 +8,9 @@ class StateChange(Enum):
     NONE = "NONE"
     PASSWORD_CREATED = "PASSWORD_CREATED"
     PASSWORD_METADATA_CHANGED = "PASSWORD_METADATA_CHANGED"
-    PASSWORD_CHANGED = "PASSWORD_CHANGED"
     LOCK_METADATA_CHANGED = "LOCK_METADATA_CHANGED"
     LOCK_STATE_CHANGED = "LOCK_STATE_CHANGED"
+    USER_LOCK_ADDED = "USER_LOCK_ADDED"
 
 
 class Event(object):
@@ -19,7 +19,6 @@ class Event(object):
         user_id,
         lock_id,
         endpoint,
-        response_code,
         status,
         created_at=get_current_time_ms(),
         id="UNKNOWN",
@@ -27,7 +26,6 @@ class Event(object):
         self.user_id = user_id
         self.lock_id = lock_id
         self.endpoint = endpoint
-        self.response_code = response_code
         self.status = status.value
         self.id = id
         self.created_at = created_at
@@ -36,7 +34,6 @@ class Event(object):
         return {
             'lockId': self.lock_id,
             'userId': self.user_id,
-            'responseCode': self.response_code,
             'endpoint': self.endpoint,
             'status': self.status,
             'createdAt': self.created_at,
@@ -47,7 +44,6 @@ class Event(object):
         return Event(
             user_id=d['userId'],
             lock_id=d['lockId'],
-            response_code=d['responseCode'],
             status=LockStatus(d['status']),
             created_at=d['createdAt'],
             id=event_id,

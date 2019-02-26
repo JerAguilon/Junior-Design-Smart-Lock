@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
+from document_templates.history import StateChange
 from document_templates.lock import LockStatus as LockStatusEnum
 from document_templates.password import Password, PasswordType
 from managers import lock_manager, password_manager
@@ -63,7 +64,9 @@ class LockPassword(Resource):
             "json",
             "form"))
     @marshal_with_parser(LockPasswordResponse)
-    @record_history()
+    @record_history(state_changes={
+        LockPasswordResponse.code: StateChange.PASSWORD_METADATA_CHANGED
+    })
     def put(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         password_id = kwargs['passwordId']
@@ -120,6 +123,9 @@ class LockPasswords(Resource):
         locations=(
             "json",
             "form"))
+    @record_history(state_changes={
+        LockPasswordResponse.code: StateChange.PASSWORD_CREATED
+    })
     @marshal_with_parser(LockPasswordResponse)
     def post(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
@@ -149,6 +155,9 @@ class LockStatus(Resource):
     )
     @use_kwargs(PutLockStatusArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(PutUserLockStatusResponse)
+    @record_history(state_changes={
+        PutUserLockStatusResponse.code: StateChange.LOCK_STATE_CHANGED
+    })
     def put(self, uid, user, **args):
         lock_id = args['lockId']
         security_utils.verify_lock_ownership(uid, lock_id)

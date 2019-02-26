@@ -79,20 +79,29 @@ def authorize(admin=False):
     return actual_decorator
 
 
-def record_history():
+def record_history(state_changes={}):
     def actual_decorator(function):
         @wraps(function)
         def wrapper(self, uid, user, *args, **kwargs):
-            response, code = function(self, uid, user, *args, **kwargs)
-            event = Event(
-                user_id=uid,
-                lock_id=kwargs.get('lockId'),
-                endpoint=request.url_rule.rule,
-                response_code=code,
-                status=StateChange.NONE,
-            )
-            add_event(event)
-            return response, code
+            try:
+                response, code = function(self, uid, user, *args, **kwargs)
+                event = Event(
+                    user_id=uid,
+                    lock_id=kwargs.get('lockId'),
+                    endpoint=request.url_rule.rule,
+                    status=state_changes.get(code, StateChange.NONE),
+                )
+                add_event(event)
+                return response, code
+            except Exception as e:
+                event = Event(
+                    user_id=uid,
+                    lock_id=kwargs.get('lockId'),
+                    endpoint=request.url_rule.rule,
+                    status=StateChange.NONE,
+                )
+                add_event(event)
+                raise e
         return wrapper
     return actual_decorator
 

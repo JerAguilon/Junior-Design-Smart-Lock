@@ -14,6 +14,7 @@ def add_event(event: Event):
 
 def get_events_from_lock_id(lock_id: str) -> List[Event]:
     event_ids = DB.child("LockEvents").child(lock_id).get().val().keys()
+    event_ids = event_ids if event_ids else []
 
     output = []
     for event_id in event_ids:

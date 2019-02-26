@@ -72,6 +72,17 @@ class PutLockStatusArgs(object):
 
 
 @swagger_input_model
+class GetLockHistoryArgs(object):
+    resource_fields = {
+        "lockId": fields.Str(
+            location='view_args',
+            description='A unique lock id',
+            required=True
+        ),
+    }
+
+
+@swagger_input_model
 class GetLockPasswordMetadataArgs(object):
     resource_fields = {
         "lockId": fields.Str(

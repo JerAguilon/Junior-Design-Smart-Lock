@@ -109,3 +109,27 @@ class PutUserLockStatusResponse(object):
     }
     required = ['status', 'providedPasswordDisabled']
     code = 200
+
+@swagger.model
+@swagger_output_model
+class LockEvent(object):
+    resource_fields = {
+        'userId': fields.String(attribute='user_id'),
+        'lockId': fields.String(attribute='lock_id'),
+        'endpoint': fields.String(),
+        'status': fields.String(),
+        'createdAt': fields.Integer(attribute='created_at'),
+    }
+    required = ['userId', 'lockId', 'endpoint', 'status', 'createdAt']
+
+@swagger.model
+@swagger_output_model
+class LockHistoryResponse(object):
+    resource_fields = {
+        'events': fields.List(
+            fields.Nested(LockEvent)
+        )
+    }
+
+    required = ['events']
+    code = 200

@@ -68,3 +68,6 @@ def handle_error(err):
 @app.route('/docs')
 def docs():
     return app.send_static_file('index.html')
+
+if __name__ == 'main':
+    app.run(host='0.0.0.0', port='8080')

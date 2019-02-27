@@ -69,5 +69,9 @@ def handle_error(err):
 def docs():
     return app.send_static_file('index.html')
 
+@app.route('/')
+def root():
+    return "Health check: online"
+
 if __name__ == '__main__':
     app.run(debug=True)

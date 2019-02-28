@@ -4,7 +4,6 @@
 __pycache__/
 ./secrets.py
 secrets.py
-junior-design-smart-lock-21013b7ac27b.json
-junior-design-smartlock-test-firebase-adminsdk-qgkqk-4fe705396e.json
+junior-design-smart-lock*.json
 env/*.ini
 venv/

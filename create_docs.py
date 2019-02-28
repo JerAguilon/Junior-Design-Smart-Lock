@@ -1,8 +1,23 @@
 import json
 
 import subprocess
+import os
+
+from configparser import ConfigParser
 
 from run import app
+
+env_mode = os.environ.get('SMARTLOCK_MODE', "DEV")
+print("Exporting for SMARTLOCK_MODE={}".format(env_mode))
+
+config = ConfigParser()
+config.read('env/variables.ini')
+if env_mode == 'DEV':
+    config = config['DEV_RUNTIME_VARIABLES']
+elif env_mode == 'PROD':
+    config = config['PROD_RUNTIME_VARIABLES']
+else:
+    raise Exception("Invalid env_mode: {}".format(env_mode))
 
 swagger_docs = app.test_client().get('/api/spec.json').json
 with open('docs/api_docs.json', 'w') as fp:
@@ -21,9 +36,12 @@ json_data['securityDefinitions'] = {
         "in": "header"
     }
 }
-json_data['host'] = 'localhost:5000'
+
+
+json_data['host'] = config['baseUrl']
 json_data['info']['title'] = 'Junior Design Smartlock'
-json_data['info']['description'] = 'Auto-generated API documentation for this project'
+json_data['info']['description'] = \
+    'Auto-generated API documentation for this project'
 for endpoint, endpoint_val in json_data['paths'].items():
     for verb, endpoint_data in endpoint_val.items():
         endpoint_data['security'] = [{'Authorization': []}]

@@ -71,10 +71,12 @@ def handle_error(err):
 def docs():
     return app.send_static_file('index.html')
 
+
 @app.route('/')
 def health():
     env_mode = os.environ.get('SMARTLOCK_MODE', "TEST")
     return "{} Health check: online".format(env_mode)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8080')

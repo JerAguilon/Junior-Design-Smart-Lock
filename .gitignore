@@ -4,6 +4,6 @@
 __pycache__/
 ./secrets.py
 secrets.py
-junior-design-smart-lock*.json
+junior-design*.json
 env/*.ini
 venv/

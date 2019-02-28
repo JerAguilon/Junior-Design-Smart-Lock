@@ -15,6 +15,10 @@ elif env_mode == "TEST":
     config = ConfigParser()
     config.read('env/variables.ini')
     firebase_variables = config['FIREBASE_TEST_CONFIG']
+elif env_mode == "PROD":
+    config = ConfigParser()
+    config.read('env/variables.ini')
+    firebase_variables = config['FIREBASE_PROD_CONFIG']
 else:
     raise ValueError(
         "SMARTLOCK_MODE environment variable not found or invalid: {}".format(

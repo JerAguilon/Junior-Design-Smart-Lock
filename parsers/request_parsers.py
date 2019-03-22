@@ -9,9 +9,9 @@ from parsers.parser_utils import swagger_input_model
 @swagger_input_model
 class DeleteUserLockArgs(object):
     resource_fields = {
-        "ownedLockIds": fields.DelimitedList(
-            fields.Str(),
-            description="A list of lock ids to add to the user",
+        "lockId": fields.Str(
+            location='view_args',
+            description='A unique lock id',
             required=True
         ),
     }

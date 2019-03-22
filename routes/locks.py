@@ -45,6 +45,8 @@ class UserLock(Resource):
 
 
 class Lock(Resource):
+    method_decorators = [authorize()]
+
     @swagger.operation(
         notes='Deletes a lock id associated with a user\'s account',
         parameters=[DeleteUserLockArgs.schema],
@@ -52,7 +54,7 @@ class Lock(Resource):
         responseMessages=[UserLockResponse.description],
         tags=['Locks'],
     )
-    @use_kwargs(PostUserLockArgs.resource_fields, locations=("json", "form"))
+    @use_kwargs(DeleteUserLockArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockResponse)
     @record_history(state_changes={
         UserLockResponse.code: StateChange.USER_LOCK_ADDED

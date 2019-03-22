@@ -22,6 +22,20 @@ def create_or_update_user_lock(uid, user_locks, should_overwrite=False):
     return user_locks.serialize()
 
 
+def delete_user_lock(uid, lock_id):
+    user_lock_entry = DB.child("UserLocks").child(uid).get().val()
+
+    owned_locks = set(user_lock_entry.get(
+        'ownedLockIds') if user_lock_entry else [])
+    owned_locks.remove(lock_id)
+
+    DB.child("UserLocks").child(uid).set(list(owned_locks))
+
+    # TODO: more expensive than necessary, can simply build
+    # an object using the variables above
+    return get_user_locks(uid)
+
+
 def get_user_locks(uid):
     owned_lock_ids = DB.child("UserLocks").child(
         uid).child('ownedLockIds').get().val()

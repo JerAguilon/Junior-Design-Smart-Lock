@@ -6,8 +6,7 @@ from typing import Optional
 
 from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
-from utils.time_utils import (
-        get_current_day, get_current_time_ms, is_time_between)
+from utils import time_utils
 from document_templates.password import PasswordType, Password, PasswordDays
 
 
@@ -22,7 +21,7 @@ def _password_is_active(password: Password, timezone=timezone("US/Eastern")):
     is_active = True
 
     if password.active_days != []:
-        day = PasswordDays(get_current_day(timezone))
+        day = PasswordDays(time_utils.get_current_day(timezone))
         is_active = day in password.active_days
 
     if password.active_times != []:
@@ -33,7 +32,8 @@ def _password_is_active(password: Password, timezone=timezone("US/Eastern")):
         begin_time = datetime.time(start_h, start_m)
         end_time = datetime.time(end_h, end_m)
 
-        is_active = is_time_between(begin_time, end_time, timezone=timezone)
+        is_active = time_utils.is_time_between(
+            begin_time, end_time, timezone=timezone)
 
     return is_active
 
@@ -60,7 +60,7 @@ def _get_sorted_passwords(lock_id):
     output = []
     for password in passwords_list:
         if password.expiration != -1 \
-                and password.expiration < get_current_time_ms():
+                and password.expiration < time_utils.get_current_time_ms():
             expired_passwords.append(password)
         elif _password_is_active(password):
             output.append(password)

@@ -35,7 +35,7 @@ class UserLock(Resource):
     @use_kwargs(PostUserLockArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockResponse)
     @record_history(state_changes={
-        UserLockResponse.code: StateChange.USER_LOCK_ADDED
+        UserLockResponse.code: StateChange.USER_LOCK_DELETED
     })
     def post(self, uid, user, **args):
         user_locks = UserLocks.build(args)
@@ -49,7 +49,7 @@ class Lock(Resource):
 
     @swagger.operation(
         notes='Deletes a lock id associated with a user\'s account',
-        parameters=[DeleteUserLockArgs.schema],
+        # parameters=[DeleteUserLockArgs.schema],
         responseClass=UserLockResponse.__name__,
         responseMessages=[UserLockResponse.description],
         tags=['Locks'],

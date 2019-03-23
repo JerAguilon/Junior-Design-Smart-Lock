@@ -67,8 +67,12 @@ def add_password(lock_id, password: Password) -> PasswordMetadata:
 
 
 def remove_password(lock_id: str, password: Password) -> None:
+    remove_password_by_id(lock_id, password.id)
+
+
+def remove_password_by_id(lock_id: str, password_id: str) -> None:
     DB.child("Locks").child(lock_id).child("passwords").child(
-        password.id
+        password_id
     ).remove()
 
 

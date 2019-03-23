@@ -8,6 +8,7 @@ from document_templates.password import Password, PasswordType
 from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
+    DeleteLockPasswordArgs,
     GetLockPasswordMetadataArgs,
     PostLockPasswordsArgs,
     PutLockPasswordArgs,
@@ -80,6 +81,25 @@ class LockPassword(Resource):
             update_args,
         )
         return result, LockPasswordResponse.code
+
+    @swagger.operation(
+        notes='Gets metadata on a lock password. ' + PASSWORD_INFO,
+        tags=['Password Management'],
+    )
+    @use_kwargs(
+        DeleteLockPasswordArgs.resource_fields,
+        locations=(
+            "json",
+            "form"))
+    @record_history(state_changes={
+        LockPasswordResponse.code: StateChange.PASSWORD_DELETED
+    })
+    def delete(self, uid, user, **kwargs):
+        lock_id = kwargs['lockId']
+        password_id = kwargs['passwordId']
+        security_utils.verify_lock_ownership(uid, lock_id)
+        password_manager.remove_password_by_id(lock_id, password_id)
+        return {}, 200
 
     def _build_update_args(self, kwargs):
         if 'password' in kwargs:

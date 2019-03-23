@@ -1,3 +1,5 @@
+import re
+
 from webargs import fields
 
 from document_templates.lock import LockStatus
@@ -125,7 +127,17 @@ class PutLockPasswordArgs(object):
             EnumField(PasswordDays),
             description='A list of the days that the password is available',
             required=False,
-        )
+        ),
+        "activeTimes": fields.DelimitedList(
+            fields.Str(
+                description='A time formatted as HH:MM',
+                validate=lambda s: re.fullmatch(s, '([0-1]?[0-9]|2[0-3]):[0-5][0-9]')
+            ),
+            description='A list of two times (local to the lock) in HH:MM format for when the password is active.',
+            validate=lambda l: len(l) == 2,
+            required=False,
+            missing=[],
+        ),
     }
 
 
@@ -150,6 +162,16 @@ class PostLockPasswordsArgs(object):
         "activeDays": fields.DelimitedList(
             EnumField(PasswordDays),
             description='A list of the days that the password is available',
+            required=False,
+            missing=[],
+        ),
+        "activeTimes": fields.DelimitedList(
+            fields.Str(
+                description='A time formatted as HH:MM',
+                validate=lambda s: re.fullmatch(s, '([0-1]?[0-9]|2[0-3]):[0-5][0-9]')
+            ),
+            description='A list of two times (local to the lock) in HH:MM format for when the password is active.',
+            validate=lambda l: len(l) == 2,
             required=False,
             missing=[],
         ),

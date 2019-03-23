@@ -29,6 +29,7 @@ class PasswordMetadata(object):
         id="UNKNOWN",
         expiration=None,
         active_days=None,
+        active_times=None,
         created_at=calendar.timegm(time.gmtime())
     ):
         PasswordMetadata.validate_expiration(type, expiration)
@@ -38,6 +39,8 @@ class PasswordMetadata(object):
             expiration = -1
         if active_days is None:
             active_days = []
+        if active_times is None:
+            active_times = []
 
         self.type = type
         self.expiration = expiration
@@ -53,6 +56,7 @@ class PasswordMetadata(object):
             "expiration": self.expiration,
             "activeDays": [d.value for d in self.active_days],
             "createdAt": self.created_at,
+            "activeTimes": self.active_times,
         }
         if include_id:
             output['id'] = self.id
@@ -65,6 +69,8 @@ class PasswordMetadata(object):
             self.active_days = [
                 PasswordDays(d) for d in update_args['activeDays']
             ]
+        if 'activeTimes' in update_args:
+            self.active_times = update_args['activeTimes']
 
     @staticmethod
     def from_database(pw_id, password_dict):
@@ -74,6 +80,7 @@ class PasswordMetadata(object):
             active_days=[
                 PasswordDays(d) for d in password_dict.get('activeDays', [])
             ],
+            active_times=password_dict['activeTimes'],
             created_at=password_dict['createdAt'],
             id=pw_id
         )

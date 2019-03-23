@@ -39,6 +39,10 @@ api.add_resource(
     "/api/v1/locks/<lockId>/status"
 )
 api.add_resource(
+    locks.Lock,
+    "/api/v1/locks/<lockId>"
+)
+api.add_resource(
     locks.UserLock,
     "/api/v1/locks"
 )

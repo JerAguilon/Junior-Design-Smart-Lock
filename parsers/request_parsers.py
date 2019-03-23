@@ -7,6 +7,17 @@ from parsers.parser_utils import swagger_input_model
 
 
 @swagger_input_model
+class DeleteUserLockArgs(object):
+    resource_fields = {
+        "lockId": fields.Str(
+            location='view_args',
+            description='A unique lock id',
+            required=True
+        ),
+    }
+
+
+@swagger_input_model
 class PostLocksArgs(object):
     resource_fields = {
         "nickname": fields.Str(

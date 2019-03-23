@@ -112,6 +112,30 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
+### /api/v1/locks/{lockId}
+---
+##### ***DELETE***
+**Description:** Deletes a lock id associated with a user's account
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lockId | path |  | Yes | string |
+| body | body |  | Yes | [DeleteUserLockArgs](#deleteuserlockargs) |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A UserLockResponse object | [UserLockResponse](#userlockresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ### /api/v1/locks/{lockId}/history
 ---
 ##### ***GET***
@@ -316,6 +340,12 @@ Auto-generated API documentation for this project
 | nickname | string |  | Yes |
 | status | string |  | Yes |
 | timezone | string |  | No |
+
+### DeleteUserLockArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| ownedLockIds | [ string ] |  | Yes |
 
 ### LockEvent  
 

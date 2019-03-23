@@ -6,8 +6,8 @@ def test_delete_lock_unauthorized(client):
     assert 'message' in response.get_json()
 
 
-def test_delete_locks_with_id(client, id_token, seeded_lock):
-    lock_id = seeded_lock.id
+def test_delete_locks_with_id(client, id_token, seeded_user_lock):
+    lock_id = seeded_user_lock.owned_lock_ids[0]
 
     response = client.delete(
         '/api/v1/locks/{}'.format(lock_id),
@@ -16,3 +16,4 @@ def test_delete_locks_with_id(client, id_token, seeded_lock):
         }
     )
     assert response.status_code == 200
+    assert response.get_json() == {'ownedLockIds': []}

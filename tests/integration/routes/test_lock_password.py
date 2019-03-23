@@ -95,3 +95,31 @@ def test_put_password(
     new_password = db.child("Locks").child(seeded_lock.id).child(
         "passwords").child(seeded_password.id).get().val()['password']
     assert check_password(password_plaintext, new_password)
+
+
+@pytest.mark.usefixtures("seeded_user_lock")
+def test_delete_password(
+    client,
+    id_token,
+    seeded_user,
+    seeded_lock,
+    seeded_password,
+    db
+):
+    # should start with a password
+    assert seeded_password.id in db.child("Locks").child(
+        seeded_lock.id).get().val()['passwords'].keys()
+
+    response = client.delete(
+        '/api/v1/locks/{}/passwords/{}'.format(
+            seeded_lock.id, seeded_password.id
+        ),
+        headers={
+            'Authorization': id_token
+        }
+    )
+    assert response.status_code == 200
+    assert response.get_json() == {}
+    # should be empty now
+    assert not db.child("Locks").child(
+        seeded_lock.id).get().val().get('passwords')

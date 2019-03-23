@@ -49,7 +49,7 @@ class Lock(Resource):
 
     @swagger.operation(
         notes='Deletes a lock id associated with a user\'s account',
-        parameters=[DeleteUserLockArgs.schema],
+        # parameters=[DeleteUserLockArgs.schema],
         responseClass=UserLockResponse.__name__,
         responseMessages=[UserLockResponse.description],
         tags=['Locks'],

@@ -85,7 +85,6 @@ class LockPassword(Resource):
     @swagger.operation(
         notes='Gets metadata on a lock password. ' + PASSWORD_INFO,
         tags=['Password Management'],
-        parameters=[DeleteLockPasswordArgs.schema],
     )
     @use_kwargs(
         DeleteLockPasswordArgs.resource_fields,

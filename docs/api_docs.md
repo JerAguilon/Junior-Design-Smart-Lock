@@ -122,7 +122,6 @@ Auto-generated API documentation for this project
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | lockId | path |  | Yes | string |
-| body | body |  | Yes | [DeleteUserLockArgs](#deleteuserlockargs) |
 
 **Responses**
 
@@ -139,7 +138,7 @@ Auto-generated API documentation for this project
 ### /api/v1/locks/{lockId}/history
 ---
 ##### ***GET***
-**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'PASSWORD_CREATED', 'PASSWORD_METADATA_CHANGED', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED'].
+**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'PASSWORD_CREATED', 'PASSWORD_DELETED', 'PASSWORD_METADATA_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED'].
 
 **Parameters**
 
@@ -215,7 +214,6 @@ Auto-generated API documentation for this project
 | ---- | ---------- | ----------- | -------- | ---- |
 | lockId | path |  | Yes | string |
 | passwordId | path |  | Yes | string |
-| body | body |  | Yes | [DeleteLockPasswordArgs](#deletelockpasswordargs) |
 
 **Responses**
 

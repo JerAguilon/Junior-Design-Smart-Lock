@@ -61,6 +61,7 @@ def add_password(lock_id, password: Password) -> PasswordMetadata:
         type=password.type,
         expiration=password.expiration,
         active_days=password.active_days,
+        active_times=password.active_times,
         id=new_id,
     )
 

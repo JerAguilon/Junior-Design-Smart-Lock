@@ -45,6 +45,7 @@ class PasswordMetadata(object):
         self.type = type
         self.expiration = expiration
         self.active_days = active_days
+        self.active_times = active_times
         self.id = id
         self.created_at = created_at
 
@@ -80,7 +81,7 @@ class PasswordMetadata(object):
             active_days=[
                 PasswordDays(d) for d in password_dict.get('activeDays', [])
             ],
-            active_times=password_dict['activeTimes'],
+            active_times=password_dict.get('activeTimes', []),
             created_at=password_dict['createdAt'],
             id=pw_id
         )
@@ -131,6 +132,7 @@ class Password(PasswordMetadata):
             password=request_form['password'],
             expiration=request_form['expiration'],
             active_days=request_form['activeDays'],
+            active_times=request_form['activeTimes'],
         )
 
     def update(self, update_args: Dict[str, str]):
@@ -146,6 +148,7 @@ class Password(PasswordMetadata):
             active_days=[
                 PasswordDays(d) for d in password_dict.get('activeDays', [])
             ],
+            active_times=password_dict.get('activeTimes', []),
             created_at=password_dict['createdAt'],
             password=password_dict['password'],
             id=pw_id,

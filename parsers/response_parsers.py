@@ -52,7 +52,7 @@ class LockPasswordResponse(object):
             attribute="active_days"),
         'activeTimes': fields.List(
             fields.String(),
-            attribute="activeDays")
+            attribute="active_times")
     }
     required = ['id', 'createdAt', 'type']
     code = 200

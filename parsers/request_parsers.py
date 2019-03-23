@@ -131,9 +131,13 @@ class PutLockPasswordArgs(object):
         "activeTimes": fields.DelimitedList(
             fields.Str(
                 description='A time formatted as HH:MM',
-                validate=lambda s: re.fullmatch(s, '([0-1]?[0-9]|2[0-3]):[0-5][0-9]')
+                validate=lambda s: re.fullmatch(
+                    s, '([0-1]?[0-9]|2[0-3]):[0-5][0-9]')
             ),
-            description='A list of two times (local to the lock) in HH:MM format for when the password is active.',
+            description=(
+                'A length 2 list of start and end times (local to the lock)'
+                'in HH:MM format for when the password is active.'
+                'Example: [08:00, 12:00]'),
             validate=lambda l: len(l) == 2,
             required=False,
             missing=[],
@@ -168,9 +172,13 @@ class PostLockPasswordsArgs(object):
         "activeTimes": fields.DelimitedList(
             fields.Str(
                 description='A time formatted as HH:MM',
-                validate=lambda s: re.fullmatch(s, '([0-1]?[0-9]|2[0-3]):[0-5][0-9]')
+                validate=lambda s: re.fullmatch(
+                    s, '([0-1]?[0-9]|2[0-3]):[0-5][0-9]')
             ),
-            description='A list of two times (local to the lock) in HH:MM format for when the password is active.',
+            description=(
+                'A length 2 list of start and end times (local to the lock)'
+                'in HH:MM format for when the password is active.'
+                'Example: [08:00, 12:00]'),
             validate=lambda l: len(l) == 2,
             required=False,
             missing=[],

@@ -77,7 +77,8 @@ def docs():
 @app.route('/')
 def health():
     env_mode = os.environ.get('SMARTLOCK_MODE', "TEST")
-    return "{} Health check: online".format(env_mode)
+    return "{} Health check: online <a href='/docs'>View Docs</a>".format(
+        env_mode)
 
 
 if __name__ == '__main__':

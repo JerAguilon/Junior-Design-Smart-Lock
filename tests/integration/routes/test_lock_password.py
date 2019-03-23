@@ -31,8 +31,9 @@ def test_get_password(
         'id': seeded_password.id,
         'type': seeded_password.type.value,
         'activeDays': [d.value for d in seeded_password.active_days],
+        'activeTimes': [],
     }
-    assert response.status_code == 200
+    assert response.status_code == 200, response.get_json()
     assert response.get_json() == expected_json
 
 
@@ -54,7 +55,7 @@ def test_put_password_no_updates(
         json={
         }
     )
-    assert response.status_code == 422
+    assert response.status_code == 422, response.get_json()
     assert response.get_json() == {
         'error': 'Fields to update weren\'t supplied'
     }
@@ -88,9 +89,10 @@ def test_put_password(
         'type': seeded_password.type.value,
         'createdAt': seeded_password.created_at,
         'activeDays': ['MONDAY'],
+        'activeTimes': [],
         'expiration': -1,
     }
-    assert response.status_code == 200
+    assert response.status_code == 200, response.get_json()
     assert response.get_json() == expected_json
     new_password = db.child("Locks").child(seeded_lock.id).child(
         "passwords").child(seeded_password.id).get().val()['password']
@@ -118,7 +120,7 @@ def test_delete_password(
             'Authorization': id_token
         }
     )
-    assert response.status_code == 200
+    assert response.status_code == 200, response.get_json()
     assert response.get_json() == {}
     # should be empty now
     assert not db.child("Locks").child(

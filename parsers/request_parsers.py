@@ -153,10 +153,10 @@ class PutLockPasswordArgs(object):
             description=(
                 'A length 2 list of start and end times (local to the lock)'
                 'in HH:MM format for when the password is active.'
-                'Example: [08:00, 12:00]'),
-            validate=lambda l: len(l) == 2,
+                'Example: [08:00, 12:00]. An empty list can be passed to'
+                'have the lock always enabled'),
+            validate=lambda l: len(l) == 2 or len(l) == 0,
             required=False,
-            missing=[],
         ),
     }
 
@@ -194,8 +194,9 @@ class PostLockPasswordsArgs(object):
             description=(
                 'A length 2 list of start and end times (local to the lock)'
                 'in HH:MM format for when the password is active.'
-                'Example: [08:00, 12:00]'),
-            validate=lambda l: len(l) == 2,
+                'Example: [08:00, 12:00]. An empty list can be passed to'
+                'have the lock always enabled'),
+            validate=lambda l: len(l) == 2 or len(l) == 0,
             required=False,
             missing=[],
         ),

@@ -341,12 +341,6 @@ Auto-generated API documentation for this project
 | status | string |  | Yes |
 | timezone | string |  | No |
 
-### DeleteUserLockArgs  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| ownedLockIds | [ string ] |  | Yes |
-
 ### LockEvent  
 
 | Name | Type | Description | Required |
@@ -368,6 +362,7 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | activeDays | [ string ] |  | No |
+| activeTimes | [ string ] |  | No |
 | createdAt | integer |  | Yes |
 | expiration | integer |  | No |
 | id | string |  | Yes |
@@ -385,6 +380,7 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | activeDays | [ string ] |  | No |
+| activeTimes | [ string ] |  | No |
 | expiration | integer |  | No |
 | password | string |  | Yes |
 | type | string |  | Yes |
@@ -414,6 +410,7 @@ Auto-generated API documentation for this project
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | activeDays | [ string ] |  | No |
+| activeTimes | [ string ] |  | No |
 | expiration | integer |  | No |
 | password | string |  | No |
 

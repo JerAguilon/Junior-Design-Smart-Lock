@@ -35,7 +35,7 @@ class UserLock(Resource):
     @use_kwargs(PostUserLockArgs.resource_fields, locations=("json", "form"))
     @marshal_with_parser(UserLockResponse)
     @record_history(state_changes={
-        UserLockResponse.code: StateChange.USER_LOCK_ADDED
+        UserLockResponse.code: StateChange.USER_LOCK_DELETED
     })
     def post(self, uid, user, **args):
         user_locks = UserLocks.build(args)

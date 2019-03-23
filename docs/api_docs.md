@@ -139,7 +139,7 @@ Auto-generated API documentation for this project
 ### /api/v1/locks/{lockId}/history
 ---
 ##### ***GET***
-**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'PASSWORD_CREATED', 'PASSWORD_METADATA_CHANGED', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'USER_LOCK_ADDED'].
+**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'PASSWORD_CREATED', 'PASSWORD_METADATA_CHANGED', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED'].
 
 **Parameters**
 
@@ -206,6 +206,29 @@ Auto-generated API documentation for this project
 
 ### /api/v1/locks/{lockId}/passwords/{passwordId}
 ---
+##### ***DELETE***
+**Description:** Gets metadata on a lock password. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| lockId | path |  | Yes | string |
+| passwordId | path |  | Yes | string |
+| body | body |  | Yes | [DeleteLockPasswordArgs](#deletelockpasswordargs) |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response was specified |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ##### ***GET***
 **Description:** Gets metadata on a lock password. Passwords are passed as arguments to change the status or sensitive metadata of a lock. In addition, the user needs to own the lock as well
 
@@ -340,12 +363,6 @@ Auto-generated API documentation for this project
 | nickname | string |  | Yes |
 | status | string |  | Yes |
 | timezone | string |  | No |
-
-### DeleteUserLockArgs  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| ownedLockIds | [ string ] |  | Yes |
 
 ### LockEvent  
 

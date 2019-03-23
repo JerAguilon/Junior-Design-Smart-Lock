@@ -92,6 +92,9 @@ class LockPassword(Resource):
         locations=(
             "json",
             "form"))
+    @record_history(state_changes={
+        LockPasswordResponse.code: StateChange.PASSWORD_DELETED
+    })
     def delete(self, uid, user, **kwargs):
         lock_id = kwargs['lockId']
         password_id = kwargs['passwordId']

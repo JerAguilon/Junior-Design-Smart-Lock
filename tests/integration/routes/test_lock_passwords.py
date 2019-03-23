@@ -33,6 +33,7 @@ def test_get_passwords_authorized(
                 'type': seeded_password.type.value,
                 'createdAt': seeded_password.created_at,
                 'activeDays': seeded_password.active_days,
+                'activeTimes': seeded_password.active_times,
             }
         ]
     }
@@ -59,7 +60,8 @@ def test_post_password(
         json={
             'password': '123456',
             'type': mock_password.type.value,
-            'activeDays': [day.value for day in mock_password.active_days]
+            'activeDays': [day.value for day in mock_password.active_days],
+            'activeTimes': ['12:00', '24:00']
         }
     )
     expected_json = {
@@ -67,6 +69,7 @@ def test_post_password(
         'expiration': mock_password.expiration,
         'createdAt': mock_password.created_at,
         'activeDays': [day.value for day in mock_password.active_days],
+        'activeTimes': ['12:00', '24:00']
     }
     response_json = response.get_json()
     del response_json['id']

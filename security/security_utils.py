@@ -6,7 +6,8 @@ from typing import Optional
 
 from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
-from utils.time_utils import get_current_day, get_current_time_ms, is_time_between
+from utils.time_utils import (
+        get_current_day, get_current_time_ms, is_time_between)
 from document_templates.password import PasswordType, Password, PasswordDays
 
 
@@ -35,7 +36,6 @@ def _password_is_active(password: Password, timezone=timezone("US/Eastern")):
         is_active = is_time_between(begin_time, end_time, timezone=timezone)
 
     return is_active
-
 
 def _get_sorted_passwords(lock_id):
     type_ordinal = {

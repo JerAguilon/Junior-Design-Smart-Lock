@@ -1,16 +1,30 @@
-[FIREBASE_CONFIG]
-apiKey = UNKNOWN
-authDomain = UNKNOWN
-databaseURL = UNKNOWN
-storageBucket = UNKNOWN
-serviceAccount = UNKNOWN
+[FIREBASE_DEV_CONFIG]
+apiKey=UNKNOWN
+authDomain=UNKNOWN
+databaseURL=UNKNOWN
+storageBucket=UNKNOWN
+serviceAccount=UNKNOWN
 
 [FIREBASE_TEST_CONFIG]
-apiKey = UNKNOWN
-authDomain = UNKNOWN
-databaseURL = UNKNOWN
-storageBucket = UNKNOWN
-serviceAccount = UNKNOWN
-testUsername = UNKNOWN
-testPassword = UNKNOWN
-testName = UNKNOWN
+apiKey=UNKNOWN
+authDomain=UNKNOWN
+databaseURL=UNKNOWN
+storageBucket=UNKNOWN
+serviceAccount=UNKNOWN
+testUsername=foouser
+testPassword=foopw
+testName=foo
+
+[FIREBASE_PROD_CONFIG]
+apiKey=UNKNOWN
+authDomain=UNKNOWN
+databaseURL=UNKNOWN
+storageBucket=UNKNOWN
+serviceAccount=UNKNOWN
+
+
+[PROD_RUNTIME_VARIABLES]
+baseUrl=some-ec2-endpoint.com
+
+[DEV_RUNTIME_VARIABLES]
+baseUrl=localhost:xxxx

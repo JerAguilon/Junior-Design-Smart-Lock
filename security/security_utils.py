@@ -1,11 +1,13 @@
 import bcrypt
+import datetime
 
 from pytz import timezone
 from typing import Optional
 
 from firebase.firebase_config import DB
 from utils.exceptions import AuthorizationException, ValidationException
-from utils.time_utils import get_current_day, get_current_time_ms
+from utils.time_utils import (
+        get_current_day, get_current_time_ms, is_time_between)
 from document_templates.password import PasswordType, Password, PasswordDays
 
 
@@ -17,11 +19,23 @@ def _prune_passwords(lock_id, passwords):
 
 
 def _password_is_active(password: Password, timezone=timezone("US/Eastern")):
-    if password.active_days == []:
-        return True
-    day = PasswordDays(get_current_day(timezone))
-    return day in password.active_days
+    is_active = True
 
+    if password.active_days != []:
+        day = PasswordDays(get_current_day(timezone))
+        is_active = day in password.active_days
+
+    if password.active_times != []:
+        start, end = map(str, password.active_times)
+        start_h, start_m = map(int, start.split(':'))
+        end_h, end_m = map(int, end.split(':'))
+
+        begin_time = datetime.time(start_h, start_m)
+        end_time = datetime.time(end_h, end_m)
+
+        is_active = is_time_between(begin_time, end_time, timezone=timezone)
+
+    return is_active
 
 def _get_sorted_passwords(lock_id):
     type_ordinal = {

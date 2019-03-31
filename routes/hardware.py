@@ -2,10 +2,12 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
-from managers import lock_manager, password_manager
+from document_templates.history import Event
+from managers import lock_manager, password_manager, history_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
-    PutHardwareLockStatusArgs
+    PostHardwareEventArgs,
+    PutHardwareLockStatusArgs,
 )
 from parsers.response_parsers import (
     SyncLockPasswordsResponse,
@@ -62,3 +64,26 @@ class HardwareLockSync(Resource):
             password_manager.get_passwords(lock_id),
             SyncLockPasswordsResponse.code
         )
+
+
+class HardwareEvents(Resource):
+    method_decorators = [authorize_hardware()]
+
+    @swagger.operation(
+        notes='Adds a hardware event to the server.',
+        parameters=[PostHardwareEventArgs.schema],
+        tags=['Hardware'],
+    )
+    @use_kwargs(
+        PostHardwareEventArgs.resource_fields,
+        locations=("json", "form")
+    )
+    def post(self, lock_id, **kwargs):
+        event = Event(
+            status=kwargs['event'],
+            user_id="N/A",
+            lock_id=lock_id,
+            endpoint="N/A",
+        )
+        history_manager.add_event(event)
+        return {}, 200

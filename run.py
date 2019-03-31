@@ -19,6 +19,10 @@ api.add_resource(
     "/api/v1/admin/locks"
 )
 api.add_resource(
+    hardware.HardwareEvents,
+    "/api/v1/hardware/events"
+)
+api.add_resource(
     hardware.HardwareLockStatus,
     "/api/v1/hardware/status"
 )

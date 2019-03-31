@@ -4,6 +4,7 @@ from webargs import fields
 
 from document_templates.lock import LockStatus
 from document_templates.password import PasswordType, PasswordDays
+from document_templates.history import StateChange
 from parsers.field_utils import EnumField, TimezoneField
 from parsers.parser_utils import swagger_input_model
 
@@ -80,11 +81,11 @@ class PutHardwareLockStatusArgs(object):
 
 
 @swagger_input_model
-class PutHardwareLockStatusArgs(object):
+class PostHardwareEventArgs(object):
     resource_fields = {
-        "status": EnumField(
-            LockStatus,
-            description="The latest lock status to update to",
+        "event": EnumField(
+            StateChange,
+            description="A new event",
             required=True
         ),
     }

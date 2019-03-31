@@ -36,6 +36,29 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
+### /api/v1/hardware/events
+---
+##### ***POST***
+**Description:** Adds a hardware event to the server. The event can be one of ['NONE', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'PASSWORD_CREATED', 'PASSWORD_DELETED', 'PASSWORD_METADATA_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED', 'HARDWARE_LOCK_OPENED', 'HARDWARE_LOCK_CLOSED', 'HARDWARE_SUCCEEDED_PASSWORD', 'HARDWARE_FAILED_PASSWORD'].
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| body | body |  | Yes | [PostHardwareEventArgs](#posthardwareeventargs) |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response was specified |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ### /api/v1/hardware/status
 ---
 ##### ***GET***
@@ -155,7 +178,7 @@ Auto-generated API documentation for this project
 ### /api/v1/locks/{lockId}/history
 ---
 ##### ***GET***
-**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'PASSWORD_CREATED', 'PASSWORD_DELETED', 'PASSWORD_METADATA_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED'].
+**Description:** Resource that lets users retrieve events given a lock id. See `LockEvent` for the schema for each response. Note that status can be one of ['NONE', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'PASSWORD_CREATED', 'PASSWORD_DELETED', 'PASSWORD_METADATA_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED', 'HARDWARE_LOCK_OPENED', 'HARDWARE_LOCK_CLOSED', 'HARDWARE_SUCCEEDED_PASSWORD', 'HARDWARE_FAILED_PASSWORD'].
 
 **Parameters**
 
@@ -412,6 +435,12 @@ Auto-generated API documentation for this project
 | ---- | ---- | ----------- | -------- |
 | otp | [ [LockPasswordResponse](#lockpasswordresponse) ] |  | Yes |
 | permanent | [ [LockPasswordResponse](#lockpasswordresponse) ] |  | Yes |
+
+### PostHardwareEventArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| event | string |  | Yes |
 
 ### PostLockPasswordsArgs  
 

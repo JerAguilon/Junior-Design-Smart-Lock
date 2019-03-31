@@ -80,6 +80,17 @@ class PutHardwareLockStatusArgs(object):
 
 
 @swagger_input_model
+class PutHardwareLockStatusArgs(object):
+    resource_fields = {
+        "status": EnumField(
+            LockStatus,
+            description="The latest lock status to update to",
+            required=True
+        ),
+    }
+
+
+@swagger_input_model
 class PutLockStatusArgs(object):
     resource_fields = {
         "status": EnumField(

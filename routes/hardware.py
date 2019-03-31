@@ -2,12 +2,15 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
-from managers import lock_manager
+from managers import lock_manager, password_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
     PutHardwareLockStatusArgs
 )
-from parsers.response_parsers import UserLockStatusResponse
+from parsers.response_parsers import (
+    SyncLockPasswordsResponse,
+    UserLockStatusResponse
+)
 from utils.decorators import authorize_hardware
 
 
@@ -42,3 +45,20 @@ class HardwareLockStatus(Resource):
     def get(self, lock_id, **kwargs):
         return lock_manager.get_lock_status(
             lock_id), UserLockStatusResponse.code
+
+
+class HardwareLockSync(Resource):
+    method_decorators = [authorize_hardware()]
+
+    @swagger.operation(
+        notes='Syncs passwords locally',
+        responseClass=SyncLockPasswordsResponse.__name__,
+        responseMessages=[SyncLockPasswordsResponse.description],
+        tags=['Hardware'],
+    )
+    @marshal_with_parser(SyncLockPasswordsResponse)
+    def get(self, lock_id, **kwargs):
+        return (
+            password_manager.get_passwords(lock_id),
+            SyncLockPasswordsResponse.code
+        )

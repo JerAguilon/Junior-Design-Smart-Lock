@@ -37,6 +37,7 @@ def _password_is_active(password: Password, timezone=timezone("US/Eastern")):
 
     return is_active
 
+
 def _get_sorted_passwords(lock_id):
     type_ordinal = {
         PasswordType.UNLIMITED: 0,

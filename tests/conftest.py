@@ -140,3 +140,4 @@ def seeded_admin_user(db, seeded_user):
     db.child("Users").child(seeded_user.id).update(
         {'isAdmin': True}
     )
+    return seeded_user

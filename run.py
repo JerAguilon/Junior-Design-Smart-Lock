@@ -23,6 +23,10 @@ api.add_resource(
     "/api/v1/hardware/status"
 )
 api.add_resource(
+    hardware.HardwareLockSync,
+    "/api/v1/hardware/sync"
+)
+api.add_resource(
     history.LockHistory,
     "/api/v1/locks/<lockId>/history"
 )

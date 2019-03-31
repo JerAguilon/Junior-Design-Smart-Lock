@@ -74,6 +74,23 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
+### /api/v1/hardware/sync
+---
+##### ***GET***
+**Description:** Syncs passwords locally
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | A SyncLockPasswordsResponse object | [SyncLockPasswordsResponse](#synclockpasswordsresponse) |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ### /api/v1/locks
 ---
 ##### ***GET***
@@ -448,6 +465,25 @@ Auto-generated API documentation for this project
 | ---- | ---- | ----------- | -------- |
 | providedPasswordDisabled | boolean |  | Yes |
 | status | string |  | Yes |
+
+### SyncLockPasswordResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| activeDays | [ string ] |  | No |
+| activeTimes | [ string ] |  | No |
+| createdAt | integer |  | Yes |
+| expiration | integer |  | No |
+| hashedPassword | string |  | Yes |
+| id | string |  | Yes |
+| type | string |  | Yes |
+
+### SyncLockPasswordsResponse  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| otp | [  ] |  | Yes |
+| permanent | [  ] |  | Yes |
 
 ### UserLockResponse  
 

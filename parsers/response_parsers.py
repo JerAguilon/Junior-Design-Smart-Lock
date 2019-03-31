@@ -75,6 +75,43 @@ class LockPasswordsResponse():
 
 @swagger.model
 @swagger_output_model
+class SyncLockPasswordResponse(object):
+    resource_fields = {
+        'id': fields.String(),
+        'type': EnumField(PasswordType),
+        'expiration': fields.Integer(),
+        'createdAt': fields.Integer(
+            attribute="created_at"),
+        'activeDays': fields.List(
+            EnumField(PasswordDays),
+            attribute="active_days"),
+        'activeTimes': fields.List(
+            fields.String(),
+            attribute="active_times"),
+        'hashedPassword': fields.String(
+            attribute="hashed_password"),
+    }
+    required = ['id', 'createdAt', 'type', 'hashedPassword']
+    code = 200
+
+
+@swagger.model
+@swagger_output_model
+class SyncLockPasswordsResponse(object):
+    resource_fields = {
+        'otp': fields.List(
+            fields.Nested(SyncLockPasswordResponse.resource_fields)
+        ),
+        'permanent': fields.List(
+            fields.Nested(SyncLockPasswordResponse.resource_fields)
+        ),
+    }
+    required = ['otp', 'permanent']
+    code = 200
+
+
+@swagger.model
+@swagger_output_model
 class UserResponse(object):
     resource_fields = {
         'id': fields.String(attribute='id'),

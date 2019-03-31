@@ -39,7 +39,7 @@ Auto-generated API documentation for this project
 ### /api/v1/hardware/events
 ---
 ##### ***POST***
-**Description:** Adds a hardware event to the server.
+**Description:** Adds a hardware event to the server. The event can be one of ['NONE', 'LOCK_METADATA_CHANGED', 'LOCK_STATE_CHANGED', 'PASSWORD_CREATED', 'PASSWORD_DELETED', 'PASSWORD_METADATA_CHANGED', 'USER_LOCK_ADDED', 'USER_LOCK_DELETED', 'HARDWARE_LOCK_OPENED', 'HARDWARE_LOCK_CLOSED', 'HARDWARE_SUCCEEDED_PASSWORD', 'HARDWARE_FAILED_PASSWORD'].
 
 **Parameters**
 

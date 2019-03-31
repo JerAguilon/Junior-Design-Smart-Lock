@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask_restful_swagger import swagger
 from webargs.flaskparser import use_kwargs
 
-from document_templates.history import Event
+from document_templates.history import Event, StateChange
 from managers import lock_manager, password_manager, history_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
@@ -70,7 +70,8 @@ class HardwareEvents(Resource):
     method_decorators = [authorize_hardware()]
 
     @swagger.operation(
-        notes='Adds a hardware event to the server.',
+        notes=('Adds a hardware event to the server. The event can be '
+               'one of {}.'.format([s.value for s in StateChange])),
         parameters=[PostHardwareEventArgs.schema],
         tags=['Hardware'],
     )

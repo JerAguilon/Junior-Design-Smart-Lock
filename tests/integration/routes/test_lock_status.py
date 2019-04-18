@@ -322,3 +322,32 @@ def test_put_lock_status_open_requested_password_not_active_time(
         # Both passwords should be in the DB still
         assert expired_pw.id in active_password_keys
         assert seeded_password.id in active_password_keys
+
+
+@pytest.mark.usefixtures("seeded_user", "seeded_user_lock")
+def test_put_lock_status_open_requested_no_registered_passwords(
+    client,
+    id_token,
+    seeded_lock,
+    get_mock_password,
+    db,
+    mocker
+):
+    pw_str = "192168"
+
+    lock_id = seeded_lock.id
+    response = client.put(
+        '/api/v1/locks/{}/status'.format(lock_id),
+        headers={
+            'Authorization': id_token,
+        },
+        json={
+            'status': LockStatus.OPEN_REQUESTED.value,
+            'password': pw_str
+        }
+    )
+
+    assert response.status_code == 401
+    assert response.get_json() == {
+        "error": "Invalid or inactive password supplied"
+    }

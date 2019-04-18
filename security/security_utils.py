@@ -44,7 +44,8 @@ def _get_sorted_passwords(lock_id):
         PasswordType.OTP: 1,
     }
 
-    passwords = DB.child("Locks").child(lock_id).child("passwords").get().val()
+    passwords = DB.child("Locks").child(
+        lock_id).child("passwords").get().val() or {}
     passwords_list = [
         (pw_id, password_dict) for pw_id, password_dict in passwords.items()
     ]

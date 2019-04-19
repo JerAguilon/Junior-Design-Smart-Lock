@@ -15,6 +15,9 @@
 
 # Windows
 
+**Warning: these instructions are lightly tested only due to no backend coders using Windows.
+  UNIX operating systems are the preferred platform for this server.**
+
 1. cd into the root of this repository
 2. Type `python -m virtualenv venv` (you may need to use `python3` to ensure the right version)
 3. Type `npm install -g api-spec-converter`

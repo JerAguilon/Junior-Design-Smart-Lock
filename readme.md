@@ -18,10 +18,10 @@ In total, you should create _3_ [Firebase instances](https://console.firebase.go
 1. Download the Firebase JSON key by following the "Initialize the SDK" instructions provided by Google Firebase [here](https://firebase.google.com/docs/admin/setup).
 2. Update the serviceAccount variable for dev, test, and prod to be the location of the firebase key.
 3. Get the apiKey, authDomain, databaseURL, and storageBucket from the firebase console. The easiest way to look these up is:
-    a) Go to the project overview page in the Firebase console
-    b) Click the `+` in the top bar
-    c) Click the </> button to add a web app.
-    d) Simply copy and paste the variables that pop up. You do not need to create a web app.
+    * Go to the project overview page in the Firebase console
+    * Click the `+` in the top bar
+    * Click the </> button to add a web app.
+    * Simply copy and paste the variables that pop up. You do not need to create a web app.
 
 ### Linux/MacOS
 

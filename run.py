@@ -31,6 +31,10 @@ api.add_resource(
     "/api/v1/hardware/sync"
 )
 api.add_resource(
+    hardware.HardwarePasswordUpdates,
+    "/api/v1/hardware/passwords"
+)
+api.add_resource(
     history.LockHistory,
     "/api/v1/locks/<lockId>/history"
 )

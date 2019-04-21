@@ -3,6 +3,7 @@ import base64
 
 TEST_PASSWORD = "testpassword1234"
 
+
 def create_lock(
     client,
     id_token,

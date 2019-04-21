@@ -59,6 +59,29 @@ Auto-generated API documentation for this project
 | --- | --- |
 | Authorization | |
 
+### /api/v1/hardware/passwords
+---
+##### ***DELETE***
+**Description:** Removes a list of lock password ids
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| body | body |  | Yes | [PostHardwareEventArgs](#posthardwareeventargs) |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | No response was specified |
+
+**Security**
+
+| Security Schema | Scopes |
+| --- | --- |
+| Authorization | |
+
 ### /api/v1/hardware/status
 ---
 ##### ***GET***
@@ -401,6 +424,12 @@ Auto-generated API documentation for this project
 | nickname | string |  | Yes |
 | status | string |  | Yes |
 | timezone | string |  | No |
+
+### DeleteHardwarePasswordsArgs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| passwordIds | [ string ] |  | Yes |
 
 ### LockEvent  
 

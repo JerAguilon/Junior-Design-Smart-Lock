@@ -469,6 +469,7 @@ Auto-generated API documentation for this project
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
+| createdAt | integer |  | No |
 | event | string |  | Yes |
 
 ### PostLockPasswordsArgs  

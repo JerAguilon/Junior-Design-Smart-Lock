@@ -98,6 +98,11 @@ class PutHardwareLockStatusArgs(object):
 @swagger_input_model
 class PostHardwareEventArgs(object):
     resource_fields = {
+        "createdAt": fields.Int(
+            required=False,
+            missing=-1,
+            validate=lambda d: d > 0 or d == -1,
+        ),
         "event": EnumField(
             StateChange,
             description="A new event",

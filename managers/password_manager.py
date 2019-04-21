@@ -93,6 +93,8 @@ def remove_password(lock_id: str, password: Password) -> None:
 
 
 def remove_password_by_id(lock_id: str, password_id: str) -> None:
+    if password_id.strip() == '':
+        return
     DB.child("Locks").child(lock_id).child("passwords").child(
         password_id
     ).remove()

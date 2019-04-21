@@ -37,6 +37,21 @@ class DeleteUserLockArgs(object):
 
 
 @swagger_input_model
+class DeleteHardwarePasswordsArgs(object):
+    resource_fields = {
+        "passwordIds": fields.DelimitedList(
+            fields.Str(
+                description="A valid password id",
+                required=True
+            ),
+            description="A list of valid password ids",
+            required=True,
+            missing=[]
+        )
+    }
+
+
+@swagger_input_model
 class PostLocksArgs(object):
     resource_fields = {
         "nickname": fields.Str(

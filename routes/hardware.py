@@ -95,8 +95,8 @@ class HardwarePasswordUpdates(Resource):
     method_decorators = [authorize_hardware()]
 
     @swagger.operation(
-        notes='Removes a list of lock password ids',
-        parameters=[PostHardwareEventArgs.schema],
+        notes='Removes passwords given a list of valid password ids',
+        parameters=[DeleteHardwarePasswordsArgs.schema],
         tags=['Hardware'],
     )
     @use_kwargs(

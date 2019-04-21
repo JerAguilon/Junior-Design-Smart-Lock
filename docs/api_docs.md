@@ -62,13 +62,13 @@ Auto-generated API documentation for this project
 ### /api/v1/hardware/passwords
 ---
 ##### ***DELETE***
-**Description:** Removes a list of lock password ids
+**Description:** Removes passwords given a list of valid password ids
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | Yes | [PostHardwareEventArgs](#posthardwareeventargs) |
+| body | body |  | Yes | [DeleteHardwarePasswordsArgs](#deletehardwarepasswordsargs) |
 
 **Responses**
 

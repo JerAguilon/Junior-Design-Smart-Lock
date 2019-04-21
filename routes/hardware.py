@@ -6,6 +6,7 @@ from document_templates.history import Event, StateChange
 from managers import lock_manager, password_manager, history_manager
 from parsers.parser_utils import marshal_with_parser
 from parsers.request_parsers import (
+    DeleteHardwarePasswordsArgs,
     PostHardwareEventArgs,
     PutHardwareLockStatusArgs,
 )
@@ -87,4 +88,23 @@ class HardwareEvents(Resource):
             endpoint="N/A",
         )
         history_manager.add_event(event)
+        return {}, 200
+
+
+class HardwarePasswordUpdates(Resource):
+    method_decorators = [authorize_hardware()]
+
+    @swagger.operation(
+        notes='Removes a list of lock password ids',
+        parameters=[PostHardwareEventArgs.schema],
+        tags=['Hardware'],
+    )
+    @use_kwargs(
+        DeleteHardwarePasswordsArgs.resource_fields,
+        locations=("json", "form")
+    )
+    def delete(self, lock_id, **kwargs):
+        for password_id in kwargs['passwordIds']:
+            password_manager.remove_password_by_id(lock_id, password_id)
+
         return {}, 200

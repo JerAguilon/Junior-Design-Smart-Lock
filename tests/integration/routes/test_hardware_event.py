@@ -26,7 +26,7 @@ def create_lock(
 
 
 @freeze_time(FROZEN_TIME)
-def test_put_lock_status_authorized(
+def test_post_event_authorized(
     client,
     id_token,
     seeded_admin_user,
@@ -40,6 +40,30 @@ def test_put_lock_status_authorized(
     response = client.post(
         '/api/v1/hardware/events',
         json={
+            'event': "HARDWARE_LOCK_OPENED"
+        },
+        headers={
+            'Authorization': 'Basic ' + user_pass,
+        },
+    )
+    assert response.status_code == 200, response.get_json()
+
+
+def test_post_event_authorized_override_createdat(
+    client,
+    id_token,
+    seeded_admin_user,
+):
+    lock_id = create_lock(client, id_token, seeded_admin_user)['id']
+    user_pass = base64.b64encode(
+        "{}:{}".format(
+            lock_id,
+            TEST_PASSWORD).encode()).decode('ascii')
+
+    response = client.post(
+        '/api/v1/hardware/events',
+        json={
+            'createdAt': 150,
             'event': "HARDWARE_LOCK_OPENED"
         },
         headers={

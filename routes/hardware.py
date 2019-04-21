@@ -81,11 +81,15 @@ class HardwareEvents(Resource):
         locations=("json", "form")
     )
     def post(self, lock_id, **kwargs):
+        if kwargs.get('createdAt') == -1:
+            kwargs['createdAt'] = None
+
         event = Event(
             status=kwargs['event'],
             user_id="N/A",
             lock_id=lock_id,
             endpoint="N/A",
+            created_at=kwargs.get('createdAt'),
         )
         history_manager.add_event(event)
         return {}, 200

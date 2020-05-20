@@ -30,7 +30,7 @@ google-resumable-media==0.3.2
 googleapis-common-protos==1.5.5
 grpcio==1.17.1
 gunicorn==19.9.0
-httplib2==0.12.0
+httplib2==0.18.0
 idna==2.8
 ipdb==0.11
 ipython==7.3.0
